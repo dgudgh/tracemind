@@ -222,4 +222,4 @@ npm run build
 4. 实现 loading、empty、partial、stale 和 error。
 5. 为固定画布、表格和 Modal 定义响应式尺寸。
 6. 添加菜单、路由、设计和关键行为测试。
-7. 更新 [文档首页](README.md)、[API 参考](03-api-reference.md) 和 [开发计划](archive/plans/2026-08-13-tracemind-development-plan.md)。
+7. 更新 [文档首页](README.md)、[API 参考](03-api-reference.md) 和 开发计划。

@@ -214,4 +214,4 @@ FRONTEND_DEV=true python3 run.py
 
 ## 9. 下一步
 
-开发顺序记录在 [TraceMind 2026-08-13 开发计划](archive/plans/2026-08-13-tracemind-development-plan.md)（**已归档冻结，不代表当前计划**）：先稳定现有主链路和 Incident Snapshot MVP，再实现状态智能、深度现场重建、Linux eBPF 和证据约束的 RCA 评测体系。
+开发顺序记录在 TraceMind 2026-08-13 开发计划（**已归档冻结，不代表当前计划**）：先稳定现有主链路和 Incident Snapshot MVP，再实现状态智能、深度现场重建、Linux eBPF 和证据约束的 RCA 评测体系。

@@ -263,4 +263,4 @@ GET  /api/v1/incident-snapshots/{snapshot_id}/stacks
 
 当前已通过对象结构、哈希契约、逐传感器裁剪测试、独立 collection/verifier 隔离、多架构构建、后端模式判定和前端状态展示。R4 最终 Gate 仍要求在目标 Linux 内核执行 verifier/attach、五类故障注入和连续三轮资源预算测试；没有该证据时不得宣称生产 CO-RE 验收完成。
 
-详细任务见 [TraceMind 2026-08-13 开发计划](../archive/plans/2026-08-13-tracemind-development-plan.md)。
+详细任务见 TraceMind 2026-08-13 开发计划。

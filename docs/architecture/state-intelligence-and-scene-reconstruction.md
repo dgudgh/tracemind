@@ -314,4 +314,4 @@ DELETE /api/v1/incidents/{incident_id}/probes/{probe_id}
 7. AI 根因、反证、未知项和处置建议均可核验。
 8. 四类故障注入连续三轮输出稳定，且数据缺失不产生虚假健康结论。
 
-开发任务与顺序见 [TraceMind 2026-08-13 开发计划](../archive/plans/2026-08-13-tracemind-development-plan.md)。
+开发任务与顺序见 TraceMind 2026-08-13 开发计划。

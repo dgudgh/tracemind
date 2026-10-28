@@ -240,4 +240,4 @@ cd agent && go test ./...
 
 外部数据库、监控平台、目录服务和对象存储仍需环境级集成测试。单元测试通过不能替代目标环境的连接、权限、输出准确性和性能验证。
 
-2026-09-11 文件整理：后端测试统一放在 `backend/tests/`，根 `pytest.ini` 配置发现与导入路径；Windows 主机巡检测试已经迁入该目录。Oracle 连接预算、缓存/并发及慢 SQL 降级等散落检查已并入对应测试文件，不再维护独立脚本。旧 `services/inspection.py` 与未使用的 `inspection/rules` 已删除，正式入口是 `services/inspection/` 包。删除依据、验证边界及打包遗留问题见[文件精简记录](archive/acceptance/2026-09-11-repository-slimming.md)。
+2026-09-11 文件整理：后端测试统一放在 `backend/tests/`，根 `pytest.ini` 配置发现与导入路径；Windows 主机巡检测试已经迁入该目录。Oracle 连接预算、缓存/并发及慢 SQL 降级等散落检查已并入对应测试文件，不再维护独立脚本。旧 `services/inspection.py` 与未使用的 `inspection/rules` 已删除，正式入口是 `services/inspection/` 包。删除依据、验证边界及打包遗留问题见文件精简记录。

@@ -17,7 +17,7 @@
 - 受控动态打印/探针模板和租约。
 - Linux Agent、eBPF、离线符号服务和数据库专用 Snapshot 插件矩阵。
 
-扩展设计见 [State Intelligence 与现场重建](../architecture/state-intelligence-and-scene-reconstruction.md)、[eBPF 内核动态观测](../architecture/ebpf-kernel-observability.md) 和 [历史开发计划](../archive/plans/2026-08-13-tracemind-development-plan.md)（已归档）。
+扩展设计见 [State Intelligence 与现场重建](../architecture/state-intelligence-and-scene-reconstruction.md)、[eBPF 内核动态观测](../architecture/ebpf-kernel-observability.md) 和 历史开发计划（已归档）。
 
 ## 1. 技术决策
 

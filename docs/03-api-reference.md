@@ -329,7 +329,7 @@ State Intelligence、深度内存/线程/动态探针和 Linux eBPF 仍处于设
 
 - [State Intelligence 与现场重建](architecture/state-intelligence-and-scene-reconstruction.md)
 - [eBPF 内核动态观测](architecture/ebpf-kernel-observability.md)
-- [开发计划](archive/plans/2026-08-13-tracemind-development-plan.md)
+- 开发计划
 
 ## 10. API 变更门禁
 
