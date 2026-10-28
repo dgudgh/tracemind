@@ -225,7 +225,7 @@ export function UnifiedAlertEventPage({ instances }) {
       else message.warning("通知事件已登记，本次没有新增投递；请查看发送日志和通知策略");
       await load();
     } catch (error) {
-      if (error?.editionLocked) message.info("发送通知属集成中心，需要企业版");
+      if (error?.editionLocked) message.info("此功能暂不支持");
       else message.error(error.message || "通知发送失败");
     } finally {
       setNotifyingId(null);
@@ -358,8 +358,8 @@ export function UnifiedAlertEventPage({ instances }) {
         </Row>
       </Card>
       {integrationLocked && (
-        <Alert type="info" showIcon message="外部告警接入、通知与工单为企业版功能"
-          description="Zabbix、Prometheus、推送日志、发送通知与工单管理属集成中心，开源版不可用；本页展示平台内产生的统一告警事件，诊断、证据与处置照常可用。" />
+        <Alert type="info" showIcon message="此功能暂不支持"
+          description="外部告警接入、推送日志、发送通知与工单管理不在本仓库内；本页展示平台内产生的统一告警事件，诊断、证据与处置照常可用。" />
       )}
       <Tabs items={[
         { key: "events", label: `统一事件 ${events.length}`, children: <Table rowKey="id" size="small" loading={loading} dataSource={events} columns={eventColumns} scroll={{ x: 1450 }} /> },

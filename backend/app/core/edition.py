@@ -259,7 +259,7 @@ def denial(path: str) -> dict:
             and rule[1] in _EXTENSION_ENGINES):
         return {
             "code": "edition_engine_unavailable",
-            "message": "当前为开源版，该数据库引擎的运维能力需要企业版授权",
+            "message": "此功能暂不支持",
             "edition": EDITION,
             "engine": rule[1],
             "path": path,
@@ -268,14 +268,14 @@ def denial(path: str) -> dict:
     if rule and rule[0] in _CAPABILITY_PREFIXES:
         return {
             "code": "edition_capability_unavailable",
-            "message": "当前为开源版，该性能分析能力需要企业版授权",
+            "message": "此功能暂不支持",
             "edition": EDITION,
             "capability": rule[-1],
             "path": path,
         }
     return {
         "code": "edition_module_unavailable",
-        "message": "当前为开源版，该模块需要企业版授权",
+        "message": "此功能暂不支持",
         "edition": EDITION,
         "path": path,
     }

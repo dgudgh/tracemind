@@ -44,11 +44,11 @@ __all__ = [
 
 
 class EngineRuntimeUnavailable(RuntimeError):
-    """未安装企业版引擎运行时。调用方必须显式处理，不能静默降级为成功。"""
+    """引擎运行时未安装。调用方必须显式处理，不能静默降级为成功。"""
 
     code = "engine_runtime_unavailable"
 
-    def __init__(self, detail: str = "企业版引擎运行时未安装"):
+    def __init__(self, detail: str = "此功能暂不支持"):
         self.detail = detail
         super().__init__(self.code)
 
@@ -77,7 +77,7 @@ class NullEngineRuntime:
     is_null = True
 
     def _raise(self, operation: str):
-        raise EngineRuntimeUnavailable(f"企业版引擎运行时未安装，无法执行 {operation}")
+        raise EngineRuntimeUnavailable(f"此功能暂不支持：{operation}")
 
     def freeze(self, db, instance, capability_id):  # noqa: D102
         self._raise("freeze")

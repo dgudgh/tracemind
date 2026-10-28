@@ -270,7 +270,7 @@ def _collect_security(instance: DBInstance, context: dict[str, Any]) -> dict[str
 def _collect_logs_backup(instance: DBInstance, context: dict[str, Any]) -> dict[str, Any]:
     return {
         "error_log": get_error_log_info(instance),
-        "backup_plan_hint": "备份与恢复方案属企业版功能，开源版不提供。",
+        "backup_plan_hint": "此功能暂不支持。",
     }
 
 

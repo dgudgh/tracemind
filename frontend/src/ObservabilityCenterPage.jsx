@@ -359,8 +359,8 @@ export default function ObservabilityCenterPage() {
     policies: <CollectPolicyPage policies={policies} load={load} />,
     tasks: <CollectTaskPage tasks={tasks} sources={sources} load={load} />,
     logs: logsLocked
-      ? <Alert type="info" showIcon message="日志关联为企业版功能"
-          description="日志筛选、关联与查询属可观测的进阶能力；本页其余指标、来源与采集任务不受影响。" />
+      ? <Alert type="info" showIcon message="此功能暂不支持"
+          description="日志筛选、关联与查询不在本仓库内；本页其余指标、来源与采集任务不受影响。" />
       : <CollectLogPage logs={logs} />,
     mappings: <MetricMappingPage mappings={mappings} standardMetrics={standardMetrics} load={load} />,
     currentMetrics: <CurrentMetricPage metrics={currentMetrics} />,

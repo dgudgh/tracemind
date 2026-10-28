@@ -215,7 +215,7 @@ def test_denial_distinguishes_three_reasons(oss):
     module_payload = edition.denial("/api/v1/backup-center/catalog")
     assert module_payload["code"] == "edition_module_unavailable"
     assert module_payload["edition"] == "oss"
-    assert "企业版" in module_payload["message"]
+    assert "暂不支持" in module_payload["message"]
 
     engine_payload = edition.denial("/api/v1/operations/dm/1/overview")
     assert engine_payload["code"] == "edition_engine_unavailable"
