@@ -1,0 +1,5521 @@
+{
+  "format_version": 3,
+  "design_version": "0.3",
+  "date": "2026-10-26",
+  "timezone": "Asia/Shanghai",
+  "implementation_status": "planned",
+  "builtin_engines": [
+    "oracle",
+    "mysql",
+    "postgresql",
+    "sqlserver"
+  ],
+  "first_extension_engines": [
+    "dm",
+    "kingbasees"
+  ],
+  "update_scope": "platform application and platform database adapter/driver packages; target database server upgrades excluded",
+  "hot_update_required": true,
+  "roles": [
+    "ARCH",
+    "SDK",
+    "ENG",
+    "CORE",
+    "REL",
+    "QA",
+    "OPS",
+    "UI",
+    "SEC"
+  ],
+  "decisions": [
+    {
+      "id": "D01",
+      "baseline": "native engines preinstalled independent signed Provider packs; no in-core fallback"
+    },
+    {
+      "id": "D02",
+      "baseline": "platform P/P-1 code rollback only; preserve shared data; SDK S/S-1 certified, S-2 refused"
+    },
+    {
+      "id": "D03",
+      "baseline": "UDS or local named pipe with OS peer and mutual launch/session authentication; TCP disabled"
+    },
+    {
+      "id": "D04",
+      "baseline": "domestic Linux x86_64 candidate; exact vendor versions, media/licenses and matrix pending per-cell readiness"
+    },
+    {
+      "id": "D05",
+      "baseline": "single-node Provider then multi-worker generation; initial platform single-host bluegreen with stable Router"
+    },
+    {
+      "id": "D06",
+      "baseline": "preproduction and customer-site acceptance separate"
+    },
+    {
+      "id": "D07",
+      "baseline": "case-family parents are never executable/pass gates; only exact leaf instances can satisfy consumers"
+    },
+    {
+      "id": "D08",
+      "baseline": "test trust and production trust are separate; E07 stays waiting_external until OPS custody and independent SEC approval"
+    },
+    {
+      "id": "D09",
+      "baseline": "T14b freezes release_scope_manifest before runs and issues test and production outputs independently"
+    }
+  ],
+  "external_inputs": [
+    {
+      "id": "E01",
+      "name": "DM exact edition/version/mode and target",
+      "owner": "product/environment lead",
+      "status": "awaiting_external_input"
+    },
+    {
+      "id": "E02",
+      "name": "KingbaseES exact edition/version/mode and target",
+      "owner": "product/environment lead",
+      "status": "awaiting_external_input"
+    },
+    {
+      "id": "E03",
+      "name": "legal driver/native media and redistribution rights",
+      "owner": "REL",
+      "status": "awaiting_external_input"
+    },
+    {
+      "id": "E04",
+      "name": "build hosts, database labs, signing facilities and isolated resource quota",
+      "owner": "OPS/QA",
+      "status": "planned"
+    },
+    {
+      "id": "E05",
+      "name": "site window, scoped accounts, connectivity and acceptance people",
+      "owner": "customer/environment lead",
+      "status": "awaiting_external_input"
+    },
+    {
+      "id": "E06",
+      "name": "qualified unmodified previous platform artifact/schema/snapshot or first certified bridge baseline",
+      "owner": "REL/OPS/QA/CORE",
+      "status": "awaiting_baseline"
+    },
+    {
+      "id": "E07",
+      "name": "production trust-root custody and independent approval handoff",
+      "owner": "OPS",
+      "coordinator": "REL",
+      "approval_role": "SEC",
+      "status": "waiting_external",
+      "output": "production-trust-accepted",
+      "evidence_fields": [
+        "REL digest/purpose",
+        "OPS custody proof",
+        "SEC approval",
+        "public root fingerprint",
+        "recovery procedure reference"
+      ],
+      "evidence_schema_fields": [
+        "release_digest_purpose",
+        "ops_custody_proof",
+        "sec_approval",
+        "public_root_fingerprint",
+        "recovery_procedure_reference"
+      ],
+      "private_key_material_allowed": false,
+      "must_not_be_satisfied_by": "EP-C83/rehearsal"
+    }
+  ],
+  "milestones": [
+    {
+      "id": "M0",
+      "tasks": [
+        "EP-T01",
+        "EP-T02",
+        "EP-T02b"
+      ],
+      "output_gates": [
+        {
+          "task": "EP-T14a",
+          "output": "plan",
+          "selector": {
+            "case_id": "EP-C70",
+            "variant_id": "runtime",
+            "cell_id": {
+              "ref": "context.plan_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "plan"
+          }
+        }
+      ],
+      "exit": "SDK/native source baseline and cell catalog; no installed-provider or hot-update claim"
+    },
+    {
+      "id": "M1-base",
+      "tasks": [
+        "EP-T04",
+        "EP-T05a",
+        "EP-T05",
+        "EP-T13a"
+      ],
+      "conditional_tasks": [
+        {
+          "task": "EP-T05b",
+          "condition": "E06.no_qualified_pminus1"
+        }
+      ],
+      "output_gates": [
+        {
+          "task": "EP-T03",
+          "output": "test-trust-ready",
+          "selector": {
+            "case_id": "EP-C83",
+            "variant_id": "rehearsal",
+            "cell_id": {
+              "ref": "context.test_trust_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "test-trust-ready"
+          }
+        }
+      ],
+      "must_not_wait_for": [
+        "EP-T11",
+        "EP-T06a-real",
+        "E07"
+      ],
+      "exit": "test-trust-ready and core platform foundations; no real DM claim"
+    },
+    {
+      "id": "M1-DM",
+      "tasks": [
+        "EP-T11"
+      ],
+      "output_gates": [
+        {
+          "task": "EP-T14a",
+          "output": "dm-ready",
+          "selector": {
+            "case_id": "EP-C70",
+            "variant_id": "dm",
+            "cell_id": {
+              "ref": "context.dm_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "dm-ready"
+          }
+        }
+      ],
+      "exit": "real DM readiness and first package independently evidenced"
+    },
+    {
+      "id": "M2-core",
+      "tasks": [
+        "EP-T06a-core",
+        "EP-T07",
+        "EP-T13b"
+      ],
+      "output_gates": [],
+      "exit": "signed fake Provider generation/update core and local management path accepted"
+    },
+    {
+      "id": "M2-real",
+      "tasks": [
+        "EP-T06a-real",
+        "EP-T06b",
+        "EP-T02c",
+        "EP-T10",
+        "EP-T12"
+      ],
+      "output_gates": [],
+      "exit": "real-engine/native/Kingbase and multi-node branches independently accepted"
+    },
+    {
+      "id": "M3-single",
+      "tasks": [
+        "EP-T08",
+        "EP-T09"
+      ],
+      "output_gates": [],
+      "must_not_wait_for": [
+        "EP-T06b",
+        "EP-T11",
+        "EP-T06a-real",
+        "E07"
+      ],
+      "exit": "single-host platform A/B and combined core lane accepted"
+    },
+    {
+      "id": "final-matrix",
+      "tasks": [
+        "EP-T14b"
+      ],
+      "required_cell_gate_templates": [
+        {
+          "producer_task": "EP-T14a",
+          "foreach": {
+            "ref": "release_scope_manifest.required_cells"
+          },
+          "selector": {
+            "case_id": "EP-C70",
+            "variant_id": {
+              "ref": "item.variant_id"
+            },
+            "cell_id": {
+              "ref": "item.cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "item.requirement_context_digest"
+            },
+            "output": {
+              "ref": "item.output"
+            }
+          },
+          "expected_state": "passed",
+          "requires_evidence_and_joint_acceptance": true
+        }
+      ],
+      "outputs": [
+        "release-matrix-ready:test",
+        "production-release-ready"
+      ],
+      "exit": "test matrix may issue independently; production output additionally requires E07 and production-envelope checks"
+    },
+    {
+      "id": "M3-preprod",
+      "tasks": [
+        "EP-T15a"
+      ],
+      "output_gates": [
+        {
+          "task": "EP-T14b",
+          "output": "release-matrix-ready:test",
+          "selector": {
+            "case_id": "EP-C84",
+            "variant_id": "test-matrix",
+            "cell_id": {
+              "ref": "context.release_matrix_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "release-matrix-ready:test"
+          }
+        }
+      ],
+      "exit": "preproduction uses the test-channel matrix only"
+    },
+    {
+      "id": "M3-field",
+      "tasks": [
+        "EP-T15b"
+      ],
+      "output_gates": [
+        {
+          "task": "EP-T14b",
+          "output": "production-release-ready",
+          "selector": {
+            "case_id": "EP-C84",
+            "variant_id": "production-envelope",
+            "cell_id": {
+              "ref": "context.release_matrix_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "production-release-ready"
+          }
+        }
+      ],
+      "exit": "customer field acceptance uses production release output and remains separate"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "EP-R01",
+      "tasks": [
+        "EP-T02",
+        "EP-T02b",
+        "EP-T02c",
+        "EP-T05a",
+        "EP-T10"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "EP-R02",
+      "tasks": [
+        "EP-T01",
+        "EP-T02",
+        "EP-T04"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "EP-R03",
+      "tasks": [
+        "EP-T11",
+        "EP-T12",
+        "EP-T14a",
+        "EP-T15b"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "EP-R04",
+      "tasks": [
+        "EP-T03",
+        "EP-T13a",
+        "EP-T13b"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "EP-R05",
+      "tasks": [
+        "EP-T04",
+        "EP-T05",
+        "EP-T06a-core",
+        "EP-T06a-real",
+        "EP-T06b",
+        "EP-T07",
+        "EP-T02c"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "EP-R06",
+      "tasks": [
+        "EP-T07",
+        "EP-T08",
+        "EP-T09",
+        "EP-T15a"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "EP-R07",
+      "tasks": [
+        "EP-T01",
+        "EP-T05a",
+        "EP-T05b",
+        "EP-T05",
+        "EP-T09"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "EP-R08",
+      "tasks": [
+        "EP-T05",
+        "EP-T05a",
+        "EP-T05b",
+        "EP-T06a-core",
+        "EP-T06a-real",
+        "EP-T06b",
+        "EP-T13a",
+        "EP-T13b",
+        "EP-T09"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "EP-R09",
+      "tasks": [
+        "EP-T01",
+        "EP-T02",
+        "EP-T03",
+        "EP-T04",
+        "EP-T05",
+        "EP-T13a",
+        "EP-T13b"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "EP-R10",
+      "tasks": [
+        "EP-T10",
+        "EP-T05",
+        "EP-T15a"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "EP-R11",
+      "tasks": [
+        "EP-T03",
+        "EP-T04",
+        "EP-T11",
+        "EP-T12",
+        "EP-T14a",
+        "EP-T14b"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "EP-R12",
+      "tasks": [
+        "EP-T14a",
+        "EP-T14b",
+        "EP-T15a",
+        "EP-T15b"
+      ],
+      "status": "planned"
+    }
+  ],
+  "collaboration_rules": {
+    "one_primary_task_per_case": true,
+    "acceptance": "QA plus at least one independent role; named people assigned before execution",
+    "modes": [
+      "input_contract",
+      "fixture",
+      "downstream_retest",
+      "blocking_implementation"
+    ],
+    "blocking_implementation_must_be_upstream": true,
+    "fixture_selector_fields": [
+      "case_id",
+      "variant_id",
+      "cell_id",
+      "requirement_context_digest",
+      "output"
+    ],
+    "leaf_output_requires_evidence_and_joint_acceptance": true,
+    "output_can_be_issued_before_producer_task_whole_acceptance": true
+  },
+  "tasks": [
+    {
+      "id": "EP-T01",
+      "milestone": "M0",
+      "owner_role": "SDK",
+      "review_role": "ARCH",
+      "title": "SDK 合同与 conformance kit",
+      "depends_on": [],
+      "depends_on_outputs": [],
+      "work_packages": [
+        {
+          "id": "EP-T01.W1",
+          "description": "冻结 descriptor、版本协商、身份/能力/参数/结果/错误 Schema；区分 optional、mandatory 与 namespaced 扩展。"
+        },
+        {
+          "id": "EP-T01.W2",
+          "description": "实现模板和脱敏 fake Provider：只承载合同夹具，不当作真实驱动验收。"
+        },
+        {
+          "id": "EP-T01.W3",
+          "description": "给出 S/S-1 接受、S-2 拒绝及显式协议协商向量；认证/副作用字段不能被降级删除。"
+        },
+        {
+          "id": "EP-T01.W4",
+          "description": "产出开发者最小接入教程、示例包源码、接口语义与负例执行器。"
+        }
+      ],
+      "exit_criteria": "合同和模板能独立跑离线符合性检查；错误语义与宿主权限边界经 ARCH/QA 评审。",
+      "deliverables": "合同 Schema、SDK 模板、conformance 命令与报告、兼容矩阵。",
+      "status": "planned",
+      "tests": [
+        "EP-C09",
+        "EP-C50",
+        "EP-C51",
+        "EP-C52",
+        "EP-C53",
+        "EP-C54",
+        "EP-C55",
+        "EP-C56"
+      ],
+      "outputs": [],
+      "depends_on_if": []
+    },
+    {
+      "id": "EP-T02",
+      "milestone": "M0",
+      "owner_role": "CORE",
+      "review_role": "SDK",
+      "title": "Registry 与原生兼容桥",
+      "depends_on": [
+        "EP-T01"
+      ],
+      "depends_on_outputs": [],
+      "work_packages": [
+        {
+          "id": "EP-T02.W1",
+          "description": "盘点四引擎现有 db_type/engine ID、能力 ID、API 路由、菜单及历史回执引用；建立兼容清单。"
+        },
+        {
+          "id": "EP-T02.W2",
+          "description": "实现 Registry 合并与原生身份/发布者保护；产品身份与 protocol/family 分开。"
+        },
+        {
+          "id": "EP-T02.W3",
+          "description": "定义不可变 catalog 快照、generation 和不可用原因；兼容桥只转换已登记请求。"
+        },
+        {
+          "id": "EP-T02.W4",
+          "description": "登记静态分支的迁移负责人及删除条件；不以增加 DomesticDB 数组项宣称支持新产品。"
+        }
+      ],
+      "exit_criteria": "四原生旧 ID/路由合同保持；未知产品及普通包冒名无法注册；目录未安装状态真实。",
+      "deliverables": "目录 Schema、兼容桥、旧路径清单和迁移核对表。",
+      "status": "planned",
+      "tests": [
+        "EP-C02",
+        "EP-C03",
+        "EP-C06",
+        "EP-C57"
+      ],
+      "outputs": [],
+      "depends_on_if": []
+    },
+    {
+      "id": "EP-T02b",
+      "milestone": "M0",
+      "owner_role": "ENG",
+      "review_role": "CORE",
+      "title": "四原生源码抽取与行为基线",
+      "depends_on": [
+        "EP-T01",
+        "EP-T02"
+      ],
+      "depends_on_outputs": [],
+      "work_packages": [
+        {
+          "id": "EP-T02b.W1",
+          "description": "分别抽出 Oracle/MySQL/PostgreSQL/SQL Server 的连接、识别、采集和能力实现到四个独立源码包；不得依赖平台业务模块的私有导入。"
+        },
+        {
+          "id": "EP-T02b.W2",
+          "description": "逐能力记录迁移前输入/输出、错误、权限及副作用语义；同一脱敏夹具对照旧实现与 Provider。"
+        },
+        {
+          "id": "EP-T02b.W3",
+          "description": "保留旧路由的宿主授权与任务桥；明确每个静态执行分支最终由哪个 Provider 接管。"
+        },
+        {
+          "id": "EP-T02b.W4",
+          "description": "产出四包构建入口和依赖声明；M0 的 runner 只证明代码/合同等价，不冒充签名制品、驱动或热更新通过。"
+        }
+      ],
+      "exit_criteria": "四包源码和行为对照齐备；主程序残余执行分支全部有 T02c 接管项。",
+      "deliverables": "四 Provider 源码、行为基线、残余分支清单；运行时接管留 T02c。",
+      "status": "planned",
+      "tests": [
+        "EP-C49"
+      ],
+      "outputs": [],
+      "depends_on_if": []
+    },
+    {
+      "id": "EP-T14a",
+      "milestone": "M0",
+      "owner_role": "QA",
+      "review_role": "OPS",
+      "title": "测试环境、介质与许可证准入",
+      "depends_on": [],
+      "depends_on_outputs": [],
+      "work_packages": [
+        {
+          "id": "EP-T14a.W1",
+          "description": "盘点既有矩阵并准备环境计划/cell catalog，资源与签名演练设施逐格记录；环境可用性不反推产品发布范围。"
+        },
+        {
+          "id": "EP-T14a.W2",
+          "description": "C70 按 runtime/core/pminus1/dm/kingbase/native 六 variant 及 cell/context 独立签发，实例各记状态/证据/联合验收；native 按四产品与 OS/CPU 分 cell。"
+        },
+        {
+          "id": "EP-T14a.W3",
+          "description": "分格提供 runtime-ready/core-ready、最小权限账号引用、隔离/清理与负载预算；提供方整任务未结束不妨碍已签叶输出被消费。"
+        },
+        {
+          "id": "EP-T14a.W4",
+          "description": "盘点真实 P-1 原件/资格/Schema/脱敏快照；缺失只记 baseline_absent 并触发 T05b，C78 合格后再签 pminus1-ready，不能把缺失当通过。"
+        },
+        {
+          "id": "EP-T14a.W5",
+          "description": "落实 E01–E04/E06 的实际介质、许可、版本/ABI和资源；缺失只阻断对应 cell。只产事实与 cell catalog，发布 required cells 由 REL/T14b 先冻结。"
+        }
+      ],
+      "exit_criteria": "各 ready 输出分别由 QA/OPS/REL 验证后开放对应引擎；一个引擎未就绪不阻断另一个已就绪格。",
+      "deliverables": "环境清单、许可证/SBOM 依据、构建机标签、数据隔离/清理方案及分格准入证据。",
+      "status": "planned",
+      "tests": [
+        "EP-C70"
+      ],
+      "outputs": [
+        "cell-catalog",
+        "core-ready",
+        "dm-ready",
+        "kingbase-ready",
+        "native-ready",
+        "plan",
+        "platform-pminus1-ready",
+        "runtime-ready"
+      ],
+      "depends_on_if": []
+    },
+    {
+      "id": "EP-T03",
+      "milestone": "M1-base",
+      "owner_role": "REL",
+      "review_role": "ARCH",
+      "title": "签名包、构建与密钥生命周期",
+      "depends_on": [
+        "EP-T01"
+      ],
+      "depends_on_outputs": [],
+      "work_packages": [
+        {
+          "id": "EP-T03.W1",
+          "description": "冻结 .tmengine 清单、规范化签名范围、文件摘要、包用途、OS/CPU/ABI 及离线依赖格式。"
+        },
+        {
+          "id": "EP-T03.W2",
+          "description": "实现安全解包/完整性验证与构建分类：自研 self-built 比较锁定输入的规范化 payload；第三方 opaque 锁来源/hash/SBOM/签名状态及许可，不承诺源码重编译；文件分类穷尽互斥且整包验签覆盖全部文件。"
+        },
+        {
+          "id": "EP-T03.W3",
+          "description": "建立离线根与用途受限的发布签名密钥：生成/双人保管/轮换/吊销、离线信任根更新及反回滚。"
+        },
+        {
+          "id": "EP-T03.W4",
+          "description": "明确轮换后旧包的安装/回退规则、吊销不可自动恢复、构建机失陷后的冻结/重建/重新签名流程。"
+        },
+        {
+          "id": "EP-T03.W5",
+          "description": "交付原生包随首装的组装合同，复用现有发布能力时隔离平台包与引擎包信任用途。"
+        },
+        {
+          "id": "EP-T03.W6",
+          "description": "交付 production-trust-handoff 合同、测试/生产 namespace 与 Key ID 隔离及公开字段模板；OPS 保管、独立 SEC 批准，C83 演练仅签 test-trust-ready，真实 E07 交接单独签 production-trust-accepted，不把生产私钥带入开发/CI。"
+        }
+      ],
+      "exit_criteria": "签名、解包、密钥和离线根故障向量通过；无合法驱动再分发依据的格不得产出宣称完整的客户制品。",
+      "deliverables": "打包/验签工具、密钥与信任根 runbook、SBOM、构建来源和重现性证据。 test-trust-ready、生产交接合同/公开字段模板、分离信任目录与 E07 准入规则。",
+      "status": "planned",
+      "tests": [
+        "EP-C15",
+        "EP-C16",
+        "EP-C17",
+        "EP-C19",
+        "EP-C58",
+        "EP-C59",
+        "EP-C73",
+        "EP-C83"
+      ],
+      "outputs": [
+        "production-trust-accepted",
+        "test-trust-ready"
+      ],
+      "depends_on_if": [],
+      "output_requirements": {
+        "test-trust-ready": {
+          "case_id": "EP-C83",
+          "variant_id": "rehearsal",
+          "external_gate_required": false
+        },
+        "production-trust-accepted": {
+          "case_id": "EP-C83",
+          "variant_id": "production-handoff",
+          "external_gate": "E07"
+        }
+      }
+    },
+    {
+      "id": "EP-T05b",
+      "milestone": "M1-base",
+      "owner_role": "CORE",
+      "review_role": "REL",
+      "title": "缺失旧版时的桥接基线 bootstrap",
+      "depends_on": [
+        "EP-T01",
+        "EP-T02"
+      ],
+      "depends_on_outputs": [
+        {
+          "task": "EP-T14a",
+          "output": "core-ready",
+          "selector": {
+            "case_id": "EP-C70",
+            "variant_id": "core",
+            "cell_id": {
+              "ref": "context.core_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "core-ready"
+          }
+        }
+      ],
+      "work_packages": [
+        {
+          "id": "EP-T05b.W1",
+          "description": "仅 E06 盘点为 no_qualified_pminus1 时触发；冻结当前 Schema/API/writer 行为及下版 additive 兼容合同，由 T05a 责任人审签合同，不依赖 T05a 全任务，也不执行未来 DDL。"
+        },
+        {
+          "id": "EP-T05b.W2",
+          "description": "从当前单体生成桥接 release B：只修正妨碍兼容保留的旧写行为，保持既有业务；不加入 SDK/Provider 热更、Router、DM 或未来 B+1 功能。"
+        },
+        {
+          "id": "EP-T05b.W3",
+          "description": "在真实元数据库实验格做当前→B 维护式安装、旧业务回归与数据对照；此过程不宣称无中断，也不授权修改现有客户部署。"
+        },
+        {
+          "id": "EP-T05b.W4",
+          "description": "独立构建并冻结 B 的原始 bytes/digest、source/toolchain/SBOM、Schema/脱敏快照和资格记录；后续候选测试期间禁止给 B 打补丁，需变更则生成另一个基线并重新认证。"
+        },
+        {
+          "id": "EP-T05b.W5",
+          "description": "由 QA/REL 联合确认资格后交 T14a 登记 platform-pminus1-ready；已有合格旧版时保留盘点依据，明确 not_required_by_gate，不写成测试 skip 通过。"
+        }
+      ],
+      "exit_criteria": "触发分支下 B 对原功能/数据不漂移、制品冻结和维护式边界通过；缺资格不得开放 T05a/T09 完整验收。",
+      "deliverables": "条件触发工单、兼容合同、冻结桥接 B 制品/快照/资格证据；未触发时为合格旧版盘点依据。",
+      "status": "planned",
+      "activation_condition": "E06.no_qualified_pminus1",
+      "tests": [
+        "EP-C78"
+      ],
+      "outputs": [],
+      "depends_on_if": []
+    },
+    {
+      "id": "EP-T05a",
+      "milestone": "M1-base",
+      "owner_role": "CORE",
+      "review_role": "QA",
+      "title": "Schema 迁移、回填与双版本读写",
+      "depends_on": [
+        "EP-T01",
+        "EP-T02"
+      ],
+      "depends_on_outputs": [
+        {
+          "task": "EP-T14a",
+          "output": "platform-pminus1-ready",
+          "selector": {
+            "case_id": "EP-C70",
+            "variant_id": "pminus1",
+            "cell_id": {
+              "ref": "context.pminus1_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "platform-pminus1-ready"
+          }
+        },
+        {
+          "task": "EP-T14a",
+          "output": "core-ready",
+          "selector": {
+            "case_id": "EP-C70",
+            "variant_id": "core",
+            "cell_id": {
+              "ref": "context.core_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "core-ready"
+          }
+        }
+      ],
+      "work_packages": [
+        {
+          "id": "EP-T05a.W1",
+          "description": "由 CORE 迁移负责人独占平台库 DDL、revision 和唯一 migrator 租约；Provider/API 候选不能自行启动迁移。"
+        },
+        {
+          "id": "EP-T05a.W2",
+          "description": "增加显式 engine_id 与执行版本字段，保留 db_type/API 兼容；只映射已知原生值，未知产品进入待校正，不能猜成某个国产库。"
+        },
+        {
+          "id": "EP-T05a.W3",
+          "description": "对实例、任务、审批、回执进行可续跑回填；无可靠摘要证据的旧待执行任务冻结，重新 prepare/审批，不能填当前版本伪造历史。"
+        },
+        {
+          "id": "EP-T05a.W4",
+          "description": "实现 P 对旧 writer 的 fallback/兼容写；对新语义采用附表或 CAS，验证未经修改 P-1 制品不会覆盖或丢数据。"
+        },
+        {
+          "id": "EP-T05a.W5",
+          "description": "交付 expand/backfill 校验、迁移前备份/恢复演练计划与只退代码规则；contract 单独门禁，保留新表/字段/记录。"
+        },
+        {
+          "id": "EP-T05a.W6",
+          "description": "输出 migrator-contract：revision/checksum、前后置校验、migration_required、可续跑/对账条件及 P/P-1 兼容范围；唯一执行者复用数据库锁，部分 MySQL DDL 不宣称恰好一次。"
+        }
+      ],
+      "exit_criteria": "真实 P/P-1 制品混合读写、重复回填、并发旧写、断点恢复及代码回退通过；未支持的元数据库组合明确不认证。",
+      "deliverables": "平台迁移脚本、映射及例外清单、回填/核对工具、兼容读写和恢复报告。",
+      "status": "planned",
+      "depends_on_if": [
+        {
+          "condition": "E06.no_qualified_pminus1",
+          "task": "EP-T05b"
+        }
+      ],
+      "tests": [
+        "EP-C33",
+        "EP-C64",
+        "EP-C74"
+      ],
+      "outputs": [
+        "migrator-contract"
+      ]
+    },
+    {
+      "id": "EP-T04",
+      "milestone": "M1-base",
+      "owner_role": "CORE",
+      "review_role": "REL",
+      "title": "Provider 本机进程运行时与安全 IPC",
+      "depends_on": [
+        "EP-T01",
+        "EP-T02"
+      ],
+      "depends_on_outputs": [
+        {
+          "task": "EP-T03",
+          "output": "test-trust-ready",
+          "selector": {
+            "case_id": "EP-C83",
+            "variant_id": "rehearsal",
+            "cell_id": {
+              "ref": "context.test_trust_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "test-trust-ready"
+          }
+        },
+        {
+          "task": "EP-T14a",
+          "output": "runtime-ready",
+          "selector": {
+            "case_id": "EP-C70",
+            "variant_id": "runtime",
+            "cell_id": {
+              "ref": "context.runtime_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "runtime-ready"
+          }
+        }
+      ],
+      "work_packages": [
+        {
+          "id": "EP-T04.W1",
+          "description": "实现 Supervisor 与不可变运行目录，按平台创建 UDS/命名管道，校验 ACL、OS 对端和每次启动双向身份。"
+        },
+        {
+          "id": "EP-T04.W2",
+          "description": "实现受限帧/固定方法/消息 Schema、deadline/cancel、并发和队列上限，禁止动态反序列化及任意执行入口。"
+        },
+        {
+          "id": "EP-T04.W3",
+          "description": "实现宿主凭据租借、TTL/撤销/审计；Provider 自管受信连接池并上报，撤销后合作关闭，超时终止 worker；TTL 不等于已交付数据库密码失效。"
+        },
+        {
+          "id": "EP-T04.W4",
+          "description": "实现退避重启、子进程回收、连接清理、崩溃隔离和资源上限；含副作用未知时交 T05 对账。"
+        },
+        {
+          "id": "EP-T04.W5",
+          "description": "把四原生构建包纳入同一启动/自检路径；冻结部署不能依赖临时解包目录或开发机 venv。"
+        },
+        {
+          "id": "EP-T04.W6",
+          "description": "采集 single-provider-capacity-v0：目标 OS/ABI 上冷/热启动、RSS/子进程、连接/句柄、退出与排空；先 calibration 再冻结正式 run，不以 fake profile 数据认证真实驱动。"
+        }
+      ],
+      "exit_criteria": "实际目标 OS 制品能受控运行，伪造对端/超限/过期凭据/崩溃重启负例通过；进程隔离不冒充安全沙箱。",
+      "deliverables": "Supervisor、IPC/broker、默认限制及运行诊断、原生包初始运行自检。",
+      "status": "planned",
+      "tests": [
+        "EP-C05",
+        "EP-C10",
+        "EP-C13",
+        "EP-C14",
+        "EP-C18",
+        "EP-C60",
+        "EP-C61",
+        "EP-C62",
+        "EP-C63",
+        "EP-C80"
+      ],
+      "outputs": [
+        "single-provider-capacity-v0"
+      ],
+      "depends_on_if": []
+    },
+    {
+      "id": "EP-T05",
+      "milestone": "M1-base",
+      "owner_role": "CORE",
+      "review_role": "QA",
+      "title": "任务版本绑定、再鉴权与独立结果解码",
+      "depends_on": [
+        "EP-T01",
+        "EP-T02",
+        "EP-T05a"
+      ],
+      "depends_on_outputs": [],
+      "work_packages": [
+        {
+          "id": "EP-T05.W1",
+          "description": "把 engine、核心 worker release、Provider/runtime 摘要、SDK/task/result Schema 固定到持久任务及审批冻结摘要。"
+        },
+        {
+          "id": "EP-T05.W2",
+          "description": "prepare/执行/恢复/verify/回执各阶段再鉴权和范围核验；operation/attempt/fence 幂等持久化。"
+        },
+        {
+          "id": "EP-T05.W3",
+          "description": "版本缺失、被吊销或执行效果未知分别阻断/对账；重试不静默换最新版。"
+        },
+        {
+          "id": "EP-T05.W4",
+          "description": "实现核心管理的标准结果快照及版本化 decoder；历史解码不加载 Provider 任意代码。"
+        },
+        {
+          "id": "EP-T05.W5",
+          "description": "交付普通业务 CLI/测试客户端 submit/read-result，走平台登录与业务权限而非本机管理员包管理通道；为 M1 的连接/执行/回读提供明确入口。"
+        },
+        {
+          "id": "EP-T05.W6",
+          "description": "迁移后的 legacy 历史结果可读，旧待执行任务的重新授权路径可审计。"
+        }
+      ],
+      "exit_criteria": "任务、审批与回执固定同一执行身份；撤权生效、重复副作用被阻断；删除无执行引用 Provider 后标准结果仍可读。",
+      "deliverables": "版本绑定模型、业务 CLI、路由/对账协议、核心 decoder、任务守恒与幂等证据。",
+      "status": "planned",
+      "tests": [
+        "EP-C08",
+        "EP-C11",
+        "EP-C12",
+        "EP-C24",
+        "EP-C65",
+        "EP-C68",
+        "EP-C76",
+        "EP-C77"
+      ],
+      "outputs": [],
+      "depends_on_if": []
+    },
+    {
+      "id": "EP-T13a",
+      "milestone": "M1-base",
+      "owner_role": "REL",
+      "review_role": "OPS",
+      "title": "最小本机包管理与安全准入",
+      "depends_on": [
+        "EP-T04",
+        "EP-T05"
+      ],
+      "depends_on_outputs": [
+        {
+          "task": "EP-T03",
+          "output": "test-trust-ready",
+          "selector": {
+            "case_id": "EP-C83",
+            "variant_id": "rehearsal",
+            "cell_id": {
+              "ref": "context.test_trust_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "test-trust-ready"
+          }
+        }
+      ],
+      "work_packages": [
+        {
+          "id": "EP-T13a.W1",
+          "description": "实现 list/inspect/verify/install/initial-activate/status 与未接流初激失败 recover；journal 持久化，命令幂等。"
+        },
+        {
+          "id": "EP-T13a.W2",
+          "description": "本机管理员通过受保护管理 IPC 授权；服务验证 OS 身份、安装根、包摘要及完整输入，禁止远程命名管道客户端。"
+        },
+        {
+          "id": "EP-T13a.W3",
+          "description": "从受控导入区打开包、固定句柄与摘要，拒绝任意路径/符号链接/重解析与任意 executable，防止检查后置换。"
+        },
+        {
+          "id": "EP-T13a.W4",
+          "description": "管理操作写不可遗漏的审计：操作者、操作 ID、摘要、代次、结果及拒绝原因。"
+        },
+        {
+          "id": "EP-T13a.W5",
+          "description": "M1 的 rollback 只限未接流初激失败或隔离实验室离线版本回退；业务热回退由 T06a-core/T13b 提供。"
+        }
+      ],
+      "exit_criteria": "从合法离线包到初装/激活/运行身份可核对；并发/半安装可恢复，未授权和路径攻击被拒绝。",
+      "deliverables": "最小 CLI、管理服务、安装 journal/recover、授权及审计报告。",
+      "status": "planned",
+      "tests": [
+        "EP-C04",
+        "EP-C20",
+        "EP-C69",
+        "EP-C75"
+      ],
+      "outputs": [],
+      "depends_on_if": []
+    },
+    {
+      "id": "EP-T11",
+      "milestone": "M1-DM",
+      "owner_role": "ENG",
+      "review_role": "QA",
+      "title": "DM 真实只读首包闭环",
+      "depends_on": [
+        "EP-T01",
+        "EP-T02",
+        "EP-T04",
+        "EP-T05",
+        "EP-T13a"
+      ],
+      "depends_on_outputs": [
+        {
+          "task": "EP-T14a",
+          "output": "dm-ready",
+          "selector": {
+            "case_id": "EP-C70",
+            "variant_id": "dm",
+            "cell_id": {
+              "ref": "context.dm_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "dm-ready"
+          }
+        }
+      ],
+      "work_packages": [
+        {
+          "id": "EP-T11.W1",
+          "description": "按 dm-ready 锁定合法驱动与独立运行时；实现 DM 强身份、兼容模式、权限和错误映射。"
+        },
+        {
+          "id": "EP-T11.W2",
+          "description": "先开放一个只读能力（基础指标/会话查询），产出签名包，真实库验证 install→connect→invoke→持久结果→CLI/API 回读。"
+        },
+        {
+          "id": "EP-T11.W3",
+          "description": "逐项补充已声明拓扑、指标/会话/锁和只读巡检/报告结果读取；未实现或缺证据的能力明确 unsupported。"
+        },
+        {
+          "id": "EP-T11.W4",
+          "description": "不依赖 UI/AI 或热更新；不开放备份、切换、DDL 等未单独验收的写能力。"
+        }
+      ],
+      "exit_criteria": "实际离线制品、驱动、DM 目标和持久结果全通；能力逐项认证，缺失关系/延迟不假健康。",
+      "deliverables": "DM 包、真实目标报告、能力支持表、安装和结果回读证据。",
+      "status": "planned",
+      "tests": [
+        "EP-C41",
+        "EP-C42",
+        "EP-C43"
+      ],
+      "outputs": [],
+      "depends_on_if": []
+    },
+    {
+      "id": "EP-T07",
+      "milestone": "M2-core",
+      "owner_role": "CORE",
+      "review_role": "OPS",
+      "title": "API / Scheduler / Worker 执行角色拆分",
+      "depends_on": [
+        "EP-T05",
+        "EP-T06a-core"
+      ],
+      "depends_on_outputs": [],
+      "work_packages": [
+        {
+          "id": "EP-T07.W1",
+          "description": "拆分进程启动与角色配置；候选 API 不创建有效 Scheduler 或抢任务。"
+        },
+        {
+          "id": "EP-T07.W2",
+          "description": "实现 Scheduler 租约、任务 claim、续租和 fencing；所有任务确认依赖持久回执。"
+        },
+        {
+          "id": "EP-T07.W3",
+          "description": "运行版本化 Worker，旧任务恢复仍路由原核心/Provider 身份，不能被候选版本抢走。"
+        },
+        {
+          "id": "EP-T07.W4",
+          "description": "覆盖接管前后故障、租约过期和跨版本排队/执行/对账任务守恒。"
+        }
+      ],
+      "exit_criteria": "多角色同时运行不双消费/双执行；API 生命周期与旧 Worker 排空可独立控制。",
+      "deliverables": "角色启动入口、租约/claim 协议、守恒计数和恢复报告。",
+      "status": "planned",
+      "tests": [
+        "EP-C29",
+        "EP-C30"
+      ],
+      "outputs": [],
+      "depends_on_if": []
+    },
+    {
+      "id": "EP-T06b",
+      "milestone": "M2-real",
+      "owner_role": "CORE",
+      "review_role": "OPS",
+      "title": "多执行节点 generation 与租约热更新",
+      "depends_on": [
+        "EP-T06a-core",
+        "EP-T07"
+      ],
+      "depends_on_outputs": [],
+      "work_packages": [
+        {
+          "id": "EP-T06b.W1",
+          "description": "冻结 membership_epoch 节点快照与容量；新版本任务只派给已就绪相同摘要节点。"
+        },
+        {
+          "id": "EP-T06b.W2",
+          "description": "处理节点加入/离开、网络分区、陈旧 generation/fence、慢节点和租约过期。"
+        },
+        {
+          "id": "EP-T06b.W3",
+          "description": "回切和恢复核验每节点真实运行身份，旧任务引用不因节点替换而换版本。"
+        }
+      ],
+      "exit_criteria": "至少两执行节点故障演练通过；未预备节点无法接新代次，已过期节点不能提交有效副作用回执。",
+      "deliverables": "多节点协议、节点状态/摘要快照、故障与路由证据。",
+      "status": "planned",
+      "tests": [
+        "EP-C37"
+      ],
+      "outputs": [],
+      "depends_on_if": []
+    },
+    {
+      "id": "EP-T13b",
+      "milestone": "M2-core",
+      "owner_role": "REL",
+      "review_role": "CORE",
+      "title": "完整本机生命周期与引用保护",
+      "depends_on": [
+        "EP-T05",
+        "EP-T06a-core",
+        "EP-T13a"
+      ],
+      "depends_on_outputs": [],
+      "work_packages": [
+        {
+          "id": "EP-T13b.W1",
+          "description": "扩展 upgrade/热 rollback/disable/uninstall/gc，复用 T06a-core 更新事务，继承本机身份和审计限制。"
+        },
+        {
+          "id": "EP-T13b.W2",
+          "description": "卸载前检查 active/last_known_good/回退基线/在途/待对账任务；停用只阻止新调度。"
+        },
+        {
+          "id": "EP-T13b.W3",
+          "description": "并发管理请求使用每引擎 operation lease 与 CAS，拒绝陈旧激活、双安装和越权重放。"
+        },
+        {
+          "id": "EP-T13b.W4",
+          "description": "清理无执行引用的包后验证历史结果由核心 decoder 回读；平台控制与 Provider 控制权限不互相绕过。"
+        }
+      ],
+      "exit_criteria": "引用保护、并发管理和崩溃恢复通过；不删共享数据或仅因要回收磁盘而强杀未知效果任务。",
+      "deliverables": "完整 CLI、引用查询和 GC、恢复/拒绝审计报告。",
+      "status": "planned",
+      "tests": [
+        "EP-C25",
+        "EP-C26"
+      ],
+      "outputs": [],
+      "depends_on_if": []
+    },
+    {
+      "id": "EP-T02c",
+      "milestone": "M2-real",
+      "owner_role": "ENG",
+      "review_role": "CORE",
+      "title": "四原生制品接管与独立更新",
+      "depends_on": [
+        "EP-T02b",
+        "EP-T04",
+        "EP-T05",
+        "EP-T06a-core",
+        "EP-T13b"
+      ],
+      "depends_on_outputs": [
+        {
+          "task": "EP-T14a",
+          "output": "native-ready",
+          "selector": {
+            "case_id": "EP-C70",
+            "variant_id": "native",
+            "cell_id": {
+              "ref": "context.native_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "native-ready"
+          }
+        }
+      ],
+      "work_packages": [
+        {
+          "id": "EP-T02c.W1",
+          "description": "逐个产出并签名四原生制品，首装组装默认携带；通过同一 Supervisor 和 Provider 身份运行。"
+        },
+        {
+          "id": "EP-T02c.W2",
+          "description": "逐个切换旧业务路由，保留宿主权限/任务桥，删除清单中的主进程引擎执行分支。"
+        },
+        {
+          "id": "EP-T02c.W3",
+          "description": "用实际旧行为基线、真实驱动和目标验证等价；对每个原生包独立升级/回退，核心与其他包摘要不变。 同时逐 engine/cell 输出 native-vv1-pair，锁定 V/V+1 实际 source payload 摘要、非 metadata-only diff 与可验证复核证据，供 C84 精确消费。"
+        },
+        {
+          "id": "EP-T02c.W4",
+          "description": "验证首装失败不假成功、末个可用包受保护、禁止主进程静默 fallback。"
+        }
+      ],
+      "exit_criteria": "四个原生包都可独立交付/更新/回退，所有残余分支关闭；仅完成 Registry 或 M0 抽取不能结项。",
+      "deliverables": "四签名 Provider、路由迁移关闭表、制品/驱动/独立更新回归。",
+      "status": "planned",
+      "tests": [
+        "EP-C01",
+        "EP-C47"
+      ],
+      "outputs": [
+        "native-vv1-pair"
+      ],
+      "depends_on_if": []
+    },
+    {
+      "id": "EP-T10",
+      "milestone": "M2-real",
+      "owner_role": "UI",
+      "review_role": "CORE",
+      "title": "Catalog 同源 UI 与能力桥",
+      "depends_on": [
+        "EP-T02",
+        "EP-T04",
+        "EP-T05",
+        "EP-T06a-core"
+      ],
+      "depends_on_outputs": [],
+      "work_packages": [
+        {
+          "id": "EP-T10.W1",
+          "description": "连接字段/目录/能力/专业页绑定同一 catalog_generation；缓存按 generation/权限上下文失效。"
+        },
+        {
+          "id": "EP-T10.W2",
+          "description": "保留现有页面布局、旧路径和用户自定义卡片；显示支持/不可用原因，不能擅自重做入口。"
+        },
+        {
+          "id": "EP-T10.W3",
+          "description": "AI 仅调用已登记且当前有权能力；无模型进入专业页时不触发采集/计划/执行。"
+        },
+        {
+          "id": "EP-T10.W4",
+          "description": "切换实例、撤权、热更时丢弃陈旧目录响应，已有任务按原版本回读。"
+        }
+      ],
+      "exit_criteria": "以 catalog/fake/实际 Host 的 L1/L2 证明 generation、权限/表单一致与无模型导航零执行；真实 DM/金仓/原生页面 L3 留 C48，不阻断早期 UI。",
+      "deliverables": "目录 API/缓存协议、页面最小接入改动、浏览器/API 证据。",
+      "status": "planned",
+      "tests": [
+        "EP-C39",
+        "EP-C40"
+      ],
+      "outputs": [],
+      "depends_on_if": []
+    },
+    {
+      "id": "EP-T12",
+      "milestone": "M2-real",
+      "owner_role": "ENG",
+      "review_role": "QA",
+      "title": "KingbaseES 真实只读首包",
+      "depends_on": [
+        "EP-T01",
+        "EP-T02",
+        "EP-T04",
+        "EP-T05",
+        "EP-T13a"
+      ],
+      "depends_on_outputs": [
+        {
+          "task": "EP-T14a",
+          "output": "kingbase-ready",
+          "selector": {
+            "case_id": "EP-C70",
+            "variant_id": "kingbase",
+            "cell_id": {
+              "ref": "context.kingbase_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "kingbase-ready"
+          }
+        }
+      ],
+      "work_packages": [
+        {
+          "id": "EP-T12.W1",
+          "description": "按 kingbase-ready 验证 ksycopg2/libkci 候选及实际 ABI，不因协议兼容冒充 PostgreSQL。"
+        },
+        {
+          "id": "EP-T12.W2",
+          "description": "实现产品/实例/集群强身份、兼容模式、权限、只读会话和能力参数/结果映射。"
+        },
+        {
+          "id": "EP-T12.W3",
+          "description": "实际包验证连接、拓扑/指标/会话/锁、已声明巡检和报告结果回读；未声明能力保持不可用。"
+        },
+        {
+          "id": "EP-T12.W4",
+          "description": "复用 SDK、包、目录和任务机制，不为金仓在宿主添加执行特例。"
+        },
+        {
+          "id": "EP-T12.W5",
+          "description": "交付 kingbase-vv1-pair：真实驱动 V 与经审核源码实际不同的兼容 V+1、差异/来源/签名和能力证据；C46 仍验首包，真实组合切流由 C84 验证，不在首包任务暗加 core/UI 依赖。"
+        }
+      ],
+      "exit_criteria": "真实制品与目标逐能力通过，兼容模式身份负例及错误映射通过。",
+      "deliverables": "KingbaseES 包、支持矩阵、真实驱动/数据库和回读证据。",
+      "status": "planned",
+      "tests": [
+        "EP-C44",
+        "EP-C45",
+        "EP-C46"
+      ],
+      "outputs": [
+        "kingbase-vv1-pair"
+      ],
+      "depends_on_if": []
+    },
+    {
+      "id": "EP-T08",
+      "milestone": "M3-single",
+      "owner_role": "CORE",
+      "review_role": "OPS",
+      "title": "稳定 Router 与部署启动器",
+      "depends_on": [
+        "EP-T05a",
+        "EP-T07",
+        "EP-T13a"
+      ],
+      "depends_on_outputs": [
+        {
+          "task": "EP-T03",
+          "output": "test-trust-ready",
+          "selector": {
+            "case_id": "EP-C83",
+            "variant_id": "rehearsal",
+            "cell_id": {
+              "ref": "context.test_trust_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "test-trust-ready"
+          }
+        },
+        {
+          "task": "EP-T05a",
+          "output": "migrator-contract",
+          "selector": {
+            "case_id": "EP-C64",
+            "variant_id": "migrator-contract",
+            "cell_id": {
+              "ref": "context.migrator_contract_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "migrator-contract"
+          }
+        }
+      ],
+      "work_packages": [
+        {
+          "id": "EP-T08.W1",
+          "description": "固定对外地址与 Router 生命周期，A/B 使用不同内部监听；构建发布内容独立不可变。"
+        },
+        {
+          "id": "EP-T08.W2",
+          "description": "实现请求/下载在途计数、排空、旧 hash asset 保留和旧页面 API 兼容。"
+        },
+        {
+          "id": "EP-T08.W3",
+          "description": "EXE/App 的运行目录、子进程和本机安全通道不得依赖临时解包路径；盘点各 OS 部署入口。"
+        },
+        {
+          "id": "EP-T08.W4",
+          "description": "Router/Supervisor 自身更新单独实现并验证监听接管或冗余入口；缺路径的基础包不得标记热更就绪。"
+        },
+        {
+          "id": "EP-T08.W5",
+          "description": "接 T05a migrator-contract：启动器调用专用 migrator，API/Worker 在 managed-hot 仅校验；持锁者执行并持久 checkpoint/回执，多启动并发不产生多个有效迁移者，部分 DDL 先核对再恢复。"
+        },
+        {
+          "id": "EP-T08.W6",
+          "description": "输出 platform-ab-budget-v0：真实平台 A/B、Router/Worker 与选定 Provider profile 的联合预算和本次资源预检；缺匹配容量或资源不足拒绝候选就绪。"
+        }
+      ],
+      "exit_criteria": "固定入口和在途连续性经实际部署制品验证；启动器自身与业务进程更新分别出证据。",
+      "deliverables": "Router/启动器制品、路由/排空与资产保留协议、基础自更新报告。",
+      "status": "planned",
+      "tests": [
+        "EP-C28",
+        "EP-C35",
+        "EP-C82"
+      ],
+      "outputs": [
+        "platform-ab-budget-v0"
+      ],
+      "depends_on_if": []
+    },
+    {
+      "id": "EP-T09",
+      "milestone": "M3-single",
+      "owner_role": "CORE",
+      "review_role": "REL",
+      "title": "平台蓝绿与组合升级/回退",
+      "depends_on": [
+        "EP-T05",
+        "EP-T05a",
+        "EP-T07",
+        "EP-T08",
+        "EP-T13b",
+        "EP-T06a-core"
+      ],
+      "depends_on_outputs": [
+        {
+          "task": "EP-T04",
+          "output": "single-provider-capacity-v0",
+          "selector": {
+            "case_id": "EP-C80",
+            "variant_id": "single-provider",
+            "cell_id": {
+              "ref": "context.capacity_profile_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "single-provider-capacity-v0"
+          }
+        },
+        {
+          "task": "EP-T06a-core",
+          "output": "dual-generation-capacity-v0",
+          "selector": {
+            "case_id": "EP-C81",
+            "variant_id": "dual-generation",
+            "cell_id": {
+              "ref": "context.capacity_profile_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "dual-generation-capacity-v0"
+          }
+        },
+        {
+          "task": "EP-T08",
+          "output": "platform-ab-budget-v0",
+          "selector": {
+            "case_id": "EP-C82",
+            "variant_id": "platform-ab",
+            "cell_id": {
+              "ref": "context.capacity_profile_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "platform-ab-budget-v0"
+          }
+        }
+      ],
+      "work_packages": [
+        {
+          "id": "EP-T09.W1",
+          "description": "实现完整兼容图、候选 readiness、route CAS、旧版本排空及 P-1 代码回退。"
+        },
+        {
+          "id": "EP-T09.W2",
+          "description": "T05a 脚本是硬依赖；预检平台/SDK/Schema/Provider/Worker/资源，不兼容先交桥接版。"
+        },
+        {
+          "id": "EP-T09.W3",
+          "description": "实现平台+Provider 组合更新计划：先验证兼容交集，按有向步骤切换，每步有补偿；不能两个指针一起盲切。"
+        },
+        {
+          "id": "EP-T09.W4",
+          "description": "将每个持久阶段的故障恢复与真实路由/运行身份对账，保留共享数据与原任务版本。"
+        },
+        {
+          "id": "EP-T09.W5",
+          "description": "平台首发为单机 A/B 业务进程；多平台节点滚动不能用 T06b 的 Provider 节点证据替代。"
+        },
+        {
+          "id": "EP-T09.W6",
+          "description": "readiness 校验实际 migration receipt/revision/checksum 和三份精确 v0；缺失或部分 DDL 未对账不接流，旧平台继续。hot 回退禁止 down migration 与自动共享库 restore，维护式恢复另走授权入口。"
+        }
+      ],
+      "exit_criteria": "单独/组合更新回退、前后故障及 P/P-1 双版本合同通过；升级不引入重置/5xx/任务丢失或重复副作用。",
+      "deliverables": "蓝绿与组合升级执行器、预检/恢复 runbook、运行和数据对照报告。",
+      "status": "planned",
+      "tests": [
+        "EP-C27",
+        "EP-C31",
+        "EP-C32",
+        "EP-C34",
+        "EP-C36",
+        "EP-C38",
+        "EP-C66"
+      ],
+      "outputs": [],
+      "depends_on_if": [],
+      "readiness_requirements": {
+        "migration_receipt": {
+          "ref": "context.migration_receipt",
+          "required_fields": [
+            "revision",
+            "checksum",
+            "verified"
+          ],
+          "verified_must_equal": true
+        },
+        "partial_ddl_reconciled": {
+          "ref": "context.partial_ddl_reconciled",
+          "must_equal": true
+        },
+        "capacity_outputs": [
+          {
+            "task": "EP-T04",
+            "output": "single-provider-capacity-v0"
+          },
+          {
+            "task": "EP-T06a-core",
+            "output": "dual-generation-capacity-v0"
+          },
+          {
+            "task": "EP-T08",
+            "output": "platform-ab-budget-v0"
+          }
+        ],
+        "capacity_context_digest_ref": "context.requirement_context_digest"
+      }
+    },
+    {
+      "id": "EP-T14b",
+      "milestone": "final-matrix",
+      "owner_role": "QA",
+      "review_role": "REL",
+      "title": "CI、真实制品矩阵与容量基线",
+      "depends_on": [
+        "EP-T02c",
+        "EP-T04",
+        "EP-T05a",
+        "EP-T06a-core",
+        "EP-T06a-real",
+        "EP-T06b",
+        "EP-T09",
+        "EP-T10",
+        "EP-T11",
+        "EP-T12",
+        "EP-T13b"
+      ],
+      "depends_on_outputs": [
+        {
+          "task": "EP-T03",
+          "output": "test-trust-ready",
+          "selector": {
+            "case_id": "EP-C83",
+            "variant_id": "rehearsal",
+            "cell_id": {
+              "ref": "context.test_trust_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "test-trust-ready"
+          }
+        }
+      ],
+      "work_packages": [
+        {
+          "id": "EP-T14b.W1",
+          "description": "接入各主责执行器与真实签名制品 CI；REL 在 run 前冻结 release_scope_manifest 和精确 required cells/capacity profiles，不能按已有环境倒推支持范围。"
+        },
+        {
+          "id": "EP-T14b.W2",
+          "description": "运行六引擎真实 V/V+1 与多节点/OS/CPU/ABI矩阵，签发 channel=test 的 release-matrix-ready:test；缺/跳过/未认证格不能汇总通过。"
+        },
+        {
+          "id": "EP-T14b.W3",
+          "description": "C67 按 profile 测最终真实驱动峰值/启动/RSS/连接/排空，输出 qualified-capacity-profile；C84 必须精确消费同一 engine/OS/CPU/driver/payload/load/context 的通过实例。"
+        },
+        {
+          "id": "EP-T14b.W4",
+          "description": "核验来源/许可证/第三方 hash 与清理，分层保存 SOURCE/ART/PREPROD/FIELD 证据，不以 test 根结果签生产准入。"
+        },
+        {
+          "id": "EP-T14b.W5",
+          "description": "正式渠道额外校验 E07、同一已测 payload 的生产签名外层、生产 verifier、签名前后 payload 摘要不变与受控 verify/install smoke，再签 production-release-ready；test 矩阵可先供 T15a 消费。"
+        }
+      ],
+      "exit_criteria": "所有宣称格无 skip/缺证据；容量和组合升级报告可复现，QA/REL 签发布门禁。",
+      "deliverables": "CI 配置、执行矩阵、容量报告、制品/SBOM/签名与发布证据索引。",
+      "status": "planned",
+      "tests": [
+        "EP-C07",
+        "EP-C67",
+        "EP-C71",
+        "EP-C84"
+      ],
+      "outputs": [
+        "production-release-ready",
+        "release-matrix-ready:test"
+      ],
+      "depends_on_if": [],
+      "required_cell_gate_templates": [
+        {
+          "producer_task": "EP-T14a",
+          "foreach": {
+            "ref": "release_scope_manifest.required_cells"
+          },
+          "selector": {
+            "case_id": "EP-C70",
+            "variant_id": {
+              "ref": "item.variant_id"
+            },
+            "cell_id": {
+              "ref": "item.cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "item.requirement_context_digest"
+            },
+            "output": {
+              "ref": "item.output"
+            }
+          },
+          "expected_state": "passed",
+          "requires_evidence_and_joint_acceptance": true
+        }
+      ],
+      "release_scope_owner": "REL/T14b freezes release_scope_manifest before execution; never derive it from available environments",
+      "output_requirements": {
+        "release-matrix-ready:test": {
+          "channel": "test",
+          "producer_task_readiness_required": true,
+          "required_manifest_ref": "release_scope_manifest",
+          "required_declared_engines": [
+            "oracle",
+            "mysql",
+            "postgresql",
+            "sqlserver",
+            "dm",
+            "kingbasees"
+          ],
+          "required_case_outputs": [
+            {
+              "case_id": "EP-C67",
+              "output": "qualified-capacity-profile",
+              "foreach": {
+                "ref": "release_scope_manifest.required_capacity_profiles"
+              }
+            },
+            {
+              "case_id": "EP-C84",
+              "variant_id": "real-combination",
+              "output": "qualified-real-combination",
+              "foreach": {
+                "ref": "release_scope_manifest.required_real_combinations"
+              }
+            }
+          ],
+          "required_upstream_tasks": [
+            "EP-T02c",
+            "EP-T04",
+            "EP-T05a",
+            "EP-T06a-core",
+            "EP-T06a-real",
+            "EP-T06b",
+            "EP-T09",
+            "EP-T10",
+            "EP-T11",
+            "EP-T12",
+            "EP-T13b"
+          ],
+          "production_trust_required": false
+        },
+        "production-release-ready": {
+          "channel": "production",
+          "external_gate": "E07",
+          "required_attestations": [
+            "same_tested_payload",
+            "production_verifier_success",
+            "controlled_verify_install_smoke"
+          ],
+          "forbid_post_test_rebuild_or_regrouping": true,
+          "requires_output": {
+            "task": "EP-T14b",
+            "output": "release-matrix-ready:test"
+          }
+        }
+      },
+      "release_scope_contract": {
+        "manifest_ref": "release_scope_manifest",
+        "declared_engines": [
+          "oracle",
+          "mysql",
+          "postgresql",
+          "sqlserver",
+          "dm",
+          "kingbasees"
+        ],
+        "must_cover_every_declared_engine": true,
+        "extra_undeclared_engine_allowed": false,
+        "freeze_before_execution": true,
+        "required_lists": [
+          "required_cells",
+          "required_capacity_profiles",
+          "required_real_combinations"
+        ]
+      }
+    },
+    {
+      "id": "EP-T15a",
+      "milestone": "M3-preprod",
+      "owner_role": "QA",
+      "review_role": "OPS",
+      "title": "预生产负载、热更新与回退演练",
+      "depends_on": [
+        "EP-T09",
+        "EP-T10"
+      ],
+      "depends_on_outputs": [
+        {
+          "task": "EP-T14b",
+          "output": "release-matrix-ready:test",
+          "selector": {
+            "case_id": "EP-C84",
+            "variant_id": "test-matrix",
+            "cell_id": {
+              "ref": "context.release_matrix_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "release-matrix-ready:test"
+          }
+        }
+      ],
+      "work_packages": [
+        {
+          "id": "EP-T15a.W1",
+          "description": "以可交付离线制品在预生产首装六引擎，执行需求/能力/目标/持久结果/API/浏览器全链。"
+        },
+        {
+          "id": "EP-T15a.W2",
+          "description": "在冻结负载下分别演练 Provider、平台、组合更新/回退及失败，记录请求与任务守恒。"
+        },
+        {
+          "id": "EP-T15a.W3",
+          "description": "比对升级前后数据、权限、审批、旧结果和运行摘要，出具预生产准入/拒绝结论。"
+        }
+      ],
+      "exit_criteria": "精确 test 矩阵、预生产全链/负载/失败/回退与浏览器证据齐全，无未关闭 P0/P1；不等待生产根仪式，不关闭现场。",
+      "deliverables": "预生产验收报告、缺陷关闭记录、正式候选包与现场步骤稿。",
+      "status": "planned",
+      "tests": [
+        "EP-C48"
+      ],
+      "outputs": [],
+      "depends_on_if": []
+    },
+    {
+      "id": "EP-T15b",
+      "milestone": "M3-field",
+      "owner_role": "QA",
+      "review_role": "OPS",
+      "title": "客户现场首包验收独立项目",
+      "depends_on": [
+        "EP-T15a"
+      ],
+      "depends_on_outputs": [
+        {
+          "task": "EP-T14b",
+          "output": "production-release-ready",
+          "selector": {
+            "case_id": "EP-C84",
+            "variant_id": "production-envelope",
+            "cell_id": {
+              "ref": "context.release_matrix_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "production-release-ready"
+          }
+        }
+      ],
+      "work_packages": [
+        {
+          "id": "EP-T15b.W1",
+          "description": "单独取得 E05 和现场所需 E01–E03：窗口、目标范围/账号、网络、版本介质许可、验收人和回退责任人。"
+        },
+        {
+          "id": "EP-T15b.W2",
+          "description": "对现场实际版本执行已授权的首装/只读能力与结果回读；热更新/故障演练按批准窗口和范围执行。"
+        },
+        {
+          "id": "EP-T15b.W3",
+          "description": "明确客户不允许执行的用例和未完成条件，不能用实验库或预生产结果替签现场通过。"
+        }
+      ],
+      "exit_criteria": "现场授权/窗口/网络与正式 production-release-ready（已测 payload 生产封装/验签/smoke）均具备后执行 C72，客户证据及签字齐备才关闭。",
+      "deliverables": "现场准入清单、版本/包摘要、现场结果与验收记录、剩余项。",
+      "status": "planned",
+      "tests": [
+        "EP-C72"
+      ],
+      "outputs": [],
+      "depends_on_if": []
+    },
+    {
+      "id": "EP-T06a-core",
+      "owner_role": "CORE",
+      "depends_on": [
+        "EP-T04",
+        "EP-T05",
+        "EP-T13a"
+      ],
+      "depends_on_outputs": [
+        {
+          "task": "EP-T03",
+          "output": "test-trust-ready",
+          "selector": {
+            "case_id": "EP-C83",
+            "variant_id": "rehearsal",
+            "cell_id": {
+              "ref": "context.test_trust_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "test-trust-ready"
+          }
+        }
+      ],
+      "outputs": [
+        "dual-generation-capacity-v0"
+      ],
+      "tests": [
+        "EP-C21",
+        "EP-C23",
+        "EP-C81"
+      ],
+      "scope": "signed fake Provider actual processes; L1/L2 only",
+      "deliverables": "core 更新事务、测试根签名 fake 包、dual-generation-capacity-v0、L1/L2 故障和排空证据。",
+      "review_role": "REL",
+      "exit_criteria": "签名 fake Provider 的真实进程/IPC 下 generation、旧任务固定、崩溃恢复与容量 v0 通过；不宣称厂商驱动已认证。",
+      "title": "单节点 Provider 热事务 core（签名 fake / L1-L2）",
+      "milestone": "M2-core",
+      "status": "planned",
+      "work_packages": [
+        {
+          "id": "EP-T06a-core.W1",
+          "description": "交付由测试根签名、走同一 Supervisor/RPC 的 fake Provider V/V+1，副作用仅进入隔离测试账本，不访问客户目标。"
+        },
+        {
+          "id": "EP-T06a-core.W2",
+          "description": "实现 verify/stage/candidate_ready/generation CAS/drain/recover；新任务切新版本，旧排队/执行/对账任务保持精确摘要。"
+        },
+        {
+          "id": "EP-T06a-core.W3",
+          "description": "在切流前后注入崩溃、重放、陈旧 epoch、吊销和超时；复用受控内部管理接口，不等待真实 DM 或完整 CLI。"
+        },
+        {
+          "id": "EP-T06a-core.W4",
+          "description": "采集 dual-generation-capacity-v0：V/V+1 并存进程/RSS/队列/连接/句柄、排空和泄漏；与单进程 v0、制品和负载 profile 绑定。"
+        }
+      ],
+      "depends_on_if": []
+    },
+    {
+      "id": "EP-T06a-real",
+      "owner_role": "ENG",
+      "depends_on": [
+        "EP-T06a-core",
+        "EP-T11"
+      ],
+      "depends_on_outputs": [
+        {
+          "task": "EP-T14a",
+          "output": "dm-ready",
+          "selector": {
+            "case_id": "EP-C70",
+            "variant_id": "dm",
+            "cell_id": {
+              "ref": "context.dm_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "dm-ready"
+          }
+        }
+      ],
+      "outputs": [
+        "dm-vv1-pair"
+      ],
+      "tests": [
+        "EP-C22",
+        "EP-C79"
+      ],
+      "scope": "actual DM V/V+1, distinct reviewed source payloads; L3",
+      "deliverables": "dm-vv1-pair、源码 diff/构建来源、真实 DM C22/C79 及连接/结果证据。",
+      "review_role": "QA",
+      "exit_criteria": "真实 DM V/V+1 源码与 payload 的实质差异、驱动/身份/连接和更新连续性及真实故障对账通过；不能以改版本号代替。",
+      "title": "DM Provider 真实连续性（L3）",
+      "milestone": "M2-real",
+      "status": "planned",
+      "work_packages": [
+        {
+          "id": "EP-T06a-real.W1",
+          "description": "消费 T11 真实 DM V 并构建经审核源码实际不同的兼容 V+1；记录源码 diff、self payload 差异、包/驱动/运行时摘要和 test-channel 签名，输出 dm-vv1-pair，拒绝只改版本号/签名外层的候选。"
+        },
+        {
+          "id": "EP-T06a-real.W2",
+          "description": "在精确 dm-ready 目标格运行只读任务负载，核验强身份、真实驱动连接、持久结果与 V/V+1 切流连续性。"
+        },
+        {
+          "id": "EP-T06a-real.W3",
+          "description": "执行 C22/C79 真实驱动取消/终止/切流前后故障，核对连接、回执、旧任务版本与未知效果对账；缺 DM 格只阻断此线。"
+        }
+      ],
+      "depends_on_if": []
+    }
+  ],
+  "test_cases": [
+    {
+      "id": "EP-C01",
+      "title": "产品首次安装包含四个原生签名 Provider，真实驱动自检和已支持能力 ready，默认登记且无需用户另装；M1 候选包安装/自检不能替代本条 M2 产品接管验收",
+      "level": "L2/L3",
+      "primary_task": "EP-T02c",
+      "collaborating_tasks": [
+        "EP-T02b",
+        "EP-T04",
+        "EP-T05",
+        "EP-T06a-core",
+        "EP-T13b",
+        "EP-T14a"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T02b",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T04",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T05",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T06a-core",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T13b",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T14a",
+          "mode": "fixture",
+          "blocks_primary_acceptance": true,
+          "output_selector": {
+            "case_id": "EP-C70",
+            "variant_id": "native",
+            "cell_id": {
+              "ref": "context.native_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "native-ready"
+          }
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "ENG"
+      ],
+      "status": "planned",
+      "executed": false,
+      "execution_variants": [
+        "native-vv1-pair"
+      ]
+    },
+    {
+      "id": "EP-C02",
+      "title": "对迁移前录制夹具离线对照，旧实例 ID、权限、能力 ID、API 路径、`db_type` 语义和历史回执不漂移；真实运行链另由高层案例验收",
+      "level": "L1",
+      "primary_task": "EP-T02",
+      "collaborating_tasks": [
+        "EP-T02b",
+        "EP-T05a"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T02b",
+          "mode": "fixture",
+          "blocks_primary_acceptance": false
+        },
+        {
+          "task": "EP-T05a",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "CORE"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C03",
+      "title": "普通外部包覆盖原生 `engine_id`、跨发布者冒名、重复注册或借 `family/protocol` 继承能力均被 Registry 拒绝",
+      "level": "L1",
+      "primary_task": "EP-T02",
+      "collaborating_tasks": [
+        "EP-T03"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T03",
+          "mode": "fixture",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "ARCH"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C04",
+      "title": "安装一个新标准引擎只增加该 Provider 的不可变目录和 Registry 记录，平台、其他 Provider 及其配置摘要保持不变",
+      "level": "L1/L2",
+      "primary_task": "EP-T13a",
+      "collaborating_tasks": [
+        "EP-T02",
+        "EP-T03"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T02",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T03",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "OPS"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C05",
+      "title": "清单与 runtime handshake 的 SDK/RPC、`engine_id`、driver、entrypoint、runtime digest 任一不符时 Supervisor 不把候选置为 ready/active",
+      "level": "L1/L2",
+      "primary_task": "EP-T04",
+      "collaborating_tasks": [
+        "EP-T01",
+        "EP-T03"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T01",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T03",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "ENG"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C06",
+      "title": "未安装、禁用、未支持或运行条件不足的能力在目录快照中返回稳定原因码，不被菜单、API 或 AI 目录当作可执行",
+      "level": "L1",
+      "primary_task": "EP-T02",
+      "collaborating_tasks": [
+        "EP-T01",
+        "EP-T10"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T01",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T10",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "CORE"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C07",
+      "title": "跨六引擎制品与目标的协议兼容、端口特征、伪造版本字符串负例矩阵不通过强产品身份核验；DM/KingbaseES 保持各自 canonical `engine_id`，目录映射的 M0 退出另见 C57",
+      "level": "L1/L2/L3",
+      "primary_task": "EP-T14b",
+      "collaborating_tasks": [
+        "EP-T02",
+        "EP-T11",
+        "EP-T12"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T02",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T11",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T12",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "ARCH"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C08",
+      "title": "用户、资产范围、目标摘要变化或授权撤销后，prepare/execute/verify 每个边界按调用时授权重新拒绝，并记录无秘密审计证据",
+      "level": "L1/L3",
+      "primary_task": "EP-T05",
+      "collaborating_tasks": [
+        "EP-T04",
+        "EP-T13a"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T04",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        },
+        {
+          "task": "EP-T13a",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "CORE"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C09",
+      "title": "模型、HTTP 或数据库记录以任意 SQL/脚本/模块/方法绕过已登记 capability 与参数 Schema 时拒绝；已登记专业 SQL capability 的合同内 SQL/绑定参数按目标、权限、风险、只读/写及审批校验后允许；标准新引擎首包不因协议兼容自动解锁该能力",
+      "level": "L1",
+      "primary_task": "EP-T01",
+      "collaborating_tasks": [
+        "EP-T04"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T04",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "SDK"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C10",
+      "title": "凭据、证书和原始异常不泄漏到 argv、普通环境、清单、计划、回执或日志；仅经受限 IPC 交付给被授权 worker",
+      "level": "L1/L2",
+      "primary_task": "EP-T04",
+      "collaborating_tasks": [
+        "EP-T03",
+        "EP-T05"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T03",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T05",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "ENG"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C11",
+      "title": "prepare 无业务副作用；相同 `operation_id/request_id/attempt` 的重复请求只产生合同允许的一次执行和可重放回执",
+      "level": "L1/L3",
+      "primary_task": "EP-T05",
+      "collaborating_tasks": [
+        "EP-T01",
+        "EP-T04"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T01",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T04",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "CORE"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C12",
+      "title": "写调用断线、worker 崩溃或回执不完整时先进入 verify/对账，不盲目重试、不伪报成功，`effect_state` 准确",
+      "level": "L1/L3",
+      "primary_task": "EP-T05",
+      "collaborating_tasks": [
+        "EP-T04",
+        "EP-T07"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T04",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        },
+        {
+          "task": "EP-T07",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "CORE"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C13",
+      "title": "`ipc_connect_timeout=5s`、`launch_challenge_timeout=10s`、无显式业务 deadline 的只读调用 `default_read_deadline=60s`，合作取消和最终强制终止逐级生效；连接/临时文件/受控子进程清理，任务状态与不确定效果准确",
+      "level": "L1/L2",
+      "primary_task": "EP-T04",
+      "collaborating_tasks": [
+        "EP-T05"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T05",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "ENG"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C14",
+      "title": "默认上限 `max_call_output_bytes=64 MiB`（解压/解码后）、`max_queue_depth_per_generation=256`、`max_ipc_connections_per_generation=32`、`max_concurrent_calls_per_worker=8`、`max_target_connections_per_worker=8` 生效；受信 Provider 自管 DB 会话并上报，Host 以 heartbeat/SDK 遥测和实测验合同，不声称 broker 能阻止恶意私建池；放宽须容量安全验收",
+      "level": "L1/L2",
+      "primary_task": "EP-T04",
+      "collaborating_tasks": [
+        "EP-T14b"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T14b",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "ENG"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C15",
+      "title": "未签名、未知 Key ID/信任用途、文件或清单篡改、额外未签名文件均不能 verify/install",
+      "level": "L1",
+      "primary_task": "EP-T03",
+      "collaborating_tasks": [
+        "EP-T13a"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T13a",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "REL"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C16",
+      "title": "越界路径、大小写/Unicode 归一化碰撞、重复路径、符号链接、重解析点和解压炸弹在写入 active 根目录前被拒绝",
+      "level": "L1/L2",
+      "primary_task": "EP-T03",
+      "collaborating_tasks": [
+        "EP-T13a"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T13a",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "REL"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C17",
+      "title": "同 `package_id/version` 不同内容不可覆盖；包身份、manifest digest、runtime digest 可追溯且不可变",
+      "level": "L1",
+      "primary_task": "EP-T03",
+      "collaborating_tasks": [
+        "EP-T02"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T02",
+          "mode": "input_contract",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "REL"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C18",
+      "title": "断网、缺 native 库、错误 OS/CPU/Python/native ABI 在候选运行前明确失败；不联网补依赖、不污染宿主搜索路径",
+      "level": "L2",
+      "primary_task": "EP-T04",
+      "collaborating_tasks": [
+        "EP-T03",
+        "EP-T14a"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T03",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T14a",
+          "mode": "fixture",
+          "blocks_primary_acceptance": true,
+          "output_selector": {
+            "case_id": "EP-C70",
+            "variant_id": "runtime",
+            "cell_id": {
+              "ref": "context.runtime_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "runtime-ready"
+          }
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "ENG"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C19",
+      "title": "发布密钥轮换和包吊销可追溯；吊销信息刷新后禁止新激活，被吊销版本不得成为自动/手工旧包回退目标，既有任务转阻断/对账",
+      "level": "L1/L2",
+      "primary_task": "EP-T03",
+      "collaborating_tasks": [
+        "EP-T13a",
+        "EP-T13b"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T13a",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        },
+        {
+          "task": "EP-T13b",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "REL"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C20",
+      "title": "install/stage/首次 activate/status/recover 各 journal 点注入断电或 kill 后可幂等恢复，无半安装 active；回退只针对尚未服务的初始激活失败或隔离实验，不冒充 Provider 热切流",
+      "level": "L1/L2",
+      "primary_task": "EP-T13a",
+      "collaborating_tasks": [
+        "EP-T03",
+        "EP-T04"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T03",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T04",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "OPS"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C21",
+      "title": "签名 fake Provider 的真实 V/V+1 进程并存，L1/L2 验 readiness、generation CAS 与新任务切换，pinned 旧任务保留原版本；不据此认证厂商驱动。",
+      "level": "L1/L2",
+      "primary_task": "EP-T06a-core",
+      "collaborating_tasks": [
+        "EP-T04",
+        "EP-T05"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T04",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T05",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "ENG"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C22",
+      "title": "真实 DM V/V+1 的审核源码和规范化 self payload 实际不同（排除仅版本号/签名外层变化），在精确 dm-ready 格持续执行只读业务，核验真实连接、其他已激活 Provider 和持久结果连续。",
+      "level": "L3",
+      "primary_task": "EP-T06a-real",
+      "collaborating_tasks": [
+        "EP-T11",
+        "EP-T02b"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T11",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T02b",
+          "mode": "fixture",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "ENG"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C23",
+      "title": "core 的签名 fake Provider 在 readiness 前与 CAS 后分别故障：不提前切流，兼容且未吊销时回切，旧任务和回执保持；真实驱动故障另由 C79 验。",
+      "level": "L1/L2",
+      "primary_task": "EP-T06a-core",
+      "collaborating_tasks": [
+        "EP-T13a",
+        "EP-T05"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T13a",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T05",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "ENG"
+      ],
+      "status": "planned",
+      "executed": false,
+      "real_fault_coverage_moves_to": "EP-C79"
+    },
+    {
+      "id": "EP-C24",
+      "title": "旧任务的重试、恢复、补偿固定原 provider identity、capability/task/result 版本；精确版本缺失时阻断，不伪装成最新版执行",
+      "level": "L1/L2",
+      "primary_task": "EP-T05",
+      "collaborating_tasks": [
+        "EP-T06a-core",
+        "EP-T13b"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T06a-core",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        },
+        {
+          "task": "EP-T13b",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "CORE"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C25",
+      "title": "disable 只停止新调度并排空固定任务；active/rollback/任务/结果引用保护 uninstall/gc，命令重放不删共享配置、客户数据或仍需恢复的包",
+      "level": "L1/L2",
+      "primary_task": "EP-T13b",
+      "collaborating_tasks": [
+        "EP-T05",
+        "EP-T06a-core"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T05",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T06a-core",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "OPS"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C26",
+      "title": "同引擎并发 upgrade/rollback/disable/uninstall/gc 中只有一个管理事务获租约；陈旧 generation、journal 或 fence token 不能双激活、双执行或误删",
+      "level": "L1/L2",
+      "primary_task": "EP-T13b",
+      "collaborating_tasks": [
+        "EP-T06a-core",
+        "EP-T06b"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T06a-core",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T06b",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "OPS"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C27",
+      "title": "单机真实平台 P/P-1 A/B 在匹配的三份 v0 及冻结负载下持续服务，无更新引发的 5xx/连接重置/任务丢失；不等待 DM、多节点或 T14b 全矩阵。",
+      "level": "L2/L3",
+      "primary_task": "EP-T09",
+      "collaborating_tasks": [
+        "EP-T08",
+        "EP-T07",
+        "EP-T14b"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T08",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T07",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T14b",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "REL"
+      ],
+      "status": "planned",
+      "executed": false,
+      "load_source": "matching v0 outputs",
+      "EP-T14b_collaboration": "downstream_retest"
+    },
+    {
+      "id": "EP-C28",
+      "title": "用实际 Router 制品、stub A/B 服务和两套 hash asset 验固定入口、在途请求/下载落原 stub、旧资源保留、未提交输入/任务编号恢复；完整 P/P-1 切流留 T09 案例",
+      "level": "L2",
+      "primary_task": "EP-T08",
+      "collaborating_tasks": [
+        "EP-T03",
+        "EP-T07"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T03",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T07",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "UI"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C29",
+      "title": "两个版本化 Worker 与模拟 API 替换期间，排队/执行/对账任务守恒，租约接管及旧 owner fencing 生效，副作用/结果不重复；T09 在完整 P/P-1 蓝绿中复验",
+      "level": "L1/L2",
+      "primary_task": "EP-T07",
+      "collaborating_tasks": [
+        "EP-T05",
+        "EP-T06a-core"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T05",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T06a-core",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "CORE"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C30",
+      "title": "候选 API 启动不自动成为有效 Scheduler/Worker；消费接管须获租约、membership/fence 及版本约束，旧 owner 提交被拒绝",
+      "level": "L1/L2",
+      "primary_task": "EP-T07",
+      "collaborating_tasks": [
+        "EP-T05",
+        "EP-T06a-core"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T05",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T06a-core",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "CORE"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C31",
+      "title": "候选平台 readiness 的实际 release、Schema、SDK/catalog 或 worker 能力不符及启动失败时不切流、不停止 blue",
+      "level": "L2",
+      "primary_task": "EP-T09",
+      "collaborating_tasks": [
+        "EP-T07",
+        "EP-T08"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T07",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T08",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "REL"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C32",
+      "title": "平台路由切换后 green 故障，在兼容条件内 CAS 回 blue；新旧已执行任务均按持久回执核验，不回滚共享业务数据",
+      "level": "L2/L3",
+      "primary_task": "EP-T09",
+      "collaborating_tasks": [
+        "EP-T07",
+        "EP-T08"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T07",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T08",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "REL"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C33",
+      "title": "只消费 T14a 登记的合格 P-1，或 no-qualified 分支由 C78 冻结并登记的桥接基线 B；在 expand/backfill 窗口内让未经修改的 P-1/B 与 P/B+1 同时读写并校验一致；两者均无资格则 T05a not_ready，contract 另行门禁，legacy 迁移不冒充热回退",
+      "level": "L2/L3",
+      "primary_task": "EP-T05a",
+      "collaborating_tasks": [
+        "EP-T14a",
+        "EP-T05b",
+        "EP-T05",
+        "EP-T09"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T14a",
+          "mode": "fixture",
+          "blocks_primary_acceptance": true,
+          "output_selector": {
+            "case_id": "EP-C70",
+            "variant_id": "pminus1",
+            "cell_id": {
+              "ref": "context.pminus1_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "platform-pminus1-ready"
+          }
+        },
+        {
+          "task": "EP-T05b",
+          "mode": "fixture",
+          "blocks_primary_acceptance": false
+        },
+        {
+          "task": "EP-T05",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        },
+        {
+          "task": "EP-T09",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "CORE"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C34",
+      "title": "无兼容路径、不可逆数据变化、资源不足或无安全回退依据时 `hot_update_eligible=false`，不降级为停旧启新仍报告热更新成功",
+      "level": "L1/L2",
+      "primary_task": "EP-T09",
+      "collaborating_tasks": [
+        "EP-T05a",
+        "EP-T08"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T05a",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T08",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "ARCH"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C35",
+      "title": "Router/启动器自更新单独演练套接字/监听接管或冗余入口；缺条件时业务 A/B 通过也不得把基础入口发布成无中断，T15a 只做下游环境复验",
+      "level": "L2/L3",
+      "primary_task": "EP-T08",
+      "collaborating_tasks": [
+        "EP-T03",
+        "EP-T07",
+        "EP-T15a"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T03",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T07",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T15a",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "OPS"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C36",
+      "title": "平台 P/P-1↔SDK S/S-1↔Provider V/V+1↔task/result↔核心 Schema 兼容图求交集；独立升级或回退不偷换另一版本轴",
+      "level": "L1/L2",
+      "primary_task": "EP-T09",
+      "collaborating_tasks": [
+        "EP-T01",
+        "EP-T06a-core"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T01",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T06a-core",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "ARCH"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C37",
+      "title": "多执行节点按 `membership_epoch` 快照预备相同 digest 和容量；新旧/离线/迟到节点只接收匹配 generation 的任务",
+      "level": "L2/L3",
+      "primary_task": "EP-T06b",
+      "collaborating_tasks": [
+        "EP-T06a-core",
+        "EP-T07"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T06a-core",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T07",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "OPS"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C38",
+      "title": "平台迁移与蓝绿的每个持久点注入 kill：含迁移获锁前后、部分 DDL、校验后回执前、回执后候选 ready 前；恢复先核对真实结构/回执，未知进入 reconcile_required，hot 流程禁止 down/自动共享库 restore。",
+      "level": "L2",
+      "primary_task": "EP-T09",
+      "collaborating_tasks": [
+        "EP-T08",
+        "EP-T05a"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T08",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T05a",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "REL"
+      ],
+      "status": "planned",
+      "executed": false,
+      "add_fault_points": [
+        "before/after migration lock",
+        "partial DDL",
+        "verify-before-receipt",
+        "receipt-before-green-ready"
+      ],
+      "forbid_hot_recovery_hooks": [
+        "down_migration",
+        "automatic_shared_database_restore"
+      ]
+    },
+    {
+      "id": "EP-C39",
+      "title": "用 catalog fixture、fake Provider 与实际 Host 制品执行 L1/L2：目录/字段/权限/provider version 同一 generation，陈旧上下文响应丢弃；不等待真实 DM/金仓，真实浏览器完整链由 C48 验。",
+      "level": "L1/L2",
+      "primary_task": "EP-T10",
+      "collaborating_tasks": [
+        "EP-T02",
+        "EP-T04",
+        "EP-T05",
+        "EP-T06a-core",
+        "EP-T11",
+        "EP-T12"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T02",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T04",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T05",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T06a-core",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T11",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        },
+        {
+          "task": "EP-T12",
+          "mode": "input_contract",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "UI"
+      ],
+      "status": "planned",
+      "executed": false,
+      "remove_fixture_prerequisite": "real DM complete",
+      "real_ui_coverage": "EP-C48"
+    },
+    {
+      "id": "EP-C40",
+      "title": "无模型时导航专业页为零执行；有模型只选择 Registry 已登记、当前有权且运行可用的能力，最终仍走同一持久任务入口",
+      "level": "L1/L3",
+      "primary_task": "EP-T10",
+      "collaborating_tasks": [
+        "EP-T05",
+        "EP-T07"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T05",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T07",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "UI"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C41",
+      "title": "DM 实际签名制品加载选定 dmPython/DPI/native client，连接、权限、TLS、字符集和只读会话策略通过冻结矩阵",
+      "level": "L2/L3",
+      "primary_task": "EP-T11",
+      "collaborating_tasks": [
+        "EP-T04",
+        "EP-T14a"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T04",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T14a",
+          "mode": "fixture",
+          "blocks_primary_acceptance": true,
+          "output_selector": {
+            "case_id": "EP-C70",
+            "variant_id": "dm",
+            "cell_id": {
+              "ref": "context.dm_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "dm-ready"
+          }
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "ENG"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C42",
+      "title": "DM 实际产品、完整版本、edition/兼容模式和稳定实例身份明确；错误产品、伪造版本及不支持版本被拒绝",
+      "level": "L3",
+      "primary_task": "EP-T11",
+      "collaborating_tasks": [
+        "EP-T02",
+        "EP-T14a"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T02",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T14a",
+          "mode": "fixture",
+          "blocks_primary_acceptance": true,
+          "output_selector": {
+            "case_id": "EP-C70",
+            "variant_id": "dm",
+            "cell_id": {
+              "ref": "context.dm_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "dm-ready"
+          }
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "ENG"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C43",
+      "title": "DM 已声明的拓扑、指标、会话、锁、只读巡检、报告和持久回读逐项通过；未声明或缺失证据明确表达而不假健康",
+      "level": "L3",
+      "primary_task": "EP-T11",
+      "collaborating_tasks": [
+        "EP-T05",
+        "EP-T14a"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T05",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T14a",
+          "mode": "fixture",
+          "blocks_primary_acceptance": true,
+          "output_selector": {
+            "case_id": "EP-C70",
+            "variant_id": "dm",
+            "cell_id": {
+              "ref": "context.dm_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "dm-ready"
+          }
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "OPS"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C44",
+      "title": "KingbaseES 实际签名制品加载选定 ksycopg2/libkci，ABI、权限、TLS、字符集和只读会话策略通过冻结矩阵",
+      "level": "L2/L3",
+      "primary_task": "EP-T12",
+      "collaborating_tasks": [
+        "EP-T04",
+        "EP-T14a"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T04",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T14a",
+          "mode": "fixture",
+          "blocks_primary_acceptance": true,
+          "output_selector": {
+            "case_id": "EP-C70",
+            "variant_id": "kingbase",
+            "cell_id": {
+              "ref": "context.kingbase_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "kingbase-ready"
+          }
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "ENG"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C45",
+      "title": "KingbaseES 兼容模式不冒充 PostgreSQL，实际版本、实例/集群身份以及错误产品与伪造身份负例通过",
+      "level": "L3",
+      "primary_task": "EP-T12",
+      "collaborating_tasks": [
+        "EP-T02",
+        "EP-T14a"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T02",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T14a",
+          "mode": "fixture",
+          "blocks_primary_acceptance": true,
+          "output_selector": {
+            "case_id": "EP-C70",
+            "variant_id": "kingbase",
+            "cell_id": {
+              "ref": "context.kingbase_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "kingbase-ready"
+          }
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "ENG"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C46",
+      "title": "金仓首包已声明的拓扑、指标/会话/锁/巡检/报告逐项真实回读，缺失关系/延迟明确表达；另交真实源码不同的 kingbase-vv1-pair 给 C84，首包不暗加 UI/core 切流依赖。",
+      "level": "L3",
+      "primary_task": "EP-T12",
+      "collaborating_tasks": [
+        "EP-T05",
+        "EP-T14a"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T05",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T14a",
+          "mode": "fixture",
+          "blocks_primary_acceptance": true,
+          "output_selector": {
+            "case_id": "EP-C70",
+            "variant_id": "kingbase",
+            "cell_id": {
+              "ref": "context.kingbase_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "kingbase-ready"
+          }
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "OPS"
+      ],
+      "status": "planned",
+      "executed": false,
+      "retain": "real first-package readonly capabilities",
+      "pair_output": "kingbase-vv1-pair",
+      "no_implicit_dependency_on": "EP-T06a-core",
+      "execution_variants": [
+        "kingbase-vv1-pair"
+      ]
+    },
+    {
+      "id": "EP-C47",
+      "title": "四个原生 Provider 均不再由平台主进程静态执行，分别以独立签名制品启动、激活、按 V/V+1 逐个热升级/回退；迁移前后源码行为基线一致，源码夹具不能替代制品/runtime 证据",
+      "level": "L2/L3",
+      "primary_task": "EP-T02c",
+      "collaborating_tasks": [
+        "EP-T02b",
+        "EP-T04",
+        "EP-T05",
+        "EP-T06a-core",
+        "EP-T13b"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T02b",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T04",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T05",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T06a-core",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T13b",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "ENG"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C48",
+      "title": "在独立预生产环境中，六引擎分别贯穿需求→能力→Provider→真实目标→持久结果→API→浏览器；平台/Provider 前后版本和更新期间结果均可回查",
+      "level": "L3",
+      "primary_task": "EP-T15a",
+      "collaborating_tasks": [
+        "EP-T14b",
+        "EP-T09",
+        "EP-T06a-real",
+        "EP-T11",
+        "EP-T12"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T14b",
+          "mode": "fixture",
+          "blocks_primary_acceptance": true,
+          "output_selector": {
+            "case_id": "EP-C84",
+            "variant_id": "test-matrix",
+            "cell_id": {
+              "ref": "context.release_matrix_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "release-matrix-ready:test"
+          }
+        },
+        {
+          "task": "EP-T09",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T06a-real",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T11",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T12",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "OPS"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C49",
+      "title": "抽取 Oracle/MySQL/PostgreSQL/SQL Server 迁移前源码行为夹具，冻结连接身份、能力、错误、结果和路由基线；退出条件仅为离线对照可重放，不声称签名包或 runtime 已验收",
+      "level": "L1",
+      "primary_task": "EP-T02b",
+      "collaborating_tasks": [
+        "EP-T01",
+        "EP-T02"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T01",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T02",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "ENG"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C50",
+      "title": "SDK 自带 fake runner 与 Provider 使用当前 S 合同时，handshake、方法、错误和结果 Schema conformance 全部通过，形成不等待 T04 runtime 的 T01 独立早期退出证据",
+      "level": "L1",
+      "primary_task": "EP-T01",
+      "collaborating_tasks": [
+        "EP-T04"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T04",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "SDK"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C51",
+      "title": "S-1 只有在兼容矩阵明确声明时可运行；未声明的 S-1 方法/字段组合被明确拒绝，不靠宽松反序列化碰运气",
+      "level": "L1",
+      "primary_task": "EP-T01",
+      "collaborating_tasks": [
+        "EP-T04"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T04",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "SDK"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C52",
+      "title": "S-2 Provider 一律在 handshake/激活前按 `contract_version_unsupported` 拒绝，不能协议降级后继续运行",
+      "level": "L1",
+      "primary_task": "EP-T01",
+      "collaborating_tasks": [
+        "EP-T04"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T04",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "SDK"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C53",
+      "title": "Schema 中未知 optional 字段按合同忽略，但代理与持久化必须原样保留；重放后数据不被误删或提升为权限输入",
+      "level": "L1",
+      "primary_task": "EP-T01",
+      "collaborating_tasks": [
+        "EP-T04"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T04",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "SDK"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C54",
+      "title": "未识别 mandatory 字段、required capability bit 或枚举语义立即 fail closed，返回可诊断兼容错误而非采用默认值",
+      "level": "L1",
+      "primary_task": "EP-T01",
+      "collaborating_tasks": [
+        "EP-T04"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T04",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "SDK"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C55",
+      "title": "`publisher.namespace/key` 扩展仅在声明的 namespaced 容器中往返；冲突核心字段、跨命名空间读取或借扩展新增宿主权限均被拒绝",
+      "level": "L1",
+      "primary_task": "EP-T01",
+      "collaborating_tasks": [
+        "EP-T02"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T02",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "SDK"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C56",
+      "title": "RPC 协商遭版本删改、重复字段、能力剥离、强制 fallback 或中间人降级时 handshake 失败并审计，不回落到未声明协议",
+      "level": "L1",
+      "primary_task": "EP-T01",
+      "collaborating_tasks": [
+        "EP-T04"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T04",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "SDK"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C57",
+      "title": "Registry 兼容桥对旧 `db_type`、canonical `engine_id`、原路由和 availability reason 使用确定映射；未知/歧义身份 fail closed，形成 T02 独立早期退出证据",
+      "level": "L1",
+      "primary_task": "EP-T02",
+      "collaborating_tasks": [
+        "EP-T01",
+        "EP-T02b"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T01",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T02b",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "CORE"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C58",
+      "title": "离线信任根按双人授权的签名元数据从 root K 更新到 K+1，验证防回滚、阈值、有效期、`trust_generation` 和信任用途；无联网取钥依赖，旧根撤除前后验签符合窗口；另单列 root threshold 泄露：停止自动更新，带外重建根信任，客户端重新锚定，盘点并重新背书受影响 digest，独立保存演练证据",
+      "level": "L1/L2",
+      "primary_task": "EP-T03",
+      "collaborating_tasks": [
+        "EP-T13a"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T13a",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "REL",
+        "OPS"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C59",
+      "title": "构建隔离与发布扫描证明 `.tmengine`、日志、缓存、SBOM、provenance 和调试符号不含签名私钥、凭据、内部连接串或未声明绝对路径；泄露即阻断发布",
+      "level": "L1/L2",
+      "primary_task": "EP-T03",
+      "collaborating_tasks": [
+        "EP-T14b"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T14b",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "REL"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C60",
+      "title": "各目标 OS 的真实 peer API/ACL 验证；fresh host/provider 双 nonce、方向 label、完整 transcript 与双向 connection/frame sequence 使用成熟密码库保护，反射/重放/乱序/跨 generation、错误用户或伪造 `launch_instance_id/provider_identity` 均拒绝；接口不足的认证格标 unsupported",
+      "level": "L1/L2",
+      "primary_task": "EP-T04",
+      "collaborating_tasks": [
+        "EP-T01",
+        "EP-T05"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T01",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T05",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "ENG"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C61",
+      "title": "secret lease TTL 不超过 `min(60s, remaining_deadline)` 并绑定 scope/调用；到期/撤权只停止新 secret 发放与未消费租约，不伪称已交付密码失效；Provider 合作关连接，超时终止 process group，服务端会话/效果未知则 `reconcile_required`；正常 V→V+1 不误伤合法 pinned V 任务",
+      "level": "L1/L2",
+      "primary_task": "EP-T04",
+      "collaborating_tasks": [
+        "EP-T05"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T05",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "CORE"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C62",
+      "title": "截断、超过解码后 `max_frame_bytes=1 MiB`、递归、类型混淆、重复键、非法编码和乱序 RPC 帧在有界反序列化中安全失败，不崩溃、不越界分配、不执行部分请求",
+      "level": "L1/L2",
+      "primary_task": "EP-T04",
+      "collaborating_tasks": [
+        "EP-T01"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T01",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "ENG"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C63",
+      "title": "Supervisor/Provider 崩溃和宿主重启后，旧子进程、socket、凭据文件及 DB 连接被回收；重启退避为 1/2/4/8/16/30 秒后封顶 30 秒且 ±20% jitter，10 分钟第 6 次崩溃开启 15 分钟 circuit，只恢复经 journal 核验的 generation",
+      "level": "L1/L2",
+      "primary_task": "EP-T04",
+      "collaborating_tasks": [
+        "EP-T13a"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T13a",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "OPS"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C64",
+      "title": "新增 `engine_id` 与兼容 `db_type` 字段按 expand→可重入 backfill→校验推进；真实未修改 P-1 只写旧字段，P 能 fallback 读取并兼容写旧形态，新语义进入附表或 CAS 保护；空值、DomesticDB、未知和冲突行隔离，无法无损兼容时禁止热回退",
+      "level": "L1/L2",
+      "primary_task": "EP-T05a",
+      "collaborating_tasks": [
+        "EP-T02",
+        "EP-T05"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T02",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T05",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "CORE"
+      ],
+      "status": "planned",
+      "executed": false,
+      "execution_variants": [
+        "migrator-contract"
+      ]
+    },
+    {
+      "id": "EP-C65",
+      "title": "旧任务/API 请求不能伪造或覆盖 `engine_id`、provider identity、worker release、task/result 版本；宿主从持久绑定恢复，版本错配拒绝执行/解码",
+      "level": "L1/L2",
+      "primary_task": "EP-T05",
+      "collaborating_tasks": [
+        "EP-T01",
+        "EP-T05a"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T01",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T05a",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "CORE"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C66",
+      "title": "单机平台 P/P-1 与签名 fake Provider V/V+1 的 L2 组合事务：两种顺序、第二轴失败、回退及任务绑定；不使用此结果关闭 C84 的真实六引擎组合矩阵。",
+      "level": "L2",
+      "primary_task": "EP-T09",
+      "collaborating_tasks": [
+        "EP-T06a-core",
+        "EP-T05a",
+        "EP-T08"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T06a-core",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T05a",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T08",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "REL"
+      ],
+      "status": "planned",
+      "executed": false,
+      "scope": "single-host actual platform plus signed fake Provider combination transactions",
+      "real_combination_coverage_moves_to": "EP-C84"
+    },
+    {
+      "id": "EP-C67",
+      "title": "父分组：按冻结 required_capacity_profiles 生成实际 profile 实例，测真实驱动/OS/CPU/并存峰值/连接/排空；各实例签 qualified-capacity-profile，由 C84 按同 engine/ABI/payload/load/context 精确消费。",
+      "level": "L2/L3",
+      "primary_task": "EP-T14b",
+      "collaborating_tasks": [
+        "EP-T04",
+        "EP-T06a-core",
+        "EP-T09",
+        "EP-T06a-real"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T04",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T06a-core",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T09",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T06a-real",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "OPS"
+      ],
+      "status": "planned",
+      "executed": false,
+      "scope": "final real-engine/multi-platform capacity matrix; consumes early v0 and actual per-profile measurements; not T09 prerequisite",
+      "kind": "case_family",
+      "directly_executable": false,
+      "instances_from": {
+        "ref": "release_scope_manifest.required_capacity_profiles"
+      },
+      "output": "qualified-capacity-profile",
+      "execution_key": [
+        "case_id",
+        "variant_id",
+        "cell_id",
+        "requirement_context_digest"
+      ],
+      "parent_status_not_a_consumer_gate": true,
+      "test_instances": [],
+      "instance_schema": {
+        "selector_fields": [
+          "engine",
+          "os",
+          "cpu",
+          "driver_native_abi",
+          "provider_payload_digests",
+          "load_profile",
+          "requirement_context_digest"
+        ],
+        "execution_key": [
+          "case_id",
+          "variant_id",
+          "cell_id",
+          "requirement_context_digest"
+        ],
+        "output": "qualified-capacity-profile",
+        "state_is_per_instance": true,
+        "evidence_is_per_instance": true,
+        "acceptance_is_per_instance": true
+      },
+      "output_instances": [],
+      "variant_template": {
+        "variant_id": {
+          "ref": "item.variant_id"
+        },
+        "cell_id": {
+          "ref": "item.cell_id"
+        },
+        "requirement_context_digest": {
+          "ref": "item.requirement_context_digest"
+        },
+        "required_profile_id": {
+          "ref": "item.profile_id"
+        }
+      }
+    },
+    {
+      "id": "EP-C68",
+      "title": "从隔离夹具目录移除一个无任务执行引用的 fake Provider 后，核心 versioned decoder 仅凭持久标准快照和登记 Schema 回读已知版本结果，不访问数据库、不加载 Provider；T13b 在 C25 复验实际 uninstall",
+      "level": "L1",
+      "primary_task": "EP-T05",
+      "collaborating_tasks": [
+        "EP-T01",
+        "EP-T05a"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T01",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T05a",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "CORE"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C69",
+      "title": "本机 CLI 的 inspect/verify/install/activate/初始 rollback/status/recover 经 OS 身份、角色、目标根与命令级授权；未授权用户、提权绕过、任意路径和审计缺口均拒绝",
+      "level": "L1/L2",
+      "primary_task": "EP-T13a",
+      "collaborating_tasks": [
+        "EP-T05",
+        "EP-T03"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T05",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T03",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "OPS"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C70",
+      "title": "父分组：runtime/core/pminus1/dm/kingbase/native 六 variant 按 cell/context 独立记账和签发；父不执行不计通过，DM 等待不影响 native.mysql 已通过；发布 required cells 由 REL/T14b 在 run 前冻结。",
+      "level": "L1/L2/L3",
+      "primary_task": "EP-T14a",
+      "collaborating_tasks": [
+        "EP-T03",
+        "EP-T04",
+        "EP-T11",
+        "EP-T12"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T03",
+          "mode": "input_contract",
+          "blocks_primary_acceptance": false
+        },
+        {
+          "task": "EP-T04",
+          "mode": "input_contract",
+          "blocks_primary_acceptance": false
+        },
+        {
+          "task": "EP-T11",
+          "mode": "input_contract",
+          "blocks_primary_acceptance": false
+        },
+        {
+          "task": "EP-T12",
+          "mode": "input_contract",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "OPS"
+      ],
+      "status": "planned",
+      "executed": false,
+      "kind": "case_family",
+      "directly_executable": false,
+      "execution_key": [
+        "case_id",
+        "variant_id",
+        "cell_id",
+        "requirement_context_digest"
+      ],
+      "variants": [
+        {
+          "variant_id": "runtime",
+          "output": "runtime-ready",
+          "dimensions": [
+            "os",
+            "cpu",
+            "runtime_abi"
+          ],
+          "primary_task": "EP-T14a",
+          "acceptance_roles": [
+            "QA",
+            "OPS"
+          ],
+          "status": "planned",
+          "executed": false
+        },
+        {
+          "variant_id": "core",
+          "output": "core-ready",
+          "dimensions": [
+            "metadata_engine",
+            "metadata_version",
+            "isolation_profile"
+          ],
+          "primary_task": "EP-T14a",
+          "acceptance_roles": [
+            "QA",
+            "OPS"
+          ],
+          "status": "planned",
+          "executed": false
+        },
+        {
+          "variant_id": "pminus1",
+          "output": "platform-pminus1-ready",
+          "dimensions": [
+            "platform_release",
+            "schema_snapshot_digest"
+          ],
+          "missing_state": "baseline_absent",
+          "missing_triggers": "EP-T05b",
+          "missing_is_ready": false,
+          "primary_task": "EP-T14a",
+          "acceptance_roles": [
+            "QA",
+            "OPS"
+          ],
+          "status": "planned",
+          "executed": false
+        },
+        {
+          "variant_id": "dm",
+          "output": "dm-ready",
+          "dimensions": [
+            "engine",
+            "server_version",
+            "edition_mode",
+            "os",
+            "cpu",
+            "driver_native_abi"
+          ],
+          "primary_task": "EP-T14a",
+          "acceptance_roles": [
+            "QA",
+            "OPS"
+          ],
+          "status": "planned",
+          "executed": false
+        },
+        {
+          "variant_id": "kingbase",
+          "output": "kingbase-ready",
+          "dimensions": [
+            "engine",
+            "server_version",
+            "edition_mode",
+            "os",
+            "cpu",
+            "driver_native_abi"
+          ],
+          "primary_task": "EP-T14a",
+          "acceptance_roles": [
+            "QA",
+            "OPS"
+          ],
+          "status": "planned",
+          "executed": false
+        },
+        {
+          "variant_id": "native",
+          "output": "native-ready",
+          "dimensions": [
+            "engine",
+            "server_version",
+            "os",
+            "cpu",
+            "driver_native_abi"
+          ],
+          "engines": [
+            "oracle",
+            "mysql",
+            "postgresql",
+            "sqlserver"
+          ],
+          "primary_task": "EP-T14a",
+          "acceptance_roles": [
+            "QA",
+            "OPS"
+          ],
+          "status": "planned",
+          "executed": false
+        }
+      ],
+      "parent_status_not_a_consumer_gate": true,
+      "test_instances": [],
+      "variant_inheritance": [
+        "primary_task",
+        "acceptance_roles",
+        "collaborating_tasks",
+        "collaborations"
+      ],
+      "output_instances": []
+    },
+    {
+      "id": "EP-C71",
+      "title": "CI 对六引擎的实际签名制品、支持 OS/CPU/ABI、安装/启动/conformance/性能门禁逐格执行；skip、模拟 driver 或未构建组合记未认证，不汇总成全绿",
+      "level": "L2",
+      "primary_task": "EP-T14b",
+      "collaborating_tasks": [
+        "EP-T02c",
+        "EP-T03",
+        "EP-T11",
+        "EP-T12"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T02c",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T03",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T11",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T12",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "REL"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C72",
+      "title": "客户现场按独立清单重新核验介质、许可、拓扑、权限、数据隔离、负载、升级/回退与六引擎证据；预生产 C48 不能替代现场签字，未获授权项目保持未执行",
+      "level": "L3",
+      "primary_task": "EP-T15b",
+      "collaborating_tasks": [
+        "EP-T15a",
+        "EP-T14a"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T15a",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T14a",
+          "mode": "fixture",
+          "blocks_primary_acceptance": true,
+          "output_selector_template": {
+            "foreach": {
+              "ref": "site_scope_manifest.required_cells"
+            },
+            "producer_task": "EP-T14a",
+            "selector": {
+              "case_id": "EP-C70",
+              "variant_id": {
+                "ref": "item.variant_id"
+              },
+              "cell_id": {
+                "ref": "item.cell_id"
+              },
+              "requirement_context_digest": {
+                "ref": "item.requirement_context_digest"
+              },
+              "output": {
+                "ref": "item.output"
+              }
+            },
+            "expected_state": "passed",
+            "requires_evidence_and_joint_acceptance": true
+          }
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "OPS"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C73",
+      "title": "父分组：self-payload 比两个 clean builder 的规范化摘要；third-party-integrity 核来源/原始 hash/SBOM/许可/签名状态、不强求厂商源码重现；incident-rebuild 保留失陷冻结吊销与干净重建。分类穷尽互斥，整包完整性覆盖全部字节。",
+      "level": "L1/L2/L3",
+      "primary_task": "EP-T03",
+      "collaborating_tasks": [
+        "EP-T14b"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T14b",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "REL"
+      ],
+      "status": "planned",
+      "executed": false,
+      "kind": "case_family",
+      "directly_executable": false,
+      "variants": [
+        {
+          "variant_id": "self-payload",
+          "oracle": "two clean builders, identical normalized self_payload_digest",
+          "primary_task": "EP-T03",
+          "acceptance_roles": [
+            "QA",
+            "REL"
+          ],
+          "status": "planned",
+          "executed": false,
+          "dimensions": [
+            "cell_id",
+            "requirement_context_digest"
+          ],
+          "output": "EP-C73/self-payload",
+          "machine_oracle": {
+            "required_fields": [
+              "locked_input_digest",
+              "builder_a_identity",
+              "builder_b_identity",
+              "builder_a_payload_digest",
+              "builder_b_payload_digest",
+              "normalized_payload_digest"
+            ],
+            "assertions": [
+              "builder_a_identity != builder_b_identity",
+              "builder_a_payload_digest == builder_b_payload_digest == normalized_payload_digest"
+            ],
+            "reject_reasons": [
+              "digest_mismatch",
+              "same_builder_identity",
+              "missing_locked_input"
+            ],
+            "receipt_schema": {
+              "locked_input_digest": "nonempty digest",
+              "builder_a_identity": "named clean builder",
+              "builder_b_identity": "different named clean builder",
+              "builder_a_payload_digest": "normalized digest",
+              "builder_b_payload_digest": "same normalized digest",
+              "normalized_payload_digest": "same normalized digest"
+            }
+          },
+          "oracle_receipt_required": true,
+          "oracle_receipt_field": "oracle_receipt"
+        },
+        {
+          "variant_id": "third-party-integrity",
+          "oracle": "fixed vendor bytes, provenance/hash/SBOM/license/signature status; no upstream reproducible-compilation promise",
+          "primary_task": "EP-T03",
+          "acceptance_roles": [
+            "QA",
+            "REL"
+          ],
+          "status": "planned",
+          "executed": false,
+          "dimensions": [
+            "cell_id",
+            "requirement_context_digest"
+          ],
+          "output": "EP-C73/third-party-integrity",
+          "machine_oracle": {
+            "required_fields": [
+              "classification",
+              "upstream_origin",
+              "raw_artifact_hash",
+              "packaged_raw_artifact_hash",
+              "sbom_digest",
+              "license_status",
+              "upstream_signature_status"
+            ],
+            "assertions": [
+              "classification == third-party-opaque",
+              "raw_artifact_hash == packaged_raw_artifact_hash",
+              "origin/SBOM/license/signature status all present"
+            ],
+            "reject_reasons": [
+              "origin_missing",
+              "raw_hash_drift",
+              "sbom_missing",
+              "license_missing",
+              "signature_status_missing"
+            ],
+            "receipt_schema": {
+              "classification": "third-party-opaque",
+              "upstream_origin": "nonempty immutable origin",
+              "raw_artifact_hash": "vendor bytes digest",
+              "packaged_raw_artifact_hash": "must equal raw_artifact_hash",
+              "sbom_digest": "nonempty digest",
+              "license_status": "reviewed/allowed",
+              "upstream_signature_status": "recorded status"
+            }
+          },
+          "oracle_receipt_required": true,
+          "oracle_receipt_field": "oracle_receipt"
+        },
+        {
+          "variant_id": "incident-rebuild",
+          "oracle": "builder/release-key compromise containment, revoked digest handling and clean rebuild; root-threshold drill remains C58",
+          "primary_task": "EP-T03",
+          "acceptance_roles": [
+            "QA",
+            "REL"
+          ],
+          "status": "planned",
+          "executed": false,
+          "dimensions": [
+            "cell_id",
+            "requirement_context_digest"
+          ],
+          "output": "EP-C73/incident-rebuild",
+          "machine_oracle": {
+            "required_fields": [
+              "compromised_key_ids",
+              "revoked_payload_digests",
+              "clean_builder_identity",
+              "new_signing_key_id",
+              "rebuilt_payload_digest"
+            ],
+            "assertions": [
+              "new_signing_key_id not in compromised_key_ids",
+              "rebuilt_payload_digest not in revoked_payload_digests"
+            ],
+            "reject_reasons": [
+              "compromised_key_reactivated",
+              "revoked_digest_reactivated",
+              "clean_builder_missing"
+            ],
+            "receipt_schema": {
+              "compromised_key_ids": "nonempty list",
+              "revoked_payload_digests": "nonempty list",
+              "clean_builder_identity": "named clean builder",
+              "new_signing_key_id": "not compromised",
+              "rebuilt_payload_digest": "not revoked"
+            }
+          },
+          "oracle_receipt_required": true,
+          "oracle_receipt_field": "oracle_receipt"
+        }
+      ],
+      "execution_key": [
+        "case_id",
+        "variant_id",
+        "cell_id",
+        "requirement_context_digest"
+      ],
+      "parent_status_not_a_consumer_gate": true,
+      "test_instances": [],
+      "variant_inheritance": [
+        "primary_task",
+        "acceptance_roles",
+        "collaborating_tasks",
+        "collaborations"
+      ],
+      "output_instances": [],
+      "package_classification_oracle": {
+        "allowed_classes": [
+          "self-built",
+          "third-party-opaque"
+        ],
+        "exhaustive": true,
+        "mutually_exclusive": true,
+        "required_fields": [
+          "package_file_inventory",
+          "file_classification",
+          "whole_package_signed_files"
+        ],
+        "assertions": [
+          "every inventory file has exactly one class",
+          "whole_package_signed_files equals package_file_inventory",
+          "third-party bytes are included in whole-package integrity coverage"
+        ]
+      }
+    },
+    {
+      "id": "EP-C74",
+      "title": "无可靠历史 Provider/worker/参数摘要证据的旧待执行任务与审批冻结，不猜填当前版本；必须重新 prepare、授权和审批，历史完成结果仅由 legacy decoder 按已有字段回读",
+      "level": "L1/L2",
+      "primary_task": "EP-T05a",
+      "collaborating_tasks": [
+        "EP-T05"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T05",
+          "mode": "input_contract",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "CORE"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C75",
+      "title": "首装原生候选包缺失、验签/启动/selftest 失败时对应引擎准确 `unavailable`，无主进程静默 fallback，整体安装不得假通过；本条 host 故障负例不等待 T02c 最终四包业务接管，后续由 C01/C47 复验",
+      "level": "L1/L2",
+      "primary_task": "EP-T13a",
+      "collaborating_tasks": [
+        "EP-T02c",
+        "EP-T04"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T02c",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        },
+        {
+          "task": "EP-T04",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "OPS"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C76",
+      "title": "普通业务 CLI 通过平台登录、业务权限和普通任务 API 执行 submit/read-result，不要求本机管理 root/管理员权限，也不能调用包管理 IPC；M1 真实 DM 闭环由 C41–C43 使用该入口",
+      "level": "L1/L2",
+      "primary_task": "EP-T05",
+      "collaborating_tasks": [
+        "EP-T11",
+        "EP-T13a"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T11",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        },
+        {
+          "task": "EP-T13a",
+          "mode": "input_contract",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "CORE"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C77",
+      "title": "decoder 对篡改 digest、Schema Registry 冲突、未知 mandatory、超大/递归结果安全失败并保留原证据；解码过程不访问 DB、不执行 Provider；Schema 保留周期覆盖结果/审计，退役前完成受控迁移或导出，T13b 仅下游复验卸载态",
+      "level": "L1/L2",
+      "primary_task": "EP-T05",
+      "collaborating_tasks": [
+        "EP-T01",
+        "EP-T05a",
+        "EP-T13b"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T01",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T05a",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T13b",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "CORE"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C78",
+      "title": "仅在 E06 盘点为 `no_qualified_pminus1` 时构建桥接基线 B：现有业务/API/数据不漂移，不含未来 SDK、DM、Router 或热更新实现；以维护式安装完成回归后在候选测试前冻结不可变制品，冻结后不得修补；QA/REL 资格交 T14a 登记，未获资格时 T05a/T09 保持 not_ready",
+      "level": "L1/L2",
+      "primary_task": "EP-T05b",
+      "collaborating_tasks": [
+        "EP-T14a",
+        "EP-T05a",
+        "EP-T03"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T14a",
+          "mode": "fixture",
+          "blocks_primary_acceptance": true,
+          "output_selector": {
+            "case_id": "EP-C70",
+            "variant_id": "core",
+            "cell_id": {
+              "ref": "context.core_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "core-ready"
+          }
+        },
+        {
+          "task": "EP-T05a",
+          "mode": "input_contract",
+          "blocks_primary_acceptance": false
+        },
+        {
+          "task": "EP-T03",
+          "mode": "input_contract",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "acceptance_roles": [
+        "QA",
+        "REL"
+      ],
+      "status": "planned",
+      "executed": false
+    },
+    {
+      "id": "EP-C79",
+      "primary_task": "EP-T06a-real",
+      "level": "L3",
+      "status": "planned",
+      "executed": false,
+      "acceptance_roles": [
+        "QA",
+        "ENG"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T06a-core",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T11",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "collaborating_tasks": [
+        "EP-T06a-core",
+        "EP-T11"
+      ],
+      "title": "真实 DM 在取消/终止/候选 readiness 前后、generation CAS 前后故障时验证连接清理、回切、pinned 版本及持久回执；服务端会话/已发生效果无法确认进入对账，不盲重试。",
+      "execution_variants": [
+        "dm-vv1-pair"
+      ]
+    },
+    {
+      "id": "EP-C80",
+      "primary_task": "EP-T04",
+      "level": "L2",
+      "status": "planned",
+      "executed": false,
+      "acceptance_roles": [
+        "QA",
+        "OPS"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T03",
+          "mode": "fixture",
+          "blocks_primary_acceptance": true,
+          "output_selector": {
+            "case_id": "EP-C83",
+            "variant_id": "rehearsal",
+            "cell_id": {
+              "ref": "context.test_trust_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "test-trust-ready"
+          }
+        },
+        {
+          "task": "EP-T14a",
+          "mode": "fixture",
+          "blocks_primary_acceptance": true,
+          "output_selector": {
+            "case_id": "EP-C70",
+            "variant_id": "runtime",
+            "cell_id": {
+              "ref": "context.runtime_cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "context.requirement_context_digest"
+            },
+            "output": "runtime-ready"
+          }
+        }
+      ],
+      "collaborating_tasks": [
+        "EP-T03",
+        "EP-T14a"
+      ],
+      "title": "按实际目标 OS/ABI 与已签 profile 测单 Provider 冷/热启动、RSS/子进程/连接/句柄/退出和排空，calibration 不计正式通过；冻结后正式签 single-provider-capacity-v0，fake 数据不认证真实驱动。",
+      "execution_variants": [
+        "single-provider"
+      ]
+    },
+    {
+      "id": "EP-C81",
+      "primary_task": "EP-T06a-core",
+      "level": "L2",
+      "status": "planned",
+      "executed": false,
+      "acceptance_roles": [
+        "QA",
+        "OPS"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T04",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T05",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "collaborating_tasks": [
+        "EP-T04",
+        "EP-T05"
+      ],
+      "title": "在签名 fake 的 V/V+1 并存真实进程下测双 generation 峰值/队列/连接/句柄、连续切流后泄漏与旧任务排空，输出精确 dual-generation-capacity-v0。",
+      "execution_variants": [
+        "dual-generation"
+      ]
+    },
+    {
+      "id": "EP-C82",
+      "primary_task": "EP-T08",
+      "level": "L1/L2/L3",
+      "status": "planned",
+      "executed": false,
+      "acceptance_roles": [
+        "QA",
+        "OPS"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T05a",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T07",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T09",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "collaborating_tasks": [
+        "EP-T05a",
+        "EP-T07",
+        "EP-T09"
+      ],
+      "title": "启动器在 managed-hot 调用唯一有效 migrator；并发 API/Worker 不 DDL。校验 revision/checksum/回执，部分 MySQL 非事务 DDL 未核对或缺回执拒接流；hot 回退不 down/自动 restore，共享状态保留。",
+      "execution_variants": [
+        "platform-ab"
+      ]
+    },
+    {
+      "id": "EP-C83",
+      "primary_task": "EP-T03",
+      "kind": "case_family",
+      "directly_executable": false,
+      "variants": [
+        {
+          "variant_id": "rehearsal",
+          "level": "L1/L2",
+          "output": "test-trust-ready",
+          "actual_production_root_accepted": false,
+          "primary_task": "EP-T03",
+          "acceptance_roles": [
+            "QA",
+            "REL",
+            "OPS",
+            "SEC"
+          ],
+          "executed": false,
+          "status": "planned",
+          "dimensions": [
+            "cell_id",
+            "requirement_context_digest"
+          ]
+        },
+        {
+          "variant_id": "production-handoff",
+          "level": "L3",
+          "output": "production-trust-accepted",
+          "external_input": "E07",
+          "initial_status": "waiting_external",
+          "evidence": "REL digest/purpose; OPS custody proof; independent security approval; public fingerprint; recovery references; no private material",
+          "primary_task": "EP-T03",
+          "acceptance_roles": [
+            "QA",
+            "REL",
+            "OPS",
+            "SEC"
+          ],
+          "executed": false,
+          "status": "waiting_external",
+          "dimensions": [
+            "cell_id",
+            "requirement_context_digest"
+          ]
+        }
+      ],
+      "status": "planned",
+      "executed": false,
+      "acceptance_roles": [
+        "QA",
+        "REL",
+        "OPS",
+        "SEC"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T14b",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        },
+        {
+          "task": "EP-T13a",
+          "mode": "downstream_retest",
+          "blocks_primary_acceptance": false
+        }
+      ],
+      "collaborating_tasks": [
+        "EP-T14b",
+        "EP-T13a"
+      ],
+      "title": "父分组：rehearsal 以测试根验根隔离、职责和带外恢复，仅签 test-trust-ready；production-handoff 必须有真实 REL/OPS/独立 SEC 公开交接证据并满足 E07，演练不能代签生产交接。",
+      "level": "L1/L2/L3",
+      "execution_key": [
+        "case_id",
+        "variant_id",
+        "cell_id",
+        "requirement_context_digest"
+      ],
+      "parent_status_not_a_consumer_gate": true,
+      "test_instances": [],
+      "variant_inheritance": [
+        "primary_task",
+        "acceptance_roles",
+        "collaborating_tasks",
+        "collaborations"
+      ],
+      "output_instances": []
+    },
+    {
+      "id": "EP-C84",
+      "primary_task": "EP-T14b",
+      "level": "L3",
+      "requires_distinct_real_pairs": true,
+      "status": "planned",
+      "executed": false,
+      "acceptance_roles": [
+        "QA",
+        "OPS",
+        "REL"
+      ],
+      "collaborations": [
+        {
+          "task": "EP-T09",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T06a-core",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T06a-real",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T02c",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T12",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        },
+        {
+          "task": "EP-T06b",
+          "mode": "blocking_implementation",
+          "blocks_primary_acceptance": true
+        }
+      ],
+      "collaborating_tasks": [
+        "EP-T09",
+        "EP-T06a-core",
+        "EP-T06a-real",
+        "EP-T02c",
+        "EP-T12",
+        "EP-T06b"
+      ],
+      "requires_case_outputs": [
+        {
+          "case_id": "EP-C67",
+          "output": "qualified-capacity-profile",
+          "foreach": {
+            "ref": "release_scope_manifest.required_capacity_profiles"
+          },
+          "selector": {
+            "case_id": "EP-C67",
+            "variant_id": {
+              "ref": "item.variant_id"
+            },
+            "cell_id": {
+              "ref": "item.cell_id"
+            },
+            "requirement_context_digest": {
+              "ref": "item.requirement_context_digest"
+            },
+            "output": "qualified-capacity-profile"
+          },
+          "profile_match_fields": [
+            "engine",
+            "os",
+            "cpu",
+            "driver_native_abi",
+            "provider_payload_digests",
+            "load_profile",
+            "requirement_context_digest"
+          ],
+          "state": "passed",
+          "on_mismatch": "not_ready",
+          "consumer_variant": "real-combination"
+        }
+      ],
+      "title": "父分组：按冻结六引擎 release_scope_manifest 生成真实 V/V+1 组合叶实例，逐格绑定同 profile 的 C67 容量输出并验证两种顺序、第二轴失败和回退；test/production 仅为满足完整前置后的派生收据，父分组自身不执行、不计通过。",
+      "kind": "case_family",
+      "directly_executable": false,
+      "execution_key": [
+        "case_id",
+        "variant_id",
+        "cell_id",
+        "requirement_context_digest"
+      ],
+      "parent_status_not_a_consumer_gate": true,
+      "test_instances": [],
+      "output_instances": [],
+      "variant_inheritance": [
+        "primary_task",
+        "acceptance_roles",
+        "collaborating_tasks",
+        "collaborations"
+      ],
+      "variants": [
+        {
+          "variant_id": "real-combination",
+          "level": "L3",
+          "output": "qualified-real-combination",
+          "execution_mode": "leaf_test",
+          "instances_from": {
+            "ref": "release_scope_manifest.required_real_combinations"
+          },
+          "primary_task": "EP-T14b",
+          "acceptance_roles": [
+            "QA",
+            "OPS",
+            "REL"
+          ],
+          "status": "planned",
+          "executed": false,
+          "machine_oracle": {
+            "required_fields": [
+              "engine",
+              "os",
+              "cpu",
+              "driver_native_abi",
+              "load_profile",
+              "requirement_context_digest",
+              "pair_output_selector",
+              "source_payload_v",
+              "source_payload_v1",
+              "source_diff",
+              "review_evidence",
+              "platform_then_provider",
+              "provider_then_platform",
+              "second_axis_failure",
+              "rollback_verified"
+            ],
+            "source_payload_schema": {
+              "required_fields": [
+                "source_revision",
+                "normalized_payload_digest",
+                "content_manifest_digest"
+              ]
+            },
+            "source_diff_schema": {
+              "required_fields": [
+                "metadata_only",
+                "changed_files",
+                "semantic_change_digest"
+              ],
+              "metadata_only_must_equal": false
+            },
+            "review_evidence_schema": {
+              "required_fields": [
+                "id",
+                "digest",
+                "reviewer_role",
+                "signature"
+              ],
+              "reviewer_role": "REL"
+            },
+            "assertions": [
+              "source_payload_v.normalized_payload_digest != source_payload_v1.normalized_payload_digest",
+              "source_diff.metadata_only == false and changed_files is non-empty",
+              "pair_output_selector resolves to native-vv1-pair, dm-vv1-pair or kingbase-vv1-pair for the same engine/cell/context",
+              "outer signature, package version or metadata-only change never proves a source pair",
+              "both update orderings and second-axis failure rollback pass"
+            ]
+          }
+        },
+        {
+          "variant_id": "test-matrix",
+          "level": "L3",
+          "output": "release-matrix-ready:test",
+          "execution_mode": "derived_receipt",
+          "directly_executable": false,
+          "primary_task": "EP-T14b",
+          "acceptance_roles": [
+            "QA",
+            "OPS",
+            "REL"
+          ],
+          "status": "planned",
+          "executed": false,
+          "derives_from": [
+            "all frozen required cells",
+            "matching C67 profiles",
+            "matching C84 real-combination leaves",
+            "T14b upstream task readiness"
+          ],
+          "allowed_instance_collection": "output_instances",
+          "counts_as_business_execution": false
+        },
+        {
+          "variant_id": "production-envelope",
+          "level": "L3",
+          "output": "production-release-ready",
+          "execution_mode": "derived_receipt",
+          "directly_executable": false,
+          "primary_task": "EP-T14b",
+          "acceptance_roles": [
+            "QA",
+            "OPS",
+            "REL"
+          ],
+          "status": "planned",
+          "executed": false,
+          "derives_from": [
+            "valid release-matrix-ready:test",
+            "E07 production trust handoff",
+            "same tested payload",
+            "production verifier",
+            "controlled install smoke"
+          ],
+          "allowed_instance_collection": "output_instances",
+          "counts_as_business_execution": false
+        }
+      ],
+      "instances_from": {
+        "ref": "release_scope_manifest.required_real_combinations"
+      },
+      "instance_schema": {
+        "execution_key": [
+          "case_id",
+          "variant_id",
+          "cell_id",
+          "requirement_context_digest"
+        ],
+        "real_combination_variant": "real-combination",
+        "output": "qualified-real-combination",
+        "selector_fields": [
+          "engine",
+          "os",
+          "cpu",
+          "driver_native_abi",
+          "provider_payload_digests",
+          "load_profile",
+          "requirement_context_digest"
+        ],
+        "pair_fields": [
+          "pair_output_selector",
+          "source_payload_v",
+          "source_payload_v1",
+          "source_diff",
+          "review_evidence"
+        ],
+        "ordering_fields": [
+          "platform_then_provider",
+          "provider_then_platform",
+          "second_axis_failure",
+          "rollback_verified"
+        ],
+        "state_is_per_instance": true,
+        "evidence_is_per_instance": true,
+        "acceptance_is_per_instance": true,
+        "metadata_version_change_alone_is_sufficient": false,
+        "pair_output_by_engine": {
+          "oracle": {
+            "task": "EP-T02c",
+            "output": "native-vv1-pair"
+          },
+          "mysql": {
+            "task": "EP-T02c",
+            "output": "native-vv1-pair"
+          },
+          "postgresql": {
+            "task": "EP-T02c",
+            "output": "native-vv1-pair"
+          },
+          "sqlserver": {
+            "task": "EP-T02c",
+            "output": "native-vv1-pair"
+          },
+          "dm": {
+            "task": "EP-T06a-real",
+            "output": "dm-vv1-pair"
+          },
+          "kingbasees": {
+            "task": "EP-T12",
+            "output": "kingbase-vv1-pair"
+          }
+        },
+        "metadata_version_or_outer_signature_only_is_sufficient": false
+      }
+    }
+  ],
+  "role_constraints": [
+    {
+      "role": "SEC",
+      "must_be_distinct_from": [
+        "REL",
+        "OPS",
+        "build_operator"
+      ],
+      "named_person_assignment_required": true,
+      "applies_to": [
+        "E07",
+        "production-release-ready"
+      ]
+    }
+  ],
+  "history_aliases": [
+    {
+      "id": "EP-T06a",
+      "kind": "task",
+      "replaced_by": [
+        "EP-T06a-core",
+        "EP-T06a-real"
+      ],
+      "schedulable": false,
+      "reason": "0.3 split; history reference only"
+    }
+  ],
+  "instance_model": {
+    "execution_key_fields": [
+      "case_id",
+      "variant_id",
+      "cell_id",
+      "requirement_context_digest"
+    ],
+    "parent_case_families": [
+      "EP-C67",
+      "EP-C70",
+      "EP-C73",
+      "EP-C83",
+      "EP-C84"
+    ],
+    "parent_case_may_be_executed_or_passed": false,
+    "leaf_state_values": [
+      "planned",
+      "waiting_external",
+      "not_ready",
+      "ready",
+      "running",
+      "passed",
+      "failed"
+    ],
+    "passed_requires": [
+      "nonempty evidence",
+      "all acceptance_roles",
+      "unique execution key"
+    ],
+    "selector_fields": [
+      "case_id",
+      "variant_id",
+      "cell_id",
+      "requirement_context_digest",
+      "output"
+    ],
+    "unbound_selector_ref_result": "not_ready",
+    "provider_task_whole_acceptance_required_for_output_consumption": false
+  },
+  "test_instances": [],
+  "output_instances": [],
+  "output_bindings": [
+    {
+      "task": "EP-T02c",
+      "output": "native-vv1-pair",
+      "case_id": "EP-C01",
+      "variant_id": "native-vv1-pair",
+      "cell_ref": "context.native_pair_cell_id"
+    },
+    {
+      "task": "EP-T03",
+      "output": "production-trust-accepted",
+      "case_id": "EP-C83",
+      "variant_id": "production-handoff",
+      "cell_ref": "context.production_trust_cell_id"
+    },
+    {
+      "task": "EP-T03",
+      "output": "test-trust-ready",
+      "case_id": "EP-C83",
+      "variant_id": "rehearsal",
+      "cell_ref": "context.test_trust_cell_id"
+    },
+    {
+      "task": "EP-T04",
+      "output": "single-provider-capacity-v0",
+      "case_id": "EP-C80",
+      "variant_id": "single-provider",
+      "cell_ref": "context.capacity_profile_cell_id"
+    },
+    {
+      "task": "EP-T05a",
+      "output": "migrator-contract",
+      "case_id": "EP-C64",
+      "variant_id": "migrator-contract",
+      "cell_ref": "context.migrator_contract_cell_id"
+    },
+    {
+      "task": "EP-T06a-core",
+      "output": "dual-generation-capacity-v0",
+      "case_id": "EP-C81",
+      "variant_id": "dual-generation",
+      "cell_ref": "context.capacity_profile_cell_id"
+    },
+    {
+      "task": "EP-T06a-real",
+      "output": "dm-vv1-pair",
+      "case_id": "EP-C79",
+      "variant_id": "dm-vv1-pair",
+      "cell_ref": "context.dm_pair_cell_id"
+    },
+    {
+      "task": "EP-T08",
+      "output": "platform-ab-budget-v0",
+      "case_id": "EP-C82",
+      "variant_id": "platform-ab",
+      "cell_ref": "context.capacity_profile_cell_id"
+    },
+    {
+      "task": "EP-T12",
+      "output": "kingbase-vv1-pair",
+      "case_id": "EP-C46",
+      "variant_id": "kingbase-vv1-pair",
+      "cell_ref": "context.kingbase_pair_cell_id"
+    },
+    {
+      "task": "EP-T14a",
+      "output": "cell-catalog",
+      "case_id": "EP-C70",
+      "variant_id": "runtime",
+      "cell_ref": "context.catalog_cell_id"
+    },
+    {
+      "task": "EP-T14a",
+      "output": "core-ready",
+      "case_id": "EP-C70",
+      "variant_id": "core",
+      "cell_ref": "context.core_cell_id"
+    },
+    {
+      "task": "EP-T14a",
+      "output": "dm-ready",
+      "case_id": "EP-C70",
+      "variant_id": "dm",
+      "cell_ref": "context.dm_cell_id"
+    },
+    {
+      "task": "EP-T14a",
+      "output": "kingbase-ready",
+      "case_id": "EP-C70",
+      "variant_id": "kingbase",
+      "cell_ref": "context.kingbase_cell_id"
+    },
+    {
+      "task": "EP-T14a",
+      "output": "native-ready",
+      "case_id": "EP-C70",
+      "variant_id": "native",
+      "cell_ref": "context.native_cell_id"
+    },
+    {
+      "task": "EP-T14a",
+      "output": "plan",
+      "case_id": "EP-C70",
+      "variant_id": "runtime",
+      "cell_ref": "context.plan_cell_id"
+    },
+    {
+      "task": "EP-T14a",
+      "output": "platform-pminus1-ready",
+      "case_id": "EP-C70",
+      "variant_id": "pminus1",
+      "cell_ref": "context.pminus1_cell_id"
+    },
+    {
+      "task": "EP-T14a",
+      "output": "runtime-ready",
+      "case_id": "EP-C70",
+      "variant_id": "runtime",
+      "cell_ref": "context.runtime_cell_id"
+    },
+    {
+      "task": "EP-T14b",
+      "output": "production-release-ready",
+      "case_id": "EP-C84",
+      "variant_id": "production-envelope",
+      "cell_ref": "context.release_matrix_cell_id"
+    },
+    {
+      "task": "EP-T14b",
+      "output": "release-matrix-ready:test",
+      "case_id": "EP-C84",
+      "variant_id": "test-matrix",
+      "cell_ref": "context.release_matrix_cell_id"
+    }
+  ],
+  "s1_application": {
+    "source_design_version": "0.2",
+    "delta": "change-plan-0.3.json",
+    "applied_to_plan_model": true,
+    "business_implementation_or_tests_executed": false,
+    "applied_at_date": "2026-10-26"
+  }
+}

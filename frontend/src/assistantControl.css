@@ -1,0 +1,14 @@
+.assistant-control-panel { display: flex; flex-direction: column; gap: 12px; min-width: 0; border-block-start: 1px solid var(--ant-color-border-secondary, #e5e7eb); padding-block: 14px; }
+.assistant-control-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.assistant-control-toolbar .ant-typography { margin: 0; }
+.assistant-control-reason, .assistant-control-recovery label { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.assistant-control-recovery { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; min-width: 0; }
+.assistant-control-recovery label { width: 100%; max-width: 640px; }
+.assistant-control-panel .ant-typography, .assistant-control-panel .ant-descriptions-item-content { min-width: 0; overflow-wrap: anywhere; word-break: break-word; }
+.assistant-control-panel .ant-checkbox-wrapper { display: inline-flex; align-items: flex-start; }
+.assistant-control-panel .ant-btn { min-height: 32px; height: auto; max-width: 100%; white-space: normal; }
+.assistant-control-actions .ant-space-item { min-width: 0; max-width: 100%; }
+@media (max-width: 600px) {
+  .assistant-control-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+  .assistant-control-actions .ant-btn { width: 100%; }
+}

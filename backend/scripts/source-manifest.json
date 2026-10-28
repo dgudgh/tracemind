@@ -1,0 +1,77 @@
+{
+  "format": "tracemind-inspection-script-sources",
+  "format_version": 1,
+  "logical_origin": "user-inspection-scripts",
+  "files": [
+    {
+      "filename": "dbcheck10g.sql",
+      "source": "user-inspection-scripts/dbcheck10g.sql",
+      "role": "oracle_sql_source",
+      "bytes": 200787,
+      "sha256": "aa29d875627eab2cc9ff811ec97a806a75132cad11a169c07fcc7e7a51abdf08"
+    },
+    {
+      "filename": "dbcheck_noncdb.sql",
+      "source": "user-inspection-scripts/dbcheck_noncdb.sql",
+      "role": "oracle_sql_source",
+      "bytes": 206824,
+      "sha256": "838dab5c8470de57abe59086f28978fa20f90c6f266d5ec56ccb2d8a094e7174"
+    },
+    {
+      "filename": "dbcheck_cdb.sql",
+      "source": "user-inspection-scripts/dbcheck_cdb.sql",
+      "role": "oracle_sql_source",
+      "bytes": 215406,
+      "sha256": "17f35c36c0ac7c5115ca399288138c965a2902786e17c24244ab198093c8ce54"
+    },
+    {
+      "filename": "mysql_check.sh",
+      "source": "user-inspection-scripts/mysql_check.sh",
+      "role": "reference_only",
+      "bytes": 88844,
+      "sha256": "4a14485268028cd5fdb788eca1ddccaf40708dbfa1862b08dacbf9bb06849cc7"
+    },
+    {
+      "filename": "mysql_check.ps1",
+      "source": "user-inspection-scripts/mysql_check.ps1",
+      "role": "reference_only",
+      "bytes": 36943,
+      "sha256": "feceacd9bbc771a22694bd0d3636ec1236804226327f96a5b2f6a1fa934e6b61"
+    },
+    {
+      "filename": "pg_check.sh",
+      "source": "user-inspection-scripts/pg_check.sh",
+      "role": "reference_only",
+      "bytes": 36444,
+      "sha256": "9402cc03052a41dc14a6c265a3250cc9395140466d9adcde0172f2d93a9503d9"
+    },
+    {
+      "filename": "pg_check.ps1",
+      "source": "user-inspection-scripts/pg_check.ps1",
+      "role": "reference_only",
+      "bytes": 38337,
+      "sha256": "ea1a53381f486addc79e204ceb5703f4535f6e97dbe3e04a4ee3b2be6c0cbaf3"
+    },
+    {
+      "filename": "mssql_check.sh",
+      "source": "user-inspection-scripts/mssql_check.sh",
+      "role": "reference_only",
+      "bytes": 21628,
+      "sha256": "bcae5684a62e2d625b80832a560d4590d6b63d7f13c52c71ecff106969dd647a"
+    },
+    {
+      "filename": "oscheck.sh",
+      "source": "user-inspection-scripts/oscheck.sh",
+      "role": "reference_only",
+      "bytes": 32471,
+      "sha256": "87d1bc33ff37f5634cffadd10b5ac81fa6085d730c95b36b9982fecf1376e32a"
+    },
+    {
+      "filename": "oscheck.ps1",
+      "source": "user-inspection-scripts/oscheck.ps1",
+      "role": "reference_only",
+      "bytes": 29247,
+      "sha256": "34b323be1355887ddcf6f14f4fb76b89bc12cb99e61279f75a691fc8845af93b"
+    }
+  ]
+}

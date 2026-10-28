@@ -1,0 +1,20 @@
+{
+  "kind": "single",
+  "cold_starts": 30,
+  "warm_starts": 30,
+  "invoke_read": {
+    "minimum_successful": 200,
+    "cases": [
+      {"name": "concurrency_1", "concurrency": 1, "calls": 64, "sleep_seconds": 0.0},
+      {"name": "concurrency_4", "concurrency": 4, "calls": 64, "sleep_seconds": 0.002},
+      {"name": "concurrency_8", "concurrency": 8, "calls": 96, "sleep_seconds": 0.002},
+      {"name": "over_limit", "concurrency": 32, "calls": 48, "sleep_seconds": 0.05, "expect_rejection": true}
+    ]
+  },
+  "lifecycle_rounds": 20,
+  "dual_cycles": 0,
+  "limits": {"max_queue": 16, "max_inflight": 8, "max_connections": 32},
+  "sample_interval_ms": 10,
+  "driver": "fake/none",
+  "clear_os_page_cache": false
+}

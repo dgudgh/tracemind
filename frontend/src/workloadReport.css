@@ -1,0 +1,193 @@
+.workload-page {
+  display: grid;
+  gap: 14px;
+  padding: 20px 24px 28px;
+  color: #202124;
+}
+
+.workload-page-head,
+.workload-summary-band,
+.workload-collector,
+.workload-history {
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.workload-page-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+}
+
+.workload-page-head h1 {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.workload-page-head p {
+  margin: 2px 0 0;
+  color: #73777f;
+  font-size: 13px;
+}
+
+.workload-title-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #15171a;
+  color: #fff;
+  font-size: 18px;
+}
+
+.workload-summary-band {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  overflow: hidden;
+}
+
+.workload-summary-metric {
+  min-width: 0;
+  padding: 15px 18px;
+  border-right: 1px solid #eceef1;
+}
+
+.workload-summary-metric:last-child { border-right: 0; }
+.workload-summary-metric > span,
+.workload-summary-metric > small { display: block; color: #7a7f87; font-size: 12px; }
+.workload-summary-metric > strong { display: block; margin: 2px 0; font-size: 26px; line-height: 1.25; }
+.workload-summary-metric.tone-success > strong { color: #18864b; }
+.workload-summary-metric.tone-warning > strong { color: #b45d00; }
+.workload-summary-metric.tone-danger > strong { color: #d4380d; }
+
+.workload-collector,
+.workload-history { overflow: hidden; }
+
+.workload-section-title {
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 16px;
+  border-bottom: 1px solid #eceef1;
+}
+
+.workload-section-title > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.workload-section-title > div > .anticon { color: #667085; font-size: 18px; }
+.workload-section-title span { display: flex; flex-direction: column; }
+.workload-section-title strong { font-size: 15px; }
+.workload-section-title small { color: #8a8f98; font-size: 12px; }
+
+.workload-controls {
+  display: grid;
+  grid-template-columns: minmax(250px, 1.5fr) minmax(190px, 1fr) 160px 110px 100px auto;
+  align-items: end;
+  gap: 12px;
+  padding: 16px;
+}
+
+.workload-controls label,
+.workload-switch {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  color: #5f6368;
+  font-size: 12px;
+}
+
+.workload-controls .ant-select,
+.workload-controls .ant-input-number { width: 100%; }
+.workload-switch { justify-items: start; }
+
+.workload-gates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: center;
+  padding: 0 16px 14px;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.workload-gates > span { display: inline-flex; align-items: center; gap: 6px; }
+.workload-history .ant-table-wrapper { padding: 0 12px 12px; }
+
+.workload-report-link {
+  appearance: none;
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.workload-report-link strong { color: #1677ff; font-size: 14px; }
+.workload-report-link span { color: #8a8f98; font-size: 12px; }
+
+.workload-modal .ant-modal-content { padding: 0; overflow: hidden; border-radius: 8px; }
+.workload-modal .ant-modal-header { margin: 0; padding: 16px 20px; border-bottom: 1px solid #eceef1; }
+.workload-modal .ant-modal-close { top: 13px; }
+.workload-modal .ant-modal-body { max-height: min(78vh, 860px); overflow: auto; padding: 18px 20px 22px; }
+
+.workload-detail { display: grid; gap: 16px; }
+.workload-detail-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.workload-detail-heading h2 { margin: 8px 0 2px; font-size: 22px; letter-spacing: 0; }
+.workload-detail-heading p { margin: 0; color: #7a7f87; }
+
+.workload-findings { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; }
+.workload-finding { display: grid; gap: 4px; padding: 12px 14px; border-left: 3px solid #1677ff; background: #f7f9fc; }
+.workload-finding.severity-warning { border-left-color: #d97706; background: #fffaf0; }
+.workload-finding.severity-critical { border-left-color: #d4380d; background: #fff5f5; }
+.workload-finding span { color: #4b5563; }
+.workload-finding small { color: #7a7f87; }
+.workload-capability-detail { display: grid; gap: 10px; }
+
+.workload-sql-id { display: grid; gap: 2px; }
+.workload-sql-id span { color: #8a8f98; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; }
+
+.workload-compare { display: grid; gap: 16px; }
+.workload-compare-head { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #e5e7eb; }
+.workload-compare-head > div { display: grid; gap: 3px; padding: 14px 16px; }
+.workload-compare-head > div + div { border-left: 1px solid #e5e7eb; }
+.workload-compare-head span,
+.workload-compare-head small { color: #7a7f87; }
+.workload-compare-head strong { font-size: 16px; }
+.delta-up { color: #d4380d; }
+.delta-down { color: #18864b; }
+
+@media (max-width: 1180px) {
+  .workload-controls { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .workload-summary-band { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .workload-summary-metric:nth-child(3) { border-right: 0; }
+  .workload-summary-metric:nth-child(-n + 3) { border-bottom: 1px solid #eceef1; }
+}
+
+@media (max-width: 720px) {
+  .workload-page { padding: 12px; }
+  .workload-page-head { grid-template-columns: auto 1fr; }
+  .workload-page-head > .ant-btn { grid-column: 1 / -1; width: 100%; }
+  .workload-summary-band { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .workload-summary-metric { border-bottom: 1px solid #eceef1; }
+  .workload-summary-metric:nth-child(2n) { border-right: 0; }
+  .workload-controls { grid-template-columns: 1fr; }
+  .workload-section-title { align-items: flex-start; flex-direction: column; }
+  .workload-section-title > .ant-btn { width: 100%; }
+  .workload-compare-head { grid-template-columns: 1fr; }
+  .workload-compare-head > div + div { border-left: 0; border-top: 1px solid #e5e7eb; }
+}

@@ -1,0 +1,12 @@
+# MESGuard DB 打包排除文件
+.git
+.gitignore
+node_modules
+__pycache__
+*.pyc
+.pytest_cache
+.env
+*.egg-info
+frontend/node_modules
+frontend/.vite
+docs

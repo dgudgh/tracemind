@@ -1,0 +1,108 @@
+name: ci
+
+on:
+  push:
+    branches: [main, codex/**]
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm ci --prefix frontend
+      - run: pip install -r backend/requirements.txt -r backend/requirements-dev.txt
+      - name: backend tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}/backend
+          DATABASE_URL: sqlite:///./ci.db
+          DB_TYPE: sqlite
+        run: python -m pytest backend/tests -q
+      - name: static and contract gates
+        run: python scripts/check_all.py --fast
+
+  postgresql-control:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r backend/requirements.txt -r backend/requirements-dev.txt
+      - name: PostgreSQL control/queue/upgrade and live inspection
+        env:
+          PYTHONPATH: ${{ github.workspace }}/backend
+          DATABASE_URL: sqlite:///./ci-pg.db
+          DB_TYPE: sqlite
+          MESDBTOOLS_PG_TEST_URL: postgresql+psycopg://postgres:${{ secrets.CI_PG_PASSWORD || 'postgres' }}@127.0.0.1:5432/postgres
+          MESDBTOOLS_PG_TARGET_PASSWORD: postgres
+          MESDBTOOLS_PG_TARGET_SOCKET: 127.0.0.1
+        run: |
+          python -m pytest backend/tests/test_plan_governance_postgresql.py \
+            backend/tests/test_plan_queue_postgresql.py \
+            backend/tests/test_c15_postgresql_upgrade_rollback.py \
+            backend/tests/test_inspection_postgresql_live.py -q
+
+  mysql-control:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: mesdbtools
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r backend/requirements.txt -r backend/requirements-dev.txt
+      - name: MySQL control/queue/upgrade
+        env:
+          PYTHONPATH: ${{ github.workspace }}/backend
+          DATABASE_URL: sqlite:///./ci-mysql.db
+          DB_TYPE: sqlite
+          MESDBTOOLS_MYSQL_TEST_URL: mysql+pymysql://root:${{ secrets.CI_MYSQL_PASSWORD || 'root' }}@127.0.0.1:3306/mesdbtools
+        run: |
+          python -m pytest backend/tests/test_plan_governance_mysql.py \
+            backend/tests/test_plan_queue_mysql.py \
+            backend/tests/test_c15_mysql_upgrade_rollback.py -q
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm ci
+      - run: node --test tests/*.test.mjs tests/*.test.cjs
+      - run: npm run build

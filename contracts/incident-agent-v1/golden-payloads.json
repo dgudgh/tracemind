@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "1.0",
+  "identity_public_key": {
+    "algorithm": "ed25519",
+    "key_id": "65b60673d6ed884bf01c2c22",
+    "public_key": "ebVWLo/mVPlAeLES6KmLp5AfhTrmlb7X4OORC60ElmQ=",
+    "status": "active"
+  },
+  "enrollment_request": {
+    "enrollment_token": "enroll_golden_token_for_contract_validation_only",
+    "hostname": "golden-node-01",
+    "primary_ip": "192.0.2.10",
+    "os_type": "windows",
+    "os_version": "Windows Server 2022",
+    "architecture": "amd64",
+    "agent_version": "1.1.0",
+    "protocol_version": "1.0",
+    "capabilities": [
+      "metrics",
+      "signed_commands",
+      "signed_requests"
+    ],
+    "labels": {
+      "environment": "contract"
+    },
+    "identity_algorithm": "ed25519",
+    "identity_key_id": "65b60673d6ed884bf01c2c22",
+    "identity_public_key": "ebVWLo/mVPlAeLES6KmLp5AfhTrmlb7X4OORC60ElmQ="
+  },
+  "heartbeat_request": {
+    "agent_time": "2030-01-02T03:03:05.123456Z",
+    "monotonic_ms": 123456,
+    "config_version": 7,
+    "cache_capacity_bytes": 536870912,
+    "cache_used_bytes": 1048576,
+    "upload_backlog_count": 1,
+    "health_status": "healthy",
+    "collector_health": {
+      "cpu": {
+        "status": "ok"
+      }
+    }
+  },
+  "signed_request": {
+    "method": "POST",
+    "path": "/api/v1/incident-agents/AGT-GOLDEN-0001/heartbeat",
+    "timestamp": "2030-01-02T03:03:05.123456Z",
+    "nonce": "nonce-golden-request-0001",
+    "body": "{\"health_status\":\"healthy\",\"monotonic_ms\":123456}",
+    "body_sha256": "37e7bbc442d6d382db5c8b6b56b0b23bd43a46e661f9a82ce237530464ca6a74",
+    "message": "POST\n/api/v1/incident-agents/AGT-GOLDEN-0001/heartbeat\n2030-01-02T03:03:05.123456Z\nnonce-golden-request-0001\n37e7bbc442d6d382db5c8b6b56b0b23bd43a46e661f9a82ce237530464ca6a74",
+    "signature": "fGC/INNu2OZKquzFpeF0XpPYFwdegpjvGtg2XNJrCZ7q0Wj64V5i42eR4ZbHrZpLht/4n1HBi1Q9NbnUbohGAg=="
+  },
+  "command": {
+    "command_id": "CMD-GOLDEN-0001",
+    "agent_id": "AGT-GOLDEN-0001",
+    "command_type": "capture_snapshot",
+    "payload": {
+      "severity": "warning",
+      "snapshot_id": "SNP-GOLDEN-0001",
+      "window_seconds": 300
+    },
+    "nonce": "nonce-golden-command-0001",
+    "signature": "QyNSQdyF6ZzkJ5g8Q05s4YJx+5EtsmRt5/aN45eNAMdJde3Nd/w3Py3u8prBhaMvU1hClUaGhtYdPeZs/rNNBg==",
+    "signature_algorithm": "ed25519",
+    "signing_key_id": "65b60673d6ed884bf01c2c22",
+    "expires_at": "2030-01-02T03:04:05.123456Z",
+    "signature_expires_at": "2030-01-02T03:04:05.123456Z",
+    "message": "CMD-GOLDEN-0001\nAGT-GOLDEN-0001\nnonce-golden-command-0001\n2030-01-02T03:04:05.123456Z\n{\"severity\":\"warning\",\"snapshot_id\":\"SNP-GOLDEN-0001\",\"window_seconds\":300}"
+  },
+  "upload_initialize_request": {
+    "snapshot_id": "SNP-GOLDEN-0001",
+    "expected_chunk_count": 2,
+    "expected_bytes": 1024,
+    "manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "idempotency_key": "golden-upload-0001"
+  },
+  "manifest": {
+    "version": "1.0",
+    "snapshot_id": "SNP-GOLDEN-0001",
+    "agent_id": "AGT-GOLDEN-0001",
+    "trigger_time": "2030-01-02T03:00:00Z",
+    "window_start": "2030-01-02T02:55:00Z",
+    "window_end": "2030-01-02T03:05:00Z",
+    "streams": [
+      "metrics",
+      "events"
+    ],
+    "chunks": [
+      {
+        "sequence_no": 0,
+        "stream_type": "metrics",
+        "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "bytes": 512,
+        "uncompressed_bytes": 1024,
+        "record_count": 10,
+        "codec": "gzip"
+      },
+      {
+        "sequence_no": 1,
+        "stream_type": "events",
+        "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "bytes": 512,
+        "uncompressed_bytes": 1536,
+        "record_count": 4,
+        "codec": "gzip"
+      }
+    ]
+  }
+}

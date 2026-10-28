@@ -1,0 +1,46 @@
+.assistant-workflow-modal { max-width: calc(100vw - 24px); }
+.assistant-workflow-workspace { max-height: min(800px, calc(100dvh - 170px)); overflow: auto; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.assistant-workflow-layout { display: grid; grid-template-columns: 230px minmax(0, 1fr); min-width: 0; }
+.assistant-workflow-library { border-inline-end: 1px solid var(--ant-color-border-secondary, #e5e7eb); padding-inline-end: 18px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.assistant-workflow-draft { padding-inline-start: 22px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.assistant-workflow-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; min-width: 0; }
+.assistant-workflow-heading h5 { margin: 0 auto 0 0; font-size: 15px; }
+.assistant-workflow-recipe.ant-btn { width: 100%; height: auto; min-height: 52px; padding: 9px 12px; display: flex; align-items: flex-start; flex-direction: column; text-align: start; border-radius: 4px; }
+.assistant-workflow-recipe small { font-size: 12px; opacity: .8; }
+.assistant-workflow-suggestion { display: flex; flex-direction: column; gap: 10px; border-block-start: 1px solid #e5e7eb; padding-block-start: 16px; margin-block-start: 16px; }
+.assistant-workflow-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; min-width: 0; }
+.assistant-workflow-fields label { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.assistant-workflow-group { min-width: 0; padding: 12px 0 0; margin: 0; border: 0; border-block-start: 1px solid #e5e7eb; grid-column: 1 / -1; display: flex; flex-direction: column; gap: 12px; }
+.assistant-workflow-group legend { width: auto; padding: 0 8px 0 0; font-size: 13px; font-weight: 600; }
+.assistant-workflow-group > .assistant-workflow-fields { display: grid; }
+.assistant-workflow-workspace .ant-select, .assistant-workflow-workspace .ant-input-number { width: 100%; }
+.assistant-workflow-default { color: var(--ant-color-text-secondary, #6b7280); font-size: 12px; }
+.assistant-workflow-required { color: #c83838; }
+.assistant-workflow-steps { list-style-position: inside; margin: 0; padding: 0; }
+.assistant-workflow-steps li { padding: 6px 0; border-block-end: 1px solid #f0f1f3; overflow-wrap: anywhere; }
+.assistant-workflow-steps small { display: block; color: var(--ant-color-text-secondary, #6b7280); padding-block-start: 3px; }
+.assistant-workflow-recovery, .assistant-workflow-frozen, .assistant-workflow-new-draft { display: flex; flex-direction: column; gap: 12px; border-block-start: 1px solid #e5e7eb; padding-block-start: 16px; min-width: 0; }
+.assistant-workflow-consent { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+.assistant-workflow-target-policy { display: grid; grid-template-columns: minmax(0, 1fr) minmax(100px, 180px); gap: 10px; align-items: center; }
+.assistant-workflow-workspace code, .assistant-workflow-hash { overflow-wrap: anywhere; word-break: break-all; }
+.assistant-workflow-hash { font-size: 11px; color: var(--ant-color-text-secondary, #6b7280); }
+.assistant-workflow-workspace .ant-btn { max-width: 100%; white-space: normal; height: auto; min-height: 32px; }
+.assistant-workflow-workspace .ant-radio-group { display: flex; flex-wrap: wrap; gap: 8px; }
+.assistant-workflow-workspace .ant-space-item { min-width: 0; }
+@media (max-width: 680px) {
+  .assistant-workflow-modal { max-width: calc(100vw - 12px); }
+  .assistant-workflow-workspace { max-height: calc(100dvh - 150px); }
+  .assistant-workflow-layout { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .assistant-workflow-library { border-inline-end: 0; border-block-end: 1px solid #e5e7eb; padding: 0 0 16px; }
+  .assistant-workflow-draft { padding-inline-start: 0; }
+  .assistant-workflow-fields { grid-template-columns: minmax(0, 1fr); }
+  .assistant-workflow-consent { align-items: flex-start; flex-direction: column; }
+}
+
+/* C11 proposal panel: same column, but never a second execution entry. */
+.assistant-proposal { display: flex; flex-direction: column; gap: 10px; border-block-start: 1px solid #e5e7eb; padding-block-start: 16px; margin-block-start: 16px; min-width: 0; }
+.assistant-proposal-heading { display: flex; align-items: center; gap: 8px; }
+.assistant-proposal-heading h5 { margin: 0; font-size: 14px; display: flex; align-items: center; gap: 6px; }
+.assistant-proposal-field { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.assistant-proposal fieldset legend { font-size: 12px; }
+.assistant-proposal-result { display: flex; flex-direction: column; gap: 10px; min-width: 0; border-block-start: 1px dashed #e5e7eb; padding-block-start: 12px; }

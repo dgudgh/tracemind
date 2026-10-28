@@ -1,0 +1,9 @@
+{
+  "kind": "dual",
+  "dual_cycles": 20,
+  "flow": "v1_to_v2_to_safe_rollback_with_persistent_orchestrator",
+  "limits": {"max_queue": 16, "max_inflight": 8, "max_connections": 32},
+  "sample_interval_ms": 10,
+  "driver": "fake/none",
+  "clear_os_page_cache": false
+}

@@ -1,0 +1,31 @@
+{
+  "name": "tracemind-ai-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "node --test tests/*.test.mjs tests/*.test.cjs",
+    "check:static": "node ../scripts/check_frontend_static.cjs",
+    "test:diagnosis-merge": "node --test tests/diagnosis-route-merge.test.cjs",
+    "test:menu": "node --test tests/menu-navigation.test.mjs tests/menu-config-order.test.cjs",
+    "test:observability": "node --test tests/observability-navigation.test.mjs",
+    "test:ecosystem": "node --test tests/ecosystem-domain-navigation.test.mjs",
+    "test:design": "node --test tests/page-design-contract.test.mjs tests/ops-layout-design.test.mjs tests/system-entry-design.test.mjs tests/binary-controls-design.test.mjs",
+    "preview": "vite preview --host 0.0.0.0 --port 3300"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.5.2",
+    "@xyflow/react": "^12.11.2",
+    "antd": "^5.22.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@babel/parser": "^7.29.7",
+    "@babel/traverse": "^7.29.7",
+    "@vitejs/plugin-react": "^6.0.2",
+    "vite": "^8.0.16"
+  }
+}

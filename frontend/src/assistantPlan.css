@@ -1,0 +1,48 @@
+.assistant-plan-modal { max-width: calc(100vw - 32px); }
+.assistant-plan-workspace { max-height: min(720px, calc(100dvh - 180px)); overflow: auto; }
+.assistant-plan-new, .assistant-plan-history, .assistant-plan-detail, .assistant-plan-result { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.assistant-plan-new > .ant-btn { align-self: flex-start; }
+.assistant-plan-fields { display: grid; grid-template-columns: minmax(0, 1fr) 160px; gap: 16px; }
+.assistant-plan-fields label:not(.ant-checkbox-wrapper) { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.assistant-plan-fields .ant-select { width: 100%; }
+.assistant-plan-result { max-height: min(640px, calc(100dvh - 200px)); overflow: auto; }
+.assistant-plan-workspace .ant-descriptions-item-content { overflow-wrap: anywhere; }
+.assistant-plan-workspace .ant-descriptions-item-label { white-space: nowrap; }
+.assistant-plan-steps { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.assistant-plan-editor-step { border-block-start: 1px solid var(--ant-color-border-secondary, #e5e7eb); padding-block-start: 12px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.assistant-plan-step-capability { width: 280px; max-width: 100%; }
+.assistant-plan-approval-open { width: 100%; max-width: 640px; }
+.assistant-plan-binding { white-space: normal; overflow-wrap: anywhere; word-break: break-all; }
+.assistant-plan-workspace .ant-space-item { min-width: 0; max-width: 100%; }
+.assistant-plan-workspace .ant-btn { max-width: 100%; height: auto; min-height: 32px; white-space: normal; }
+.assistant-plan-fields .ant-checkbox-wrapper { display: inline-flex; align-items: center; align-self: end; padding-block: 6px; }
+.assistant-plan-customer { display: flex; flex-direction: column; gap: 16px; padding: 18px; border: 1px solid var(--ant-color-border-secondary, #e5e7eb); border-radius: 12px; background: var(--ant-color-bg-container, #fff); }
+.assistant-plan-customer-brief { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(260px, .9fr); gap: 16px; }
+.assistant-plan-customer-brief > div { min-width: 0; }
+.assistant-plan-customer-requirement { margin-block: 6px 0 !important; padding: 12px 14px; border-radius: 8px; background: var(--ant-color-fill-quaternary, #f5f7fa); white-space: pre-wrap; overflow-wrap: anywhere; }
+.assistant-plan-customer-facts { display: grid; gap: 10px; }
+.assistant-plan-customer-facts > div { display: flex; flex-direction: column; gap: 3px; padding: 10px 12px; border-inline-start: 3px solid var(--ant-color-primary, #1677ff); background: var(--ant-color-fill-quaternary, #f5f7fa); }
+.assistant-plan-customer-flow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin: 0; padding: 0; list-style: none; }
+.assistant-plan-customer-flow li { position: relative; display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 8px; min-width: 0; padding-inline-end: 12px; }
+.assistant-plan-customer-flow li:not(:last-child)::after { content: ""; position: absolute; z-index: 0; inset-block-start: 8px; inset-inline-start: 17px; width: calc(100% - 6px); border-block-start: 2px solid var(--ant-color-border-secondary, #e5e7eb); }
+.assistant-plan-customer-flow li > div { z-index: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; background: var(--ant-color-bg-container, #fff); }
+.assistant-plan-customer-dot { z-index: 1; width: 10px; height: 10px; margin-block-start: 4px; border: 2px solid var(--ant-color-border, #d9d9d9); border-radius: 50%; background: var(--ant-color-bg-container, #fff); }
+.assistant-plan-customer-flow li[data-state="done"] .assistant-plan-customer-dot { border-color: var(--ant-color-success, #52c41a); background: var(--ant-color-success, #52c41a); }
+.assistant-plan-customer-flow li[data-state="current"] .assistant-plan-customer-dot { border-color: var(--ant-color-primary, #1677ff); box-shadow: 0 0 0 3px var(--ant-color-primary-bg, #e6f4ff); }
+.assistant-plan-customer-flow li[data-state="warning"] .assistant-plan-customer-dot { border-color: var(--ant-color-warning, #faad14); background: var(--ant-color-warning, #faad14); }
+.assistant-plan-customer-flow li[data-state="error"] .assistant-plan-customer-dot { border-color: var(--ant-color-error, #ff4d4f); background: var(--ant-color-error, #ff4d4f); }
+.assistant-plan-customer-steps .ant-table-cell { overflow-wrap: anywhere; }
+.assistant-plan-customer-steps .ant-btn { white-space: nowrap; padding-inline: 4px; }
+.assistant-plan-technical-details { border: 1px solid var(--ant-color-border-secondary, #e5e7eb); border-radius: 8px; }
+.assistant-plan-technical-details > summary { cursor: pointer; padding: 12px 14px; font-weight: 600; }
+.assistant-plan-technical-details[open] > summary { border-block-end: 1px solid var(--ant-color-border-secondary, #e5e7eb); }
+.assistant-plan-technical-details .ant-descriptions { padding: 14px; }
+@media (max-width: 600px) {
+  .assistant-plan-modal { max-width: calc(100vw - 16px); }
+  .assistant-plan-fields { grid-template-columns: minmax(0, 1fr); }
+  .assistant-plan-workspace { max-height: calc(100dvh - 170px); }
+  .assistant-plan-customer { padding: 14px; }
+  .assistant-plan-customer-brief, .assistant-plan-customer-flow { grid-template-columns: minmax(0, 1fr); }
+  .assistant-plan-customer-flow { gap: 12px; }
+  .assistant-plan-customer-flow li:not(:last-child)::after { inset-block-start: 14px; inset-inline-start: 4px; width: 2px; height: calc(100% + 12px); border: 0; background: var(--ant-color-border-secondary, #e5e7eb); }
+}

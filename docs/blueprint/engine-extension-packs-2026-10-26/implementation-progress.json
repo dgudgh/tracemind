@@ -1,0 +1,755 @@
+{
+  "schema": "tracemind.implementation-progress/v1",
+  "updated_date": "2026-10-27",
+  "checked_rule": "Work-package implementation + applicable local tests complete; no automatic formal EP/environment acceptance.",
+  "formal_gate_state_modified": false,
+  "total_work_packages": 109,
+  "completed_work_packages": 20,
+  "work_packages": [
+    {
+      "id": "EP-T01.W1",
+      "completed": true,
+      "state": "implemented_and_locally_verified",
+      "evidence": [
+        "backend/app/runtime/engine_sdk/contracts.py",
+        "backend/tests/test_engine_sdk_contract.py",
+        "backend/tests/test_engine_provider_profiles.py"
+      ]
+    },
+    {
+      "id": "EP-T01.W2",
+      "completed": true,
+      "state": "implemented_and_locally_verified",
+      "evidence": [
+        "reports/engine-extension-core-batch-01-20261026/codex-delivery/delivery.md",
+        "reports/engine-extension-offline-packs-20261026/delivery.md"
+      ]
+    },
+    {
+      "id": "EP-T01.W3",
+      "completed": true,
+      "state": "implemented_and_locally_verified",
+      "evidence": [
+        "reports/engine-extension-core-batch-01-20261026/codex-delivery/delivery.md",
+        "reports/engine-extension-offline-packs-20261026/delivery.md"
+      ]
+    },
+    {
+      "id": "EP-T01.W4",
+      "completed": true,
+      "state": "implemented_and_locally_verified",
+      "evidence": [
+        "docs/operations/engine-extension-quickstart.md",
+        "backend/tests/test_engine_provider_rpc.py"
+      ]
+    },
+    {
+      "id": "EP-T02.W1",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T02.W2",
+      "completed": true,
+      "state": "implemented_and_locally_verified",
+      "evidence": [
+        "backend/app/engine_registry/__init__.py",
+        "backend/tests/test_engine_registry_installed.py",
+        "backend/tests/test_engine_registry_native.py"
+      ]
+    },
+    {
+      "id": "EP-T02.W3",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T02.W4",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T02b.W1",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T02b.W2",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T02b.W3",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T02b.W4",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T14a.W1",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T14a.W2",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T14a.W3",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T14a.W4",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T14a.W5",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T03.W1",
+      "completed": true,
+      "state": "implemented_and_locally_verified",
+      "evidence": [
+        "docs/operations/engine-pack-contract.md",
+        "backend/app/runtime/engine_packs/contract.py",
+        "backend/tests/test_engine_pack_contract.py"
+      ]
+    },
+    {
+      "id": "EP-T03.W2",
+      "completed": true,
+      "state": "implemented_and_locally_verified",
+      "evidence": [
+        "reports/engine-extension-core-batch-01-20261026/codex-delivery/delivery.md",
+        "reports/engine-extension-offline-packs-20261026/delivery.md"
+      ]
+    },
+    {
+      "id": "EP-T03.W3",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T03.W4",
+      "completed": true,
+      "state": "implemented_and_locally_verified",
+      "evidence": [
+        "docs/operations/engine-trust-lifecycle.md",
+        "backend/tests/test_engine_repository_trust_integration.py"
+      ]
+    },
+    {
+      "id": "EP-T03.W5",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T03.W6",
+      "completed": true,
+      "state": "implemented_and_locally_verified",
+      "evidence": [
+        "docs/operations/engine-trust-lifecycle.md",
+        "reports/engine-extension-completion-20261027/trust/local-verification.json"
+      ]
+    },
+    {
+      "id": "EP-T05b.W1",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T05b.W2",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T05b.W3",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T05b.W4",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T05b.W5",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T05a.W1",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T05a.W2",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T05a.W3",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T05a.W4",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T05a.W5",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T05a.W6",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T04.W1",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T04.W2",
+      "completed": true,
+      "state": "implemented_and_locally_verified",
+      "evidence": [
+        "reports/engine-extension-core-batch-01-20261026/codex-delivery/delivery.md",
+        "reports/engine-extension-offline-packs-20261026/delivery.md"
+      ]
+    },
+    {
+      "id": "EP-T04.W3",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T04.W4",
+      "completed": true,
+      "state": "implemented_and_locally_verified",
+      "evidence": [
+        "reports/engine-extension-core-batch-01-20261026/codex-delivery/delivery.md",
+        "reports/engine-extension-offline-packs-20261026/delivery.md"
+      ]
+    },
+    {
+      "id": "EP-T04.W5",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T04.W6",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T05.W1",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T05.W2",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T05.W3",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T05.W4",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T05.W5",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T05.W6",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T13a.W1",
+      "completed": true,
+      "state": "implemented_and_locally_verified",
+      "evidence": [
+        "reports/engine-extension-completion-20261027/management/README.md",
+        "backend/tests/test_engine_management_service.py"
+      ]
+    },
+    {
+      "id": "EP-T13a.W2",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T13a.W3",
+      "completed": true,
+      "state": "implemented_and_locally_verified",
+      "evidence": [
+        "reports/engine-extension-core-batch-01-20261026/codex-delivery/delivery.md",
+        "reports/engine-extension-offline-packs-20261026/delivery.md"
+      ]
+    },
+    {
+      "id": "EP-T13a.W4",
+      "completed": true,
+      "state": "implemented_and_locally_verified",
+      "evidence": [
+        "reports/engine-extension-completion-20261027/management/README.md",
+        "backend/tests/test_engine_management_transport.py"
+      ]
+    },
+    {
+      "id": "EP-T13a.W5",
+      "completed": true,
+      "state": "implemented_and_locally_verified",
+      "evidence": [
+        "reports/engine-extension-completion-20261027/management/README.md",
+        "backend/tests/test_engine_management_service.py"
+      ]
+    },
+    {
+      "id": "EP-T11.W1",
+      "completed": false,
+      "state": "deferred_by_user",
+      "evidence": [
+        "reports/engine-extension-completion-20261027/scope-update.md"
+      ],
+      "reason": "2026-10-27 用户要求先保留扩展位置，后续再写具体功能"
+    },
+    {
+      "id": "EP-T11.W2",
+      "completed": false,
+      "state": "deferred_by_user",
+      "evidence": [
+        "reports/engine-extension-completion-20261027/scope-update.md"
+      ],
+      "reason": "2026-10-27 用户要求先保留扩展位置，后续再写具体功能"
+    },
+    {
+      "id": "EP-T11.W3",
+      "completed": false,
+      "state": "deferred_by_user",
+      "evidence": [
+        "reports/engine-extension-completion-20261027/scope-update.md"
+      ],
+      "reason": "2026-10-27 用户要求先保留扩展位置，后续再写具体功能"
+    },
+    {
+      "id": "EP-T11.W4",
+      "completed": false,
+      "state": "deferred_by_user",
+      "evidence": [
+        "reports/engine-extension-completion-20261027/scope-update.md"
+      ],
+      "reason": "2026-10-27 用户要求先保留扩展位置，后续再写具体功能"
+    },
+    {
+      "id": "EP-T07.W1",
+      "completed": true,
+      "state": "implemented_and_locally_verified",
+      "evidence": [
+        "reports/engine-extension-completion-20261027/platform/roles-router-migrator.md",
+        "backend/tests/test_process_roles_platform.py"
+      ]
+    },
+    {
+      "id": "EP-T07.W2",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T07.W3",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T07.W4",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T06b.W1",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T06b.W2",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T06b.W3",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T13b.W1",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T13b.W2",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T13b.W3",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T13b.W4",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T02c.W1",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T02c.W2",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T02c.W3",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T02c.W4",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T10.W1",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T10.W2",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T10.W3",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T10.W4",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T12.W1",
+      "completed": false,
+      "state": "deferred_by_user",
+      "evidence": [
+        "reports/engine-extension-completion-20261027/scope-update.md"
+      ],
+      "reason": "2026-10-27 用户要求先保留扩展位置，后续再写具体功能"
+    },
+    {
+      "id": "EP-T12.W2",
+      "completed": false,
+      "state": "deferred_by_user",
+      "evidence": [
+        "reports/engine-extension-completion-20261027/scope-update.md"
+      ],
+      "reason": "2026-10-27 用户要求先保留扩展位置，后续再写具体功能"
+    },
+    {
+      "id": "EP-T12.W3",
+      "completed": false,
+      "state": "deferred_by_user",
+      "evidence": [
+        "reports/engine-extension-completion-20261027/scope-update.md"
+      ],
+      "reason": "2026-10-27 用户要求先保留扩展位置，后续再写具体功能"
+    },
+    {
+      "id": "EP-T12.W4",
+      "completed": false,
+      "state": "deferred_by_user",
+      "evidence": [
+        "reports/engine-extension-completion-20261027/scope-update.md"
+      ],
+      "reason": "2026-10-27 用户要求先保留扩展位置，后续再写具体功能"
+    },
+    {
+      "id": "EP-T12.W5",
+      "completed": false,
+      "state": "deferred_by_user",
+      "evidence": [
+        "reports/engine-extension-completion-20261027/scope-update.md"
+      ],
+      "reason": "2026-10-27 用户要求先保留扩展位置，后续再写具体功能"
+    },
+    {
+      "id": "EP-T08.W1",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T08.W2",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T08.W3",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T08.W4",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T08.W5",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T08.W6",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T09.W1",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T09.W2",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T09.W3",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T09.W4",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T09.W5",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T09.W6",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T14b.W1",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T14b.W2",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T14b.W3",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T14b.W4",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T14b.W5",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T15a.W1",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T15a.W2",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T15a.W3",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T15b.W1",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T15b.W2",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T15b.W3",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T06a-core.W1",
+      "completed": true,
+      "state": "implemented_and_locally_verified",
+      "evidence": [
+        "reports/engine-extension-core-batch-01-20261026/codex-delivery/delivery.md",
+        "reports/engine-extension-offline-packs-20261026/delivery.md"
+      ]
+    },
+    {
+      "id": "EP-T06a-core.W2",
+      "completed": true,
+      "state": "implemented_and_locally_verified",
+      "evidence": [
+        "reports/engine-extension-core-batch-01-20261026/codex-delivery/delivery.md",
+        "reports/engine-extension-offline-packs-20261026/delivery.md"
+      ]
+    },
+    {
+      "id": "EP-T06a-core.W3",
+      "completed": true,
+      "state": "implemented_and_locally_verified",
+      "evidence": [
+        "reports/engine-extension-core-batch-01-20261026/codex-delivery/delivery.md",
+        "reports/engine-extension-offline-packs-20261026/delivery.md"
+      ]
+    },
+    {
+      "id": "EP-T06a-core.W4",
+      "completed": true,
+      "state": "implemented_and_locally_verified",
+      "evidence": [
+        "reports/engine-extension-core-batch-01-20261026/codex-delivery/delivery.md",
+        "reports/engine-extension-offline-packs-20261026/delivery.md"
+      ]
+    },
+    {
+      "id": "EP-T06a-real.W1",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T06a-real.W2",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    },
+    {
+      "id": "EP-T06a-real.W3",
+      "completed": false,
+      "state": "pending_or_partial",
+      "evidence": []
+    }
+  ],
+  "deferred_work_packages": 9
+}

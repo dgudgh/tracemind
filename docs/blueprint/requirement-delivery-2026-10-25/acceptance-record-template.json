@@ -1,0 +1,92 @@
+{
+  "schema": "requirement.acceptance.record/v1",
+  "template": true,
+  "run_id": null,
+  "base_case_id": null,
+  "variant_id": null,
+  "requirement_ids": [],
+  "task_ids": [],
+  "status": "not_run",
+  "environment": {
+    "name": null,
+    "execution_layer": null,
+    "stage": null,
+    "authorization_reference": null
+  },
+  "candidate": {
+    "commit": null,
+    "source_manifest_sha256": null,
+    "frontend_artifact_sha256": null,
+    "backend_artifact_sha256": null,
+    "worker_artifact_sha256": null,
+    "dirty_files_manifest": null,
+    "dependency_lock_sha256": null,
+    "expected_schema_revision": null,
+    "actual_schema_revision": null
+  },
+  "control_database": {
+    "engine": null,
+    "version": null,
+    "identity_redacted": null,
+    "disposable": null
+  },
+  "target_databases": [],
+  "model": {
+    "configured": null,
+    "provider": null,
+    "model": null,
+    "config_revision": null,
+    "prompt_revision": null,
+    "real_provider_used": null
+  },
+  "dependency_replacements": [],
+  "actors": [],
+  "fixture": {
+    "run_prefix": null,
+    "baseline_digest": null,
+    "expected_targets": [],
+    "frozen_time_window_utc": null,
+    "ground_truth_reference": null
+  },
+  "input": {
+    "text_redacted": null,
+    "header_instance_alias": null,
+    "supplied_parameters": {},
+    "steps": []
+  },
+  "correlation": {
+    "request_id": null,
+    "plan_ids": [],
+    "batch_id": null,
+    "execution_ids": [],
+    "artifact_ids": []
+  },
+  "assertions": [],
+  "actual_result_redacted": null,
+  "model_call_count": null,
+  "execution_count": null,
+  "side_effect_count": null,
+  "exit_code": null,
+  "evidence": [],
+  "defect_ids": [],
+  "started_at_utc": null,
+  "finished_at_utc": null,
+  "cleanup": {
+    "status": "not_run",
+    "details": null,
+    "after_digest": null
+  },
+  "review": {
+    "reviewer": null,
+    "reviewed_at_utc": null,
+    "decision": null
+  },
+  "instructions": [
+    "复制后template设为false并填写；模板自身不得进入通过统计。",
+    "status仅使用not_run/blocked/failed/passed；无法运行记录blocking原因而不伪填完成时间。",
+    "evidence每项填写kind/path/sha256，assertions每项填写expected/actual/passed。",
+    "L4明确记录真实provider与目标，任何替身必须列入dependency_replacements，不得替换被验收关键边界。",
+    "绝不填写密码、令牌、含凭据连接串或未脱敏模型原始业务内容。",
+    "本模板供D17实现验收校验；当前生产服务和release_gate尚不承诺支持。"
+  ]
+}

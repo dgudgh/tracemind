@@ -1,0 +1,1213 @@
+{
+  "format_version": 1,
+  "default_active_key": "diagnose.smart",
+  "default_open_keys": [],
+  "entries": [
+    {
+      "key": "asset.center",
+      "label": "资产管理",
+      "parent_key": null,
+      "depth": 0,
+      "data": "special",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "home.dashboard",
+      "label": "工作台",
+      "parent_key": null,
+      "depth": 0,
+      "data": "special",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "diagnose",
+      "label": "智能诊断",
+      "parent_key": null,
+      "depth": 0,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "diagnose.smart",
+        "diagnose.investigation",
+        "diagnose.incidents",
+        "diagnose.snapshot.agents",
+        "diagnose.snapshot.policies"
+      ]
+    },
+    {
+      "key": "diagnose.smart",
+      "label": "诊断工作台",
+      "parent_key": "diagnose",
+      "depth": 1,
+      "data": "selected",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "diagnose.investigation",
+      "label": "状态与现场",
+      "parent_key": "diagnose",
+      "depth": 1,
+      "data": "static",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "diagnose.incidents",
+      "label": "事故中心",
+      "parent_key": "diagnose",
+      "depth": 1,
+      "data": "static",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "diagnose.snapshot.agents",
+      "label": "现场 Agent",
+      "parent_key": "diagnose",
+      "depth": 1,
+      "data": "static",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "diagnose.snapshot.policies",
+      "label": "快照策略",
+      "parent_key": "diagnose",
+      "depth": 1,
+      "data": "static",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "monitor",
+      "label": "监控告警",
+      "parent_key": null,
+      "depth": 0,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "monitor.alert",
+        "monitor.observabilityGroup"
+      ]
+    },
+    {
+      "key": "monitor.alert",
+      "label": "告警中心",
+      "parent_key": "monitor",
+      "depth": 1,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "monitor.alert.unified",
+        "monitor.alert.db"
+      ]
+    },
+    {
+      "key": "monitor.alert.unified",
+      "label": "综合告警",
+      "parent_key": "monitor.alert",
+      "depth": 2,
+      "data": "list",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "monitor.alert.db",
+      "label": "容量告警",
+      "parent_key": "monitor.alert",
+      "depth": 2,
+      "data": "selected",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "monitor.observabilityGroup",
+      "label": "可观测监控",
+      "parent_key": "monitor",
+      "depth": 1,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "monitor.observability",
+        "monitor.observability.logs",
+        "monitor.observability.grafana",
+        "monitor.observability.apm"
+      ]
+    },
+    {
+      "key": "monitor.observability",
+      "label": "可观测总览",
+      "parent_key": "monitor.observabilityGroup",
+      "depth": 2,
+      "data": "static",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "monitor.observability.logs",
+      "label": "日志关联",
+      "parent_key": "monitor.observabilityGroup",
+      "depth": 2,
+      "data": "static",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "monitor.observability.grafana",
+      "label": "Grafana 模板",
+      "parent_key": "monitor.observabilityGroup",
+      "depth": 2,
+      "data": "static",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "monitor.observability.apm",
+      "label": "APM 链路",
+      "parent_key": "monitor.observabilityGroup",
+      "depth": 2,
+      "data": "static",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "inspect",
+      "label": "巡检",
+      "parent_key": null,
+      "depth": 0,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "inspect.overview",
+        "inspect.run",
+        "inspect.results",
+        "inspect.configuration"
+      ]
+    },
+    {
+      "key": "inspect.overview",
+      "label": "巡检总览",
+      "parent_key": "inspect",
+      "depth": 1,
+      "data": "selected",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "inspect.run",
+      "label": "一键巡检",
+      "parent_key": "inspect",
+      "depth": 1,
+      "data": "selected",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "inspect.results",
+      "label": "任务与报告",
+      "parent_key": "inspect",
+      "depth": 1,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "inspect.tasks",
+        "inspect.reports",
+        "inspect.compare"
+      ]
+    },
+    {
+      "key": "inspect.tasks",
+      "label": "巡检任务",
+      "parent_key": "inspect.results",
+      "depth": 2,
+      "data": "static",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "inspect.reports",
+      "label": "巡检报告",
+      "parent_key": "inspect.results",
+      "depth": 2,
+      "data": "static",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "inspect.compare",
+      "label": "历史对比",
+      "parent_key": "inspect.results",
+      "depth": 2,
+      "data": "selected",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "inspect.configuration",
+      "label": "策略与模板",
+      "parent_key": "inspect",
+      "depth": 1,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "inspect.policies",
+        "inspect.templates"
+      ]
+    },
+    {
+      "key": "inspect.policies",
+      "label": "巡检策略",
+      "parent_key": "inspect.configuration",
+      "depth": 2,
+      "data": "list",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "inspect.templates",
+      "label": "巡检模板",
+      "parent_key": "inspect.configuration",
+      "depth": 2,
+      "data": "list",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "perf",
+      "label": "性能分析",
+      "parent_key": null,
+      "depth": 0,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "perf.overview",
+        "perf.workload",
+        "perf.sqlAnalysis",
+        "perf.objects",
+        "perf.trends",
+        "perf.awr"
+      ]
+    },
+    {
+      "key": "perf.overview",
+      "label": "性能总览",
+      "parent_key": "perf",
+      "depth": 1,
+      "data": "special",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "perf.workload",
+      "label": "引擎深度报告",
+      "parent_key": "perf",
+      "depth": 1,
+      "data": "selected",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "perf.sqlAnalysis",
+      "label": "SQL 与等待",
+      "parent_key": "perf",
+      "depth": 1,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "perf.sql",
+        "perf.slowsql",
+        "perf.lock"
+      ]
+    },
+    {
+      "key": "perf.sql",
+      "label": "SQL 画像",
+      "parent_key": "perf.sqlAnalysis",
+      "depth": 2,
+      "data": "selected",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "perf.slowsql",
+      "label": "慢 SQL 分析",
+      "parent_key": "perf.sqlAnalysis",
+      "depth": 2,
+      "data": "special",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "perf.lock",
+      "label": "锁等待分析",
+      "parent_key": "perf.sqlAnalysis",
+      "depth": 2,
+      "data": "special",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "perf.objects",
+      "label": "对象与优化",
+      "parent_key": "perf",
+      "depth": 1,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "perf.index",
+        "perf.table",
+        "perf.optimization"
+      ]
+    },
+    {
+      "key": "perf.index",
+      "label": "索引分析",
+      "parent_key": "perf.objects",
+      "depth": 2,
+      "data": "selected",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "perf.table",
+      "label": "表画像",
+      "parent_key": "perf.objects",
+      "depth": 2,
+      "data": "selected",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "perf.optimization",
+      "label": "优化建议",
+      "parent_key": "perf.objects",
+      "depth": 2,
+      "data": "selected",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "perf.trends",
+      "label": "基线与趋势",
+      "parent_key": "perf",
+      "depth": 1,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "perf.baseline",
+        "perf.trend",
+        "perf.capacity"
+      ]
+    },
+    {
+      "key": "perf.baseline",
+      "label": "性能基线",
+      "parent_key": "perf.trends",
+      "depth": 2,
+      "data": "selected",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "perf.trend",
+      "label": "问题趋势",
+      "parent_key": "perf.trends",
+      "depth": 2,
+      "data": "selected",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "perf.capacity",
+      "label": "容量分析",
+      "parent_key": "perf.trends",
+      "depth": 2,
+      "data": "selected",
+      "db_types": [
+        "oracle"
+      ],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "perf.awr",
+      "label": "AWR",
+      "parent_key": "perf",
+      "depth": 1,
+      "data": null,
+      "db_types": [
+        "oracle"
+      ],
+      "engines": [],
+      "child_keys": [
+        "perf.awr.report",
+        "perf.awr.history",
+        "perf.awr.compare",
+        "perf.awr.collect"
+      ]
+    },
+    {
+      "key": "perf.awr.report",
+      "label": "AWR 综合",
+      "parent_key": "perf.awr",
+      "depth": 2,
+      "data": "special",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "perf.awr.history",
+      "label": "AWR 历史报告",
+      "parent_key": "perf.awr",
+      "depth": 2,
+      "data": "selected",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "perf.awr.compare",
+      "label": "AWR 对比",
+      "parent_key": "perf.awr",
+      "depth": 2,
+      "data": "selected",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "perf.awr.collect",
+      "label": "AWR 自动采集",
+      "parent_key": "perf.awr",
+      "depth": 2,
+      "data": "list",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "ops",
+      "label": "数据库运维",
+      "parent_key": null,
+      "depth": 0,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "ops.matrix",
+        "ops.configGovernance",
+        "ops.runtime",
+        "ops.data",
+        "ops.reliability"
+      ]
+    },
+    {
+      "key": "ops.matrix",
+      "label": "能力矩阵",
+      "parent_key": "ops",
+      "depth": 1,
+      "data": "selected",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "ops.configGovernance",
+      "label": "配置基线",
+      "parent_key": "ops",
+      "depth": 1,
+      "data": "selected",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "ops.runtime",
+      "label": "运行与会话",
+      "parent_key": "ops",
+      "depth": 1,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "ops.overview",
+        "ops.log",
+        "ops.session"
+      ]
+    },
+    {
+      "key": "ops.overview",
+      "label": "运行概览",
+      "parent_key": "ops.runtime",
+      "depth": 2,
+      "data": "opsCapability",
+      "db_types": [],
+      "engines": [
+        "oracle",
+        "mysql",
+        "postgresql",
+        "sqlserver"
+      ],
+      "child_keys": []
+    },
+    {
+      "key": "ops.log",
+      "label": "日志管理",
+      "parent_key": "ops.runtime",
+      "depth": 2,
+      "data": "opsCapability",
+      "db_types": [],
+      "engines": [
+        "oracle",
+        "postgresql",
+        "sqlserver"
+      ],
+      "child_keys": []
+    },
+    {
+      "key": "ops.session",
+      "label": "会话事务",
+      "parent_key": "ops.runtime",
+      "depth": 2,
+      "data": "opsCapability",
+      "db_types": [],
+      "engines": [
+        "oracle",
+        "mysql",
+        "postgresql",
+        "sqlserver"
+      ],
+      "child_keys": []
+    },
+    {
+      "key": "ops.data",
+      "label": "空间与对象",
+      "parent_key": "ops",
+      "depth": 1,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "ops.space",
+        "ops.object",
+        "ops.governance",
+        "ops.governance.objectStorage"
+      ]
+    },
+    {
+      "key": "ops.space",
+      "label": "空间管理",
+      "parent_key": "ops.data",
+      "depth": 2,
+      "data": "opsCapability",
+      "db_types": [],
+      "engines": [
+        "oracle",
+        "mysql",
+        "postgresql",
+        "sqlserver"
+      ],
+      "child_keys": []
+    },
+    {
+      "key": "ops.object",
+      "label": "对象统计",
+      "parent_key": "ops.data",
+      "depth": 2,
+      "data": "opsCapability",
+      "db_types": [],
+      "engines": [
+        "oracle",
+        "mysql",
+        "postgresql",
+        "sqlserver"
+      ],
+      "child_keys": []
+    },
+    {
+      "key": "ops.governance",
+      "label": "数据治理",
+      "parent_key": "ops.data",
+      "depth": 2,
+      "data": "opsCapability",
+      "db_types": [],
+      "engines": [
+        "oracle",
+        "mysql",
+        "postgresql",
+        "sqlserver"
+      ],
+      "child_keys": []
+    },
+    {
+      "key": "ops.governance.objectStorage",
+      "label": "归档对象存储",
+      "parent_key": "ops.data",
+      "depth": 2,
+      "data": "static",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "ops.reliability",
+      "label": "安全与高可用",
+      "parent_key": "ops",
+      "depth": 1,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "ops.security",
+        "ops.ha"
+      ]
+    },
+    {
+      "key": "ops.security",
+      "label": "用户安全",
+      "parent_key": "ops.reliability",
+      "depth": 2,
+      "data": "opsCapability",
+      "db_types": [],
+      "engines": [
+        "mysql"
+      ],
+      "child_keys": []
+    },
+    {
+      "key": "ops.ha",
+      "label": "高可用",
+      "parent_key": "ops.reliability",
+      "depth": 2,
+      "data": "opsCapability",
+      "db_types": [],
+      "engines": [
+        "oracle",
+        "mysql",
+        "postgresql",
+        "sqlserver"
+      ],
+      "child_keys": []
+    },
+    {
+      "key": "protection",
+      "label": "数据保护",
+      "parent_key": null,
+      "depth": 0,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "backup",
+        "rescue",
+        "protection.automation"
+      ]
+    },
+    {
+      "key": "backup",
+      "label": "备份与恢复",
+      "parent_key": "protection",
+      "depth": 1,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "backup.overview",
+        "backup.policy",
+        "backup.plan",
+        "backup.restore",
+        "backup.report",
+        "backup.platform"
+      ]
+    },
+    {
+      "key": "backup.overview",
+      "label": "备份总览",
+      "parent_key": "backup",
+      "depth": 2,
+      "data": "special",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "backup.policy",
+      "label": "备份策略",
+      "parent_key": "backup",
+      "depth": 2,
+      "data": "special",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "backup.plan",
+      "label": "备份方案",
+      "parent_key": "backup",
+      "depth": 2,
+      "data": "special",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "backup.restore",
+      "label": "恢复方案",
+      "parent_key": "backup",
+      "depth": 2,
+      "data": "special",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "backup.report",
+      "label": "报告与告警",
+      "parent_key": "backup",
+      "depth": 2,
+      "data": "special",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "backup.platform",
+      "label": "备份平台接入",
+      "parent_key": "backup",
+      "depth": 2,
+      "data": "selected",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "rescue",
+      "label": "数据抢救",
+      "parent_key": "protection",
+      "depth": 1,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "rescue.overview",
+        "rescue.cases",
+        "rescue.tools",
+        "rescue.agents",
+        "rescue.tasks",
+        "rescue.reports",
+        "rescue.approvals"
+      ]
+    },
+    {
+      "key": "rescue.overview",
+      "label": "抢救总览",
+      "parent_key": "rescue",
+      "depth": 2,
+      "data": "special",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "rescue.cases",
+      "label": "案件与证据",
+      "parent_key": "rescue",
+      "depth": 2,
+      "data": "special",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "rescue.tools",
+      "label": "工具授权",
+      "parent_key": "rescue",
+      "depth": 2,
+      "data": "special",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "rescue.agents",
+      "label": "远程 Agent",
+      "parent_key": "rescue",
+      "depth": 2,
+      "data": "special",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "rescue.tasks",
+      "label": "抢救任务",
+      "parent_key": "rescue",
+      "depth": 2,
+      "data": "special",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "rescue.reports",
+      "label": "抢救报告",
+      "parent_key": "rescue",
+      "depth": 2,
+      "data": "special",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "rescue.approvals",
+      "label": "风险审批",
+      "parent_key": "rescue",
+      "depth": 2,
+      "data": "special",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "protection.automation",
+      "label": "自动化审批",
+      "parent_key": "protection",
+      "depth": 1,
+      "data": "static",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "report",
+      "label": "报告中心",
+      "parent_key": null,
+      "depth": 0,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "report.unified",
+        "report.alert"
+      ]
+    },
+    {
+      "key": "report.unified",
+      "label": "统一报告",
+      "parent_key": "report",
+      "depth": 1,
+      "data": "static",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "report.alert",
+      "label": "告警报告",
+      "parent_key": "report",
+      "depth": 1,
+      "data": "static",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "platform",
+      "label": "平台管理",
+      "parent_key": null,
+      "depth": 0,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "integration",
+        "system"
+      ]
+    },
+    {
+      "key": "integration",
+      "label": "集成中心",
+      "parent_key": "platform",
+      "depth": 1,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "integration.zabbix",
+        "integration.prometheus",
+        "integration.notify",
+        "integration.itsm"
+      ]
+    },
+    {
+      "key": "integration.zabbix",
+      "label": "Zabbix 联动",
+      "parent_key": "integration",
+      "depth": 2,
+      "data": "list",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "integration.prometheus",
+      "label": "Prometheus 告警",
+      "parent_key": "integration",
+      "depth": 2,
+      "data": "list",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "integration.notify",
+      "label": "通知渠道",
+      "parent_key": "integration",
+      "depth": 2,
+      "data": "static",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "integration.itsm",
+      "label": "工单管理",
+      "parent_key": "integration",
+      "depth": 2,
+      "data": "static",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "system",
+      "label": "系统管理",
+      "parent_key": "platform",
+      "depth": 1,
+      "data": null,
+      "db_types": [],
+      "engines": [],
+      "child_keys": [
+        "system.user",
+        "system.identity",
+        "system.params",
+        "system.ai",
+        "system.aiEvaluation",
+        "system.schedule"
+      ]
+    },
+    {
+      "key": "system.user",
+      "label": "用户管理",
+      "parent_key": "system",
+      "depth": 2,
+      "data": "static",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "system.identity",
+      "label": "企业认证",
+      "parent_key": "system",
+      "depth": 2,
+      "data": "static",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "system.params",
+      "label": "系统参数",
+      "parent_key": "system",
+      "depth": 2,
+      "data": "static",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "system.ai",
+      "label": "AI 配置",
+      "parent_key": "system",
+      "depth": 2,
+      "data": "static",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "system.aiEvaluation",
+      "label": "诊断评测",
+      "parent_key": "system",
+      "depth": 2,
+      "data": "static",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    },
+    {
+      "key": "system.schedule",
+      "label": "调度任务",
+      "parent_key": "system",
+      "depth": 2,
+      "data": "list",
+      "db_types": [],
+      "engines": [],
+      "child_keys": []
+    }
+  ],
+  "legacy_key_map": {
+    "dashboard": "home.dashboard",
+    "instances": "asset.center",
+    "sshAssets": "asset.center",
+    "cmdbAssets": "asset.center",
+    "asset.instances": "asset.center",
+    "asset.hosts": "asset.center",
+    "asset.cmdb": "asset.center",
+    "inspectionOverview": "inspect.overview",
+    "inspectionCenter": "inspect.run",
+    "inspectionTasks": "inspect.tasks",
+    "inspectionReports": "inspect.reports",
+    "inspectionCompare": "inspect.compare",
+    "inspectionPolicies": "inspect.policies",
+    "inspectionTemplates": "inspect.templates",
+    "oracleOverview": "ops.overview",
+    "oracleSpace": "ops.space",
+    "oracleLogArchive": "ops.log",
+    "oracleSession": "ops.session",
+    "oracleObject": "ops.object",
+    "oracleHA": "ops.ha",
+    "oracleGovernance": "ops.governance",
+    "mysqlOverview": "ops.overview",
+    "mysqlStorage": "ops.space",
+    "mysqlInnoDBTx": "ops.session",
+    "mysqlUserSecurity": "ops.security",
+    "mysqlTableIndex": "ops.object",
+    "mysqlReplHA": "ops.ha",
+    "mysqlGovernance": "ops.governance",
+    "ops.postgresql.overview": "ops.overview",
+    "ops.postgresql.space": "ops.space",
+    "ops.postgresql.wal": "ops.log",
+    "ops.postgresql.sessionTransaction": "ops.session",
+    "ops.postgresql.objectStats": "ops.object",
+    "ops.postgresql.ha": "ops.ha",
+    "ops.postgresql.governance": "ops.governance",
+    "ops.sqlserver.overview": "ops.overview",
+    "ops.sqlserver.space": "ops.space",
+    "ops.sqlserver.logs": "ops.log",
+    "ops.sqlserver.sessionTransaction": "ops.session",
+    "ops.sqlserver.objectStats": "ops.object",
+    "ops.sqlserver.ha": "ops.ha",
+    "ops.sqlserver.governance": "ops.governance",
+    "backupOverview": "backup.overview",
+    "backupPolicies": "backup.plan",
+    "backupTasks": "backup.plan",
+    "backupHistory": "backup.report",
+    "backupFiles": "backup.plan",
+    "backupRecoveryCenter": "backup.restore",
+    "backupValidation": "backup.plan",
+    "backupDrill": "backup.restore",
+    "backupAlerts": "backup.report",
+    "backupReports": "backup.report",
+    "backup.policy": "backup.policy",
+    "backup.task": "backup.plan",
+    "backup.history": "backup.report",
+    "backup.file": "backup.plan",
+    "backup.validate": "backup.plan",
+    "backup.drill": "backup.restore",
+    "backup.alert": "backup.report",
+    "storageRescueOverview": "rescue.overview",
+    "storageRescueCases": "rescue.cases",
+    "storageRescueTools": "rescue.tools",
+    "storageRescueAgents": "rescue.agents",
+    "storageRescueTasks": "rescue.tasks",
+    "storageRescueReports": "rescue.reports",
+    "storageRescueApprovals": "rescue.approvals",
+    "automationCenter": "protection.automation",
+    "performanceOverview": "perf.overview",
+    "sqlProfile": "perf.sql",
+    "tableProfile": "perf.table",
+    "indexAnalysis": "perf.index",
+    "slowSqlAnalysis": "perf.slowsql",
+    "lockAnalysis": "perf.lock",
+    "perfBaseline": "perf.baseline",
+    "problemTrend": "perf.trend",
+    "capacity": "perf.capacity",
+    "optimizationCenter": "perf.optimization",
+    "databaseProfile": "perf.optimization",
+    "perf.database": "perf.optimization",
+    "awrReport": "perf.awr.report",
+    "awrCompare": "perf.awr.compare",
+    "awrAutoCollect": "perf.awr.collect",
+    "schedule": "system.schedule",
+    "unifiedAlerts": "monitor.alert.unified",
+    "alertCenter": "monitor.alert.db",
+    "observabilityCenter": "monitor.observability",
+    "zabbixIntegration": "integration.zabbix",
+    "prometheusIntegration": "integration.prometheus",
+    "notifyManagement": "integration.notify",
+    "itsmManagement": "integration.itsm",
+    "diagnose.ai": "diagnose.smart",
+    "diagnose.rule": "diagnose.smart",
+    "ai": "diagnose.smart",
+    "diagnosisCenter": "diagnose.smart",
+    "ruleDiagnosis": "diagnose.smart",
+    "incidentCenter": "diagnose.incidents",
+    "incidentAgents": "diagnose.snapshot.agents",
+    "incidentSnapshotPolicies": "diagnose.snapshot.policies",
+    "aiConfig": "system.ai",
+    "unifiedReports": "report.unified",
+    "awrReports": "perf.awr.history",
+    "report.awr": "perf.awr.history",
+    "alertReports": "report.alert",
+    "userManagement": "system.user",
+    "enterpriseIdentity": "system.identity",
+    "systemParams": "system.params"
+  }
+}

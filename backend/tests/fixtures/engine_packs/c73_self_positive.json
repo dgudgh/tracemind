@@ -1,0 +1,42 @@
+{
+  "variant_id": "self-payload",
+  "locked_input_digest": "sha256:f99c79982dedcc426d5b34473100f2338d2c70bb1ebe4920e11b8c6d605ddf0d",
+  "builder_a_identity": "builder-a",
+  "builder_b_identity": "builder-b",
+  "builder_a_fingerprint": "sha256:5e9c52d86bc240352450a20fbd4fea9ea1ac5e45fafd72d289f8d1919ea08eda",
+  "builder_b_fingerprint": "sha256:146d1f10a066b1d0b275c0ab9f7d9e15fd8cbf1a056618de87b7530902766ed3",
+  "builder_a_payload_digest": "sha256:cee6fe81194a33c3a7c04febd967a767f11302845da6f367c105e60b7ab9f1dd",
+  "builder_b_payload_digest": "sha256:cee6fe81194a33c3a7c04febd967a767f11302845da6f367c105e60b7ab9f1dd",
+  "normalized_payload_digest": "sha256:cee6fe81194a33c3a7c04febd967a767f11302845da6f367c105e60b7ab9f1dd",
+  "package_classification": {
+    "package_file_inventory": [
+      "runtime/provider.py"
+    ],
+    "file_classification": {
+      "runtime/provider.py": "self-built"
+    },
+    "whole_package_signed_files": [
+      "runtime/provider.py"
+    ]
+  },
+  "oracle_receipt": {
+    "variant_id": "self-payload",
+    "computed_self_payload_digest": "sha256:cee6fe81194a33c3a7c04febd967a767f11302845da6f367c105e60b7ab9f1dd",
+    "builder_a_inventory": [
+      {
+        "path": "runtime/provider.py",
+        "size": 4,
+        "sha256": "06c604b332b386b6cce8355ccf27fffd3a98b7a7a5b9b3a550c039c6ebae38e4"
+      }
+    ],
+    "builder_b_inventory": [
+      {
+        "path": "runtime/provider.py",
+        "size": 4,
+        "sha256": "06c604b332b386b6cce8355ccf27fffd3a98b7a7a5b9b3a550c039c6ebae38e4"
+      }
+    ]
+  },
+  "toolchain_digest": "sha256:0ecb97b647d70ee7b67201a0ec93f16d5de79067ee9ed08f3248083d275db1a3",
+  "build_recipe_digest": "sha256:10cd75c2905c8b67ae2b946d1dc24e6a34d978ad1a76cefb7f3fe901bef2d786"
+}

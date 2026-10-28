@@ -1,0 +1,354 @@
+# TraceMind AI 文档中心
+
+2026-10-25 客户需求入口：[完整开发与测试交付方案](blueprint/requirement-delivery-2026-10-25/README.md)。按“有模型调已有能力实际完成、无模型进入专业页手工操作”组织开发任务、实现思路、验收标准、测试案例和发布回退；当前是待执行方案。
+
+最新接续：[U03 首片执行前复核](archive/acceptance/2026-10-20-plan-validation-u03.md)，包含当前结论与复核时间、冻结完整性及参数/预算复查。没有放开批准或真实写执行；隔离验收与现场状态分开记录。
+
+当前接续：[T05 前端能力门禁与任务清单](archive/acceptance/2026-10-20-capability-frontend-t05.md)。新增无模型手工读取清单、后端历史/结果回读、版本/失败与异步边界处理；隔离浏览器验证，不代表现场采集或生产发布。以下保留各轮时点。
+
+最新接续：[T04 六条能力与清单 API](archive/acceptance/2026-10-20-capability-api-t04.md)，补现有会话鉴权、逐能力/实例范围过滤、摘要分页及持久结果详情。T05 前端、真实审批/写动作、运行接管未完成，未部署。以下接续保留各自时点。
+
+2026-10-20 后续：[T03 显式读取任务计划](archive/acceptance/2026-10-20-capability-plan-t03.md)，补有界 DAG、幂等/重跑、状态/outcome、读取结果落库与重新鉴权回读；仅限三个已有读取适配器，HTTP/前端、实际采集/写动作和运行接管未由此完成。
+
+2026-10-20 当前增量：[batch-2 T02 能力注册与三个服务端读取适配器](archive/acceptance/2026-10-20-capability-registry-t02.md)。保留用户 T01，补版本/停用/权限/范围与失败路径；77 条声明不是全量可执行，类型化计划/API/前端接入仍待 T03-T05。历史概览与验证时点如下，不由本次源码检查推导现场完成。
+
+功能概览基线：2026-08-13；最近源码维护：2026-10-15，见[模型架构优化记录](archive/acceptance/2026-10-15-model-architecture-optimization.md)，未部署验收。
+蓝图与能力全景更新：2026-10-08，见[当前蓝图差距](blueprint/current-gap-assessment.md)。
+新增架构规划：[AI 原生程序与五平衡控制](blueprint/ai-native-control-architecture.md)；
+规划内容不计入现有已实现状态，MES 交互仍暂缓。
+2026-10-20 用户质量要求：[软件四项质量底线与验收契约](blueprint/software-quality-contract.md)，
+覆盖正确性、人工接管、毫秒级响应和 7×24 运行；本轮仅固化设计与门禁，建议指标未验收。
+2026-10-20 执行架构：[功能卡片与可选 AI 编排](blueprint/capability-card-orchestration.md)，
+有 AI 编排、无 AI 手工保底，两者只调用同一套已有代码；统一卡片运行时尚未交付。
+实施计划：[全功能编排任务清单](blueprint/capability-card-task-plan.md)，列出运行前清单、全模块接入与 C01-C16 开发/验收依赖；尚未执行业务改造。
+2026-10-20 全功能盘点：[源码操作族与调用链](blueprint/functional-inventory.md)、[详细待开发清单](blueprint/pending-development-backlog.md)。
+覆盖 F01-F26 主要操作族与 72 个叶子入口，按 U/M/V 拆解依据、缺口、优先级、依赖和成功/失败验收；C01 有源码产出，不表示统一卡片运行时或现场完成。
+问题台账：2026-10-19，共 51 项（已修 21 / 已定边界 2 / 证伪 2 / 未修 17 / 待验收 6 / 流程 3），
+见[已知问题台账](known-issues.md)。原 ISS 保留追溯；10-20 盘点的新子项与旧项余缺按详细待开发清单映射，不混算成已修/新增 ISS 总数。
+产品版本：`1.0.0`
+默认开发地址：前端 `http://127.0.0.1:3300`，后端 `http://127.0.0.1:8800`
+本机维护后的实际地址：前端 `http://127.0.0.1:3300`，后端 `http://127.0.0.1:8801`。默认值不代表已有进程的实际端口。
+
+TraceMind AI 是面向数据库和关键业务系统的智能运维、故障调查与证据分析平台。当前产品已经覆盖资产、巡检、数据库运维、性能、监控联动、诊断、数据保护、企业集成和故障现场快照，并继续向状态智能、深度现场重建和内核级动态观测演进。
+
+## 文档状态约定
+
+| 状态 | 含义 |
+| --- | --- |
+| 主链具备 | 指定源码路径已有入口、处理及结果，模块仍可能有缺项；不代表现场验收通过 |
+| 已实现（历史记录） | 原日期记录的代码与检查状态，不作为当前完整能力或客户验收结论 |
+| 部分实现 | 已有子能力，但仍缺实现、接线或适配；也可能同时缺少生产验证 |
+| 设计完成 | 数据模型、边界和验收条件已定义，尚未形成完整运行链路 |
+| 规划 | 已进入开发计划，尚未冻结接口或实现 |
+
+实现范围以运行代码与 OpenAPI 核对；是否通过验收以对应版本、环境、时间和业务链路的实测证据为准。
+自动化测试和历史规划不能单独证明当前已部署或客户现场正常；历史“已完成”不能覆盖后续发现的缺陷。
+
+## 最近维护与验收（记录，已归档）
+
+下表记录 2026-09-11 那一轮维护的结论，**全部位于冻结区**。它是"当时查过什么"，不是"现在一定正常"：
+CI、发布包、客户部署、备份恢复与业务全链路复验**仍未由任何一轮维护完成**。
+
+| 项目 | 2026-09-11 已确认状态 | 记录 |
+| --- | --- | --- |
+| R1-R4 修复 | 数据库判等、Oracle 资源清理及只读预算已修复；本地后端已加载 | [四项修复](archive/acceptance/2026-09-11-closure-fixes.md) |
+| 平台库升级 | 备份 229 张表后完成慢 SQL 四列 BIGINT 扩容，原有数据核对一致 | [备份、迁移与启动](archive/acceptance/2026-09-11-startup-cleanup.md) |
+| 临时文件清理 | 8 个一次性脚本、1,157 个生成文件已删除；正式测试、证据和备份保留 | [清理边界](archive/acceptance/2026-09-11-startup-cleanup.md#清理边界) |
+| 废弃源码清理 | 删除旧生态动作实现及无调用辅助函数，共 20 个；兼容 API 和历史数据保留，未重启加载 | [源码清理与验证](archive/acceptance/2026-09-11-deprecated-code-cleanup.md) |
+| 全目录文件精简 | 后续清理同名遮蔽模块、旧页面与独立实验入口，合并测试断言、统一后端测试目录 | [文件精简与后续缺口](archive/acceptance/2026-09-11-repository-slimming.md) |
+| 模型与执行架构评估 | 保留评估时的缺陷和复现证据；后续修复单独追踪 | [缺陷、证据与收敛顺序](archive/architecture/2026-09-11-model-architecture-assessment.md) |
+| 架构缺陷修复 | AI 真值、状态归属、历史证据与审计已修改；失主恢复部分修复，T01/T02/T04 仍开放；新增迁移未执行，未重启 | [修复、验证与未完成项](archive/acceptance/2026-09-11-architecture-bug-fixes.md) |
+| 本地服务 | 3300 与 8801 的 ready 均通过，首页及 6 个静态资源可访问 | [运行验证](archive/acceptance/2026-09-11-startup-cleanup.md#运行验证) |
+| 未完成门禁 | CI、发布包、客户部署、备份恢复与业务全链路复验未由本次维护完成 | [质量提升接续](archive/plans/2026-09-10-astra-quality-improvement.md) |
+
+## 能力全景（2026-10-08 源码状态）
+
+下表将 27 个蓝图模块归并为 15 个能力域，不能用能力域数量计算完成率。
+逐模块现状为 **7 项主链具备、19 项部分实现、1 项 MES 暂缓**，完整证据见[当前蓝图差距](blueprint/current-gap-assessment.md)。本轮没有实测业务采集、备份恢复、HA 切换、CI、安装包或客户部署。
+
+[完整 HTML 蓝图](../../orchestrator-enterprise/docs/database-operations-blueprint.html) · [Markdown 完成度视图](../../orchestrator-enterprise/docs/database-operations-blueprint.md)
+
+| 能力域 | 蓝图 | 源码状态 | 已有能力 | 剩余差距与验收 |
+| --- | --- | --- | --- | --- |
+| 五层资产中心 | [F02](blueprint/current-gap-assessment.md) | 主链具备，待实测 | 发现、校正、存储关系绘图及审计 | 外部 CMDB 冲突、复杂级联与混合拓扑待现场验证，MES 映射暂缓。 |
+| 四类数据库接入 | [F03](blueprint/current-gap-assessment.md) | 主链具备，待实测 | 四引擎接入具备 | 目标版本、TLS、权限和网络矩阵待验收。 |
+| 巡检与模板 | [F05/F06](blueprint/current-gap-assessment.md) | 部分实现 | 真实巡检、报告及四类模板修改留痕 | 持久队列尚未接实际入口/worker；版本查询恢复 API/页面、签发验签与进度取消仍缺。 |
+| 数据库运维 | [F12/F13](blueprint/current-gap-assessment.md) | 部分实现 | 查询、方案及专用数据库配置回滚 | 会话目标绑定、其他对象维护/扩容/日志治理执行与复验仍未完整覆盖。 |
+| 性能分析 | [F10/F11](blueprint/current-gap-assessment.md) | 部分实现 | 基线和部分画像具备 | 深度报告窗口差分及四引擎画像未完整覆盖。 |
+| 监控与可观测 | [F07/F08/F09](blueprint/current-gap-assessment.md) | 部分实现 | 外部源接入具备 | 容量防抖、质量周期任务和动作队列仍需补齐。 |
+| AI 与规则诊断 | [F19](blueprint/current-gap-assessment.md) | 主链具备，待实测 | 编排、结构化引用校验、规则降级与 token 估算成本 | 独立盲测、任务级外发授权、全局预算与真实本地模型效果待补/实测。 |
+| 通知与 ITSM | [F24](blueprint/current-gap-assessment.md) | 主链具备，待实测 | 订阅受众分发、通道、工单适配及通知重试 | 企业字段、认证、回调、评论/关闭及升级规则待实际系统契约验收。 |
+| 备份恢复与数据抢救 | [F15/F16/F17](blueprint/current-gap-assessment.md) | 部分实现 | 真实备份及校验具备 | 同实例恢复已阻断，独立恢复、PITR和多引擎驱动仍缺。 |
+| 自动化审批执行 | [F18](blueprint/current-gap-assessment.md) | 部分实现 | SSH/Ansible、审批、目标锁、取消及专用数据库配置回滚 | 通用数据库动作适配、步骤进度、暂停续跑与实时输出仍缺。 |
+| 企业认证 | [F26](blueprint/current-gap-assessment.md) | 部分实现 | RBAC、LDAP/AD、OIDC 与 Secrets 底座 | 按具体动作核对范围授权与最小权限；真实企业认证契约和部署待实测。 |
+| Incident Snapshot | [F20](blueprint/current-gap-assessment.md) | 主链具备，待实测 | 基础快照采集上传具备 | 深度栈与大规模现场验收另行进行。 |
+| State Intelligence | [F21](blueprint/current-gap-assessment.md) | 部分实现 | 状态引擎具备 | 自动输入、事故关联和RCA上下文仍有断点。 |
+| 深度现场重建 | [F22](blueprint/current-gap-assessment.md) | 部分实现 | 现场/探针页面、审批与 Linux jcmd 动态打印 | 连续栈、Windows ETW/WCT、制品上传解析、符号化及 AI 原文引用仍缺。 |
+| Linux eBPF 动态观测 | [F23](blueprint/current-gap-assessment.md) | 部分实现 | 内核页面、loader ready、动态 hook 和部分 CO-RE | loaded_sensors 须以实际 attach 集合确认；USDT、用户符号、容器关联与长稳 Gate 待补/验收。 |
+
+### 历史状态校正（2026-09-22）
+
+以下记录当时的判断，包含随后已修复的断点；当前状态以上表和 10-08 逐项证据为准。
+
+2026-09-22 按蓝图 F01-F27 全量复核后，上表有 **8 处状态被校正**（加粗为变更项）：
+
+| 能力域 | 原声明 | 复核后 | 原因 |
+| --- | --- | --- | --- |
+| 巡检与模板 | 已实现 | 部分实现 | 任务队列与模板版本历史已建未接线 |
+| 数据库运维 | 已实现 | 部分实现 | 处置为 plan-only，部分引擎 kill 方案仍是占位符 |
+| 性能分析 | 已实现 | 部分实现 | 两个引擎的画像采集器缺失 |
+| 监控与可观测 | 已实现 | 部分实现 | 三处断点（滞回、重试消费、周期评估） |
+| Incident Snapshot | 部分实现 | 已实现 | 主链路齐备，断网重传已有实现 |
+| State Intelligence | 设计完成 | 部分实现 | 已有实际代码，非仅设计 |
+| 深度现场重建 | 设计完成 | 部分实现 | Linux 动态打印已真实执行 |
+| Linux eBPF | 设计完成 | 部分实现 | loader 真实 attach，空成功已修 |
+
+方向不一致：前 4 项是**原先偏高**（把部分实现写成了已实现），后 4 项是**原先偏低**。
+最新逐项证据见[当前蓝图差距](blueprint/current-gap-assessment.md)，历史复核与修复回合见[对齐计划](blueprint/alignment-plan.md)。
+
+## 产品入口
+
+当前菜单由 `frontend/src/menuConfig.jsx` 的 `MENU_CONFIG` 定义（下表按 2026-09-20 实测的
+key/label 层级复写；`[]` 内为菜单 key）：
+
+```text
+资产管理  [asset.center]
+工作台    [home.dashboard]
+智能诊断  [diagnose]
+  诊断工作台 / 状态与现场 / 事故中心 / 现场 Agent / 快照策略
+监控告警  [monitor]
+  告警中心     综合告警 / 容量告警
+  可观测监控   可观测总览 / 日志关联 / Grafana 模板 / APM 链路
+巡检      [inspect]
+  巡检总览 / 一键巡检
+  任务与报告   巡检任务 / 巡检报告 / 历史对比
+  策略与模板   巡检策略 / 巡检模板
+性能分析  [perf]
+  性能总览 / 引擎深度报告
+  SQL 与等待   SQL 画像 / 慢 SQL 分析 / 锁等待分析
+  对象与优化   索引分析 / 表画像 / 优化建议
+  基线与趋势   性能基线 / 问题趋势 / 容量分析
+  AWR          综合 / 历史报告 / 对比 / 自动采集
+数据库运维 [ops]
+  能力矩阵 / 配置基线
+  运行与会话   运行概览 / 日志管理 / 会话事务
+  空间与对象   空间管理 / 对象统计 / 数据治理 / 归档对象存储
+  安全与高可用 用户安全 / 高可用
+数据保护  [protection]
+  备份与恢复   备份总览 / 备份策略 / 备份方案 / 恢复方案 / 报告与告警 / 备份平台接入
+  数据抢救     抢救总览 / 案件与证据 / 工具授权 / 远程 Agent / 抢救任务 / 抢救报告 / 风险审批
+  自动化审批
+报告中心  [report]
+  统一报告 / 告警报告
+平台管理  [platform]
+  集成中心     Zabbix 联动 / Prometheus 告警 / 通知渠道 / 工单管理
+  系统管理     用户管理 / 企业认证 / 系统参数 / AI 配置 / 诊断评测 / 调度任务
+```
+
+原“生态适配”汇总页已经退役。通知、工单、监控、日志、Grafana、APM、CMDB、对象存储、自动化和企业认证分别进入对应业务页面，旧 `/api/v1/ecosystem/*` 仅用于兼容和迁移。
+
+## 核心文档
+
+| 文档 | 内容 |
+| --- | --- |
+| [蓝图对齐计划](blueprint/alignment-plan.md) | **能力状态的权威口径**：蓝图 F01-F27 逐项当前状态、与代码的映射、后续待决项。改代码后必须回来更新 |
+| [项目总览](00-overview.md) | 产品定位、总体架构、部署、数据流和能力边界 |
+| [后端架构](01-backend.md) | 路由分组、领域模型、采集、服务、AI、存储和安全 |
+| [前端架构](02-frontend.md) | 菜单、页面、路由、交互、状态和视觉约束 |
+| [API 参考](03-api-reference.md) | 当前 API 域、关键接口、契约和错误处理 |
+| [巡检脚本兼容矩阵](04-inspection-script-compatibility.md) | 四类数据库巡检覆盖、结构化输出和限制 |
+| [AWR](awr.md) | Oracle AWR 采集、解析、评分和诊断 |
+| [外部监控联动](external-monitoring-integration.md) | Zabbix、Prometheus、Alertmanager 数据流 |
+| [企业集成路线](external-integration-roadmap.md) | T-051 至 T-060 的归属、状态和边界 |
+| [安全升级检查单](operations/code-fix-upgrade-checklist.md) | 外置库备份、停写、显式迁移、启动和回退边界 |
+| [本地启动与清理记录](archive/acceptance/2026-09-11-startup-cleanup.md) | 本次真实 MySQL 迁移、服务就绪、清理清单及未验收项 |
+
+## 资产与调查架构
+
+**当前实现说明（活文档）**：
+
+| 文档 | 内容 |
+| --- | --- |
+| [Windows Agent 设计](backend/incident-snapshot-windows-agent.md) | Go Agent、采集器、WAL、冻结、上传与自保护 |
+| [Incident Snapshot 前端](frontend/incident-snapshot-engine-ui.md) | 事故、时间线、证据、因果图、Agent 与策略页面 |
+| [State Intelligence 与现场重建](architecture/state-intelligence-and-scene-reconstruction.md) | 状态机、内存、线程、动态探针、Dump 和 AI 证据包 |
+| [eBPF 内核动态观测](architecture/ebpf-kernel-observability.md) | Linux eBPF、Windows 等价路径、预算、熔断和回退 |
+
+**设计与任务板（已归档，冻结）**：
+
+| 文档 | 内容 |
+| --- | --- |
+| [统一资产中心计划](archive/superpowers/plans/2026-07-22-unified-asset-center-cmdb.md) | 五层资产模型、自动发现、拓扑和人工校正 |
+| [Incident Snapshot 总计划](archive/superpowers/plans/2026-08-03-incident-snapshot-engine-master-plan.md) | 现场快照范围、协议、生命周期、证据与交付门禁 |
+| [Incident Snapshot 任务板](archive/superpowers/plans/2026-08-03-incident-snapshot-engine-task-board.md) | 任务依赖和生产验收 Gate |
+
+## 开发计划（已归档）
+
+下表全部位于冻结区，记录截至 2026-09-11 的计划与执行状态，**不再代表当前计划**：
+
+| 文档 | 内容 |
+| --- | --- |
+| [TraceMind 2026-08-13 开发计划](archive/plans/2026-08-13-tracemind-development-plan.md) | 阶段目标、任务依赖、验收门禁和发布顺序 |
+| [R0 执行报告](archive/plans/2026-08-13-r0-execution-report.md) | 基线交付、测试证据、已修复问题和真实环境待验项 |
+| [系统性质量提升](archive/plans/2026-09-10-astra-quality-improvement.md) | 分批修复、撤回的收口结论和后续门禁 |
+| [独立复核与后续修复](archive/acceptance/2026-09-11-closure-recheck.md) | 重新打开的问题与后续修复记录，保留原始证据 |
+
+## 代码结构
+
+```text
+mesdbtools/
+├── backend/
+│   ├── app/api/v1/           # FastAPI 业务路由
+│   ├── app/cmdb/             # 五层资产与外部 CMDB
+│   ├── app/incident_snapshot/# 现场快照控制面与分析面
+│   ├── app/automation/       # 审批、执行与回滚
+│   ├── app/identity/         # LDAP/AD/OIDC
+│   ├── app/notify/           # 通知通道
+│   ├── app/itsm/             # 工单闭环
+│   ├── app/services/         # 运维、巡检、监控、报告、AI 等服务
+│   └── tests/                # 后端单元、集成与安全测试
+├── frontend/
+│   ├── src/menuConfig.jsx    # 当前菜单信息架构
+│   ├── src/AppPageRouter.jsx # 页面分发
+│   ├── src/*.jsx             # 页面与面板组件（平铺于 src/，无 pages/ 子目录）
+│   └── tests/                # 菜单、设计和行为测试
+├── agent/                    # TraceMind Incident Agent
+├── scripts/                  # 静态检查、冒烟和构建脚本
+└── docs/                     # 当前文档
+    └── archive/              # 已冻结的历史留痕：验收、计划、设计稿（不再更新）
+```
+
+历史规划原在仓库根 `work/`，2026-09-20 起移入 [`docs/archive/work/`](archive/work/)。
+
+## 开发与验证
+
+[自动发现与拓扑交付门禁](operations/discovery-delivery-gate.md)：四引擎完整链路、身份/作用域、HA 一致性，以及尚未关闭的复杂拓扑和现场边界。
+
+启动完整开发环境：
+
+```bash
+cd /Users/zhaolongjie/codex/mesdbtools
+FRONTEND_DEV=true python3 run.py
+```
+
+默认端口：
+
+```text
+frontend  0.0.0.0:3300
+backend   0.0.0.0:8800
+API       /api/v1
+health    /health
+readiness /health/ready
+OpenAPI   /docs
+```
+
+上表是启动器默认值。本机运行实例使用后端 8801；重启前核实监听进程归属，避免停止其他项目。
+`/health` 或端口可达不等于数据库就绪，必须同时检查 `/health/ready` 的数据库和结构状态。
+外置数据库结构不匹配时按 [升级检查单](operations/code-fix-upgrade-checklist.md) 备份、停写、显式迁移后再启动；不能把自动迁移开关长期留为开启。
+
+常用检查：
+
+```bash
+python3 scripts/check_all.py --fast
+python3 scripts/check_backend_routes.py
+python3 scripts/check_backend_static.py
+node scripts/check_frontend_static.cjs
+cd frontend && npm test && npm run build
+cd ../agent && go test ./...
+```
+
+运行 API 或浏览器冒烟前，必须先启动服务，并通过环境变量提供测试账号。涉及真实数据库、Zabbix、Prometheus、ITSM、对象存储或模型服务的测试，结果只代表对应测试环境，不能由本地单元测试替代。
+
+## 安全边界
+
+1. 数据库、SSH、LDAP、模型和第三方 Token 不进入源码、文档、示例数据或 Git 历史。
+2. 连接测试失败必须返回失败，不能使用缓存结果伪装实时成功。
+3. 自动发现只在用户点击“自动识别”或调度策略明确触发时更新拓扑；普通配置保存不隐式刷新。
+4. 高风险操作必须经过计划、审批、权限校验、完整性校验、执行审计和结果脱敏。
+5. `AUTOMATION_EXECUTION_ENABLED` 默认关闭。关闭时只允许生成和审批方案。
+6. 原始快照、Dump、内存数据和动态探针输出按敏感证据管理，下载、保留、删除和 legal hold 全部审计。
+7. AI 结论必须引用证据，数据缺失时明确降级，禁止把“未采集”判断为“正常”。
+
+## 文档维护规则
+
+新增功能必须同时更新：
+
+1. 本页能力状态（**状态口径以[蓝图对齐计划](blueprint/alignment-plan.md)为准**，不要在本页另起一套）。
+2. 对应领域文档和 API 文档。
+3. 开发计划中的任务状态或后续项。
+4. 自动化测试、运行限制和生产验收条件。
+
+### 闭环：蓝图 → 计划 → 代码 → 文档
+
+```text
+蓝图 F01-F27（唯一权威口径，见 blueprint/README.md）
+   │
+   ▼  文档先行：先写清要做到什么
+对齐计划 blueprint/alignment-plan.md  ←─────────┐
+   │                                            │
+   ▼  实现                                       │
+代码                                             │
+   │  完成后回到计划更新"本轮状态"与证据          │
+   ▼                                             │
+本页能力全景表（挂 F 编号）──────────────────────┘
+```
+
+**断链的方式只有一种：代码改了，计划没更新。** 2026-09-08 那份全量差距审计正是这样失效的——
+之后工作区累积 +18409/-4947 行未提交改动，而对齐状态停在 9-08，于是文档说的和代码做的不一致。
+因此：
+
+- 改了某个 F 模块的代码，**必须**回到 `blueprint/alignment-plan.md` 更新该 F 的状态；
+- 判定"具备"以**执行路径**为准。代码写好了但生产路径没调用它，是"已建未接线"，
+  **不算具备**——本轮在 F05、F06 各发现一处此类形态；
+- 判不出来就写**未复核**，不要降级成"部分实现"。
+
+### 时效分层（2026-09-20 起）
+
+文档按「下次动手时还应不应该照它做」分两层，**不要混放**：
+
+| 层 | 位置 | 内容 | 是否更新 |
+| --- | --- | --- | --- |
+| 当前有效 | `docs/`（本目录及 `backend/`、`frontend/`、`architecture/`、`operations/` 子目录） | 规范、契约、实现说明、编码前置门禁 | 跟随代码更新 |
+| 历史留痕 | [`docs/archive/`](archive/) | 逐次验收、审计与修复记录；开发计划与执行报告；设计稿与任务板 | **冻结，不再修改** |
+
+- 新的验收与计划写在活区；积压到"不再指导行动"后再归档。
+- 归档件**保留当时的结论**，包括后来被推翻的结论。要取代某条结论，在活文档里写明并指向归档件，
+  不要回头修改历史记录。
+- 归档判据、内容清单与引用注意事项见 [`archive/README.md`](archive/README.md)。
+
+### 链接门禁
+
+改动文档后必须跑（四项都已接入 `scripts/check_all.py --fast`）：
+
+```bash
+node scripts/check_docs_links.cjs               # docs/ 与 agent/ 的链接可达性 + 锚点（既有门禁，已扩展）
+python3 scripts/check_doc_paths.py              # 正文里以反引号/纯文本引用的文件路径是否存在
+python3 scripts/find_unbalanced_brackets.py     # 抓「链接丢了 ]( 和 )」这类畸形
+python3 scripts/check_doc_routes.py             # 正文引用的 /api/v1 路由是否真的注册
+```
+
+移动文档时，指向它的链接要**多退一级**，它自身指向活区的链接也要多退一级——后者最容易漏，
+且手工 grep 看不出来（少一层仍是一个语法正确的链接，只是指向不存在的位置）。
+`check_docs_links.cjs` 的锚点检查就是为抓这一类而加的（2026-09-20）。
+
+四项检查覆盖**不同类别**，**不要用一个代替另一个**：
+
+| 检查 | 抓什么 | 抓不到什么 |
+| --- | --- | --- |
+| `check_docs_links.cjs` | markdown 链接目标与 `#锚点` 是否存在 | 链接语法已损坏的行（那已不是链接）、正文里的代码路径 |
+| `check_doc_paths.py` | 正文提到的代码文件（`backend/app/services/x.py:118`）是否还在 | 路由、链接 |
+| `find_unbalanced_brackets.py` | 行内 `[` 多于 `]` ——「`](` 被吃掉」的签名 | 其它三类 |
+| `check_doc_routes.py` | 正文引用的 `/api/v1` 路由是否在应用里注册 | 非 HTTP 契约、行为是否真的符合描述 |
+
+路由检查支持一层**窄豁免**：某行显式带「未实现 / 历史路径 / 已废弃 / 待实现」标记时跳过该行
+（标记必须与引用同行）。用于「规划中尚未实现」或「当时实测记录」这两类**已声明**的缺口——
+不是用来屏蔽未知漂移的。
+
+四者只覆盖**机械可判**的漂移。"某能力是否真的已实现"这类**描述性断言**仍需人读，
+不要因为门禁全绿就认为文档与代码一致。
+
+文档中不得写入真实密码、连接串、私钥、授权文件或客户数据。
+
+清理一次性测试与调试文件时，保留正式回归测试、迁移脚本、验收日志、修复前快照和数据库备份。
+已删除脚本对应的执行命令只作为历史记录，不再作为可运行入口；不能按“未跟踪”或文件名含 test 批量删除。
+后端正式测试集中于 `backend/tests/`，根目录 `pytest.ini` 配置发现范围。新增临时验证优先转为对应领域回归；需真实环境的脚本保留独立执行及授权边界，不纳入默认测试。
